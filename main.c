@@ -1,90 +1,208 @@
 #include <amlib.h>
 #include <agdraw.h>
+#include <agesndmgr.h>
 #include <agetool.h>
 #include <agtransfer.h>
-#include <agesndmgr.h>
 #include <vdpreg.h>
-#include "pad.h"
-#include "task.h"
-#include "mode.h"
-#include "work.h"
+#include <stdlib.h>
+
 #include "export.h"
 
-u32 DrawBuffer[ 4096 ];
+u32 DrawBuffer[ 4096*10 ];
 
-AGESoundManagerData SndMgrData;
+#define KEY_NUM 8
+#define FIELD_WIDTH_NUM 10
+#define FIELD_HEIGHT_NUM 10
+#define CELL_SIZE 50
+#define FIELD_X 150
+#define FIELD_Y 100
+#define MAX_BATTLESHIP_HEIGHT_NUM 6
+#define MAX_BATTLESHIP_WIDTH_NUM 2
+#define s(x) (x<<2) 
 
-void  main( void ) {
-	int cnt = 0;
+enum Direction{
+	LEFT,UP,RIGHT,DOWN,DIR_NUM
+};
+
+struct Rect{
+	int x,y,w,h;
+};
+
+struct Field{
+	int filed[FIELD_HEIGHT_NUM][FIELD_WIDTH_NUM];
+};
+
+struct BattleShip{
+	int i,j;			//ÂßãÁÇπ
+	int len,wid;		//Èï∑„Åï„ÄÅÂπÖ
+	enum Direction dir;		//Âêë„ÅÑ„Å¶„ÅÑ„ÇãÊñπÂêë
+	int life;			//„É©„Ç§„Éï
+	//Ë¢´ÂºæÁÆáÊâÄ„ÅÆÈÖçÂàó
+	int bombed[MAX_BATTLESHIP_HEIGHT_NUM][MAX_BATTLESHIP_WIDTH_NUM];
+};
+
+
+void drawNumberGraph(int number ,int x, int y, int size_x, int size_y , int order ,AGDrawBuffer* DBuf) {
+	int i, n;
+	int draw_x;
+	int id[10] = {AG_CG_NUM_0,AG_CG_NUM_1,AG_CG_NUM_2,AG_CG_NUM_3,AG_CG_NUM_4,AG_CG_NUM_5,AG_CG_NUM_6,AG_CG_NUM_7,AG_CG_NUM_8,AG_CG_NUM_9};
+	draw_x = x + (order-1)*size_x;
+
+	for(i=0;i<order;i++) {
+		n = number%10;
+		agDrawSETFCOLOR( DBuf, ARGB( 255, 255, 0, 0 ) );
+		ageTransferAAC( DBuf, id[n], 0, NULL, NULL );
+		agDrawSETDBMODE( DBuf, 0xff, 0, 2, 1 );
+		agDrawSPRITE( DBuf, 1, draw_x, y, draw_x+size_x, y+size_y );
+		number /= 10;
+		draw_x -= size_x;
+	}
+}
+
+void  main( void )  {
+	//soundÁ≥ª
+	//SNDHANDLE handle;
+	//u16 NowBgm = AS_SND_BGM_KOMACHI;
+	//ÁîªÂÉèÁ≥ª
 	AGDrawBuffer DBuf;
-	struct TaskData* pTask;
+	//ËÉåÊôØÁîªÂÉè
+	u16 fieldGraph = AG_CG_FIELD;
+	//Êà¶Ëâ¶ÁîªÂÉè
+	u16 battleShipGraph[DIR_NUM] = {AG_CG_SENKAN_LEFT,AG_CG_SENKAN_UP,AG_CG_SENKAN_RIGHT,AG_CG_SENKAN_DOWN};
+
 	int i;
+
+	//„Ç≠„ÉºÂÖ•Âäõ„ÅÆÊ†ºÁ¥çÈÖçÂàó
+	int key_state[KEY_NUM];
+
+	//Êà¶Ëâ¶
+	struct BattleShip battleShip[5];
 
 	agpDisableCpuInterrupts();
 	aglInitialize();
 	agpEnableCpuInterrupts();
 
-	ageSndMgrInit( &SndMgrData , AGE_SOUND_ROM_OFFSET );
-
-	//	É}ÉXÉ^Å[É{ÉäÉÖÅ[ÉÄê›íË
-	for( i=0 ; i<AG_SND_MAX_MASTERVOLUME ; i++ ) {
-		ageSndMgrSetMasterVolume( i , 0x94 );
-	};
-
-	//	É`ÉÉÉìÉlÉãÉ{ÉäÉÖÅ[ÉÄê›íË
-	for( i=0 ; i<AG_SND_MAX_CHANNEL ; i++ ) {
-		ageSndMgrSetChannelVolume( i , 0xc0 );
-	};
-
-	InitWorkMeter( FB_WIDTH , FB_HEIGHT , 1 );
-
-	PadInit();
-	ClearAllTask();
-
-	GotoMode( MODE_TITLE );
+	//Êà¶Ëâ¶„ÅÆÂàùÊúüÂåñ
+	for(i=0;i<5;i++){
+		battleShip[i].i = i;
+		battleShip[i].j = i;
+		battleShip[i].len = 5;
+		battleShip[i].wid = 1;
+		battleShip[i].life = 1;
+		battleShip[i].len = 5;
+		battleShip[i].dir = LEFT;
+	}
+	battleShip[1].dir = RIGHT;
+	battleShip[2].dir = UP;
+	battleShip[3].dir = DOWN;
 
 	while( 1 ) {
-		int w, h;
+		//„Ç≠„ÉºÊÉÖÂ†±ÂèñÂæó
+		{
+			int key = *((volatile unsigned short*)0xA9000002);
 
-		ageSndMgrRun();
-		PadRun();
+			for(i=0;i<KEY_NUM;i++){
+				if((key|0xfffE)&0x0001){
+					key_state[i] = 0;				
+				}
+				else{
+					key_state[i] = 1;
+				}
+				key = key>>1;
+			}
+	
+			//UP
+			if(key_state[0]){
+				
+			}
+			//DOWN
+			if(key_state[1]){
+				
+			}
+			//UP„ÇÇDOWN„ÇÇÊäº„Åï„Çå„Å¶„ÅÑ„Å™„ÅÑ
+			if(key_state[0]==0 && key_state[1]==0){
+				
+			}
 
-		CalcTask( 0 );
+			//RIGHT
+			if(key_state[3]){
+			
+			}
+			//LEFT
+			if(key_state[2]){
+			
+			}
+			//RIGHT„ÇÇLEFT„ÇÇÊäº„Åï„Çå„Å¶„ÅÑ„Å™„ÅÑ
+			if(key_state[2]==0 && key_state[3]==0){
+			
+			}
 
-		ClearWorkMeter();
+			//B
+			if(key_state[5]){
+			
+			}
 
-		// ÉfÉBÉXÉvÉåÉCÉäÉXÉgÇÃçÏê¨
-		agDrawBufferInit( &DBuf , DrawBuffer );
+			//A
+			if(key_state[4]){
+			}
+		}
+		
+		
+		//ÊèèÁîª
+		{
+			//Init
+			agDrawBufferInit( &DBuf , DrawBuffer );
+			agDrawSETDAVR( &DBuf , 0 , 0 , aglGetDrawFrame() , 0 , 0 );
+			agDrawSETDAVF( &DBuf, 0, 0, s(FB_WIDTH), s(FB_HEIGHT) );
 
-		// VRAMê›íË
-		agDrawSETDAVR( &DBuf , 0 , 0 , aglGetDrawFrame() , 0 , 0 );
-		agDrawSETDAVF( &DBuf, 0, 0, FB_WIDTH<<2, FB_HEIGHT<<2 );
+			//ÁôΩËÉåÊôØ
+			agDrawSETFCOLOR( &DBuf, ARGB( 255, 255, 255, 255 ) );
+			agDrawSETDBMODE( &DBuf, 0xff, 0, 0, 1 );
+			agDrawSPRITE( &DBuf, 0, 0, 0, s(FB_WIDTH), s(FB_HEIGHT) );
 
-			//Å@É^ÉXÉNï`âÊ
-		DrawTaskAll( &DBuf );
+			//„Éï„Ç£„Éº„É´„Éâ
+			agDrawSETFCOLOR( &DBuf, ARGB( 255, 255, 0, 0 ) );
+			ageTransferAAC( &DBuf, fieldGraph, 0, NULL, NULL );
+			agDrawSETDBMODE( &DBuf, 0xff, 0, 2, 1 );
+			agDrawSPRITE( &DBuf, 1, s(FIELD_X), s(FIELD_Y), s(FIELD_X+CELL_SIZE*FIELD_WIDTH_NUM), s(FIELD_Y+CELL_SIZE*FIELD_HEIGHT_NUM));
 
-		// ÉfÉBÉXÉvÉåÉCÉäÉXÉgê∂ê¨èIóπ
-		agDrawEODL( &DBuf );
+			//Êà¶Ëâ¶
+			for(i=0;i<5;i++){
+				agDrawSETFCOLOR( &DBuf, ARGB( 255, 255, 0, 0 ) );
+				ageTransferAAC( &DBuf, battleShipGraph[battleShip[i].dir], 0, NULL, NULL );
+				agDrawSETDBMODE( &DBuf, 0xff, 0, 2, 1 );
+				switch(battleShip[i].dir){
+					case LEFT:
+						agDrawSPRITE( &DBuf, 1, s(FIELD_X + battleShip[i].i*CELL_SIZE), s(FIELD_Y + battleShip[i].j*CELL_SIZE),
+							s(FIELD_X + (battleShip[i].i + battleShip[i].len)*CELL_SIZE), s(FIELD_Y + (battleShip[i].j + battleShip[i].wid)*CELL_SIZE));
+						break;
+					case UP:
+						agDrawSPRITE( &DBuf, 1, s(FIELD_X + battleShip[i].i*CELL_SIZE), s(FIELD_Y + battleShip[i].j*CELL_SIZE),
+							s(FIELD_X + (battleShip[i].i + battleShip[i].wid)*CELL_SIZE), s(FIELD_Y + (battleShip[i].j + battleShip[i].len)*CELL_SIZE));
+						break;
+					case RIGHT:
+						agDrawSPRITE( &DBuf, 1, s(FIELD_X + (battleShip[i].i - battleShip[i].len + 1)*CELL_SIZE), s(FIELD_Y + battleShip[i].j*CELL_SIZE),
+							s(FIELD_X + (battleShip[i].i + 1)*CELL_SIZE), s(FIELD_Y + (battleShip[i].j + battleShip[i].wid)*CELL_SIZE));
+						break;
+					case DOWN:
+						agDrawSPRITE( &DBuf, 1, s(FIELD_X + battleShip[i].i*CELL_SIZE), s(FIELD_Y + (battleShip[i].j - battleShip[i].len + 1 )*CELL_SIZE),
+							s(FIELD_X + (battleShip[i].i + battleShip[i].wid)*CELL_SIZE), s(FIELD_Y + (battleShip[i].j + 1)*CELL_SIZE));
+						break;
+				}
+				
+			}
+			
+			//Êï∞Â≠ó„ÇíÊèèÁîª„Åô„ÇãÂ†¥ÊâÄ„ÅÆÁôΩ„ÅÑÂõõËßí
+			agDrawSETFCOLOR( &DBuf, ARGB( 255, 255, 255, 255 ) );
+			agDrawSETDBMODE( &DBuf, 0xff, 0, 0, 1 );
+			agDrawSPRITE( &DBuf, 0, 100-20, 100-20, 100+50*10+20, 100+90+20);
+			//Êï∞Â≠ó„ÅÆÊèèÁîª
+			drawNumberGraph(20131120, 100,100,50,90,10,&DBuf);
+			
+			agDrawEODL( &DBuf );
+			agTransferDrawDMA( &DBuf );
+		};
 
-		SetWorkMeter( ARGB( 255 , 255 , 0 , 0 ) );
-
-		// ÉfÉBÉXÉvÉåÉCÉäÉXÉgÇì]ëóÇµÇƒï`âÊèIóπÇë“Ç¬
-		agTransferDrawDMA( &DBuf );
-
-		SetWorkMeter( ARGB( 255 , 0 , 255 , 0 ) );
-
-					//Å@ÉèÅ[ÉNÉÅÅ[É^Å[ï`âÊ
-		agDrawBufferInit( &DBuf , DrawBuffer );
-
-		agDrawSETDAVR( &DBuf , 0 , 0 , aglGetDrawFrame() , 0 , 0 );
-		agDrawSETDAVF( &DBuf , 0 , 0 , FB_WIDTH<<2 , FB_HEIGHT<<2 );
-
-		DrawWorkMeter( &DBuf );
-		agDrawEODL( &DBuf );
-
-		agTransferDrawDMA( &DBuf );
-
-		cnt++;
 
 		aglWaitVSync();
 		aglSwap();
