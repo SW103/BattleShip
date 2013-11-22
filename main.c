@@ -1,3 +1,4 @@
+/*
 #include <amlib.h>
 #include <agdraw.h>
 #include <agesndmgr.h>
@@ -5,33 +6,41 @@
 #include <agtransfer.h>
 #include <vdpreg.h>
 #include <stdlib.h>
-
+*/
+#include "import.h"
 #include "export.h"
+#include "battleShip.h"
+#include "field.h"
 
 u32 DrawBuffer[ 4096*10 ];
-
+/*
 #define KEY_NUM 8
 #define FIELD_WIDTH_NUM 10
 #define FIELD_HEIGHT_NUM 10
 #define CELL_SIZE 50
 #define FIELD_X 150
 #define FIELD_Y 100
+*/
+/*
 #define MAX_BATTLESHIP_HEIGHT_NUM 6
 #define MAX_BATTLESHIP_WIDTH_NUM 2
-#define s(x) (x<<2) 
+*/
+//#define s(x) (x<<2) 
 
+/*
 enum Direction{
 	LEFT,UP,RIGHT,DOWN,DIR_NUM
 };
-
+*/
 struct Rect{
 	int x,y,w,h;
 };
-
+/*
 struct Field{
 	int filed[FIELD_HEIGHT_NUM][FIELD_WIDTH_NUM];
-};
+};*/
 
+/*
 struct BattleShip{
 	int i,j;			//始点
 	int len,wid;		//長さ、幅
@@ -40,7 +49,7 @@ struct BattleShip{
 	//被弾箇所の配列
 	int bombed[MAX_BATTLESHIP_HEIGHT_NUM][MAX_BATTLESHIP_WIDTH_NUM];
 };
-
+*/
 
 void drawNumberGraph(int number ,int x, int y, int size_x, int size_y , int order ,AGDrawBuffer* DBuf) {
 	int i, n;
@@ -68,7 +77,7 @@ void  main( void )  {
 	//背景画像
 	u16 fieldGraph = AG_CG_FIELD;
 	//戦艦画像
-	u16 battleShipGraph[DIR_NUM] = {AG_CG_SENKAN_LEFT,AG_CG_SENKAN_UP,AG_CG_SENKAN_RIGHT,AG_CG_SENKAN_DOWN};
+	//u16 battleShipGraph[DIR_NUM] = {AG_CG_SENKAN_LEFT,AG_CG_SENKAN_UP,AG_CG_SENKAN_RIGHT,AG_CG_SENKAN_DOWN};
 
 	int i;
 
@@ -97,6 +106,7 @@ void  main( void )  {
 	battleShip[3].dir = DOWN;
 
 	while( 1 ) {
+		/*
 		//キー情報取得
 		{
 			int key = *((volatile unsigned short*)0xA9000002);
@@ -146,7 +156,7 @@ void  main( void )  {
 			if(key_state[4]){
 			}
 		}
-		
+		*/
 		
 		//描画
 		{
@@ -168,6 +178,8 @@ void  main( void )  {
 
 			//戦艦
 			for(i=0;i<5;i++){
+				drawBattleShip(&DBuf, &battleShip[i]);
+				/*
 				agDrawSETFCOLOR( &DBuf, ARGB( 255, 255, 0, 0 ) );
 				ageTransferAAC( &DBuf, battleShipGraph[battleShip[i].dir], 0, NULL, NULL );
 				agDrawSETDBMODE( &DBuf, 0xff, 0, 2, 1 );
@@ -188,7 +200,7 @@ void  main( void )  {
 						agDrawSPRITE( &DBuf, 1, s(FIELD_X + battleShip[i].i*CELL_SIZE), s(FIELD_Y + (battleShip[i].j - battleShip[i].len + 1 )*CELL_SIZE),
 							s(FIELD_X + (battleShip[i].i + battleShip[i].wid)*CELL_SIZE), s(FIELD_Y + (battleShip[i].j + 1)*CELL_SIZE));
 						break;
-				}
+				}*/
 				
 			}
 			
