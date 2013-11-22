@@ -75,7 +75,7 @@ void  main( void )  {
 	//画像系
 	AGDrawBuffer DBuf;
 	//背景画像
-	u16 fieldGraph = AG_CG_FIELD;
+	//u16 fieldGraph = AG_CG_FIELD;
 	//戦艦画像
 	//u16 battleShipGraph[DIR_NUM] = {AG_CG_SENKAN_LEFT,AG_CG_SENKAN_UP,AG_CG_SENKAN_RIGHT,AG_CG_SENKAN_DOWN};
 
@@ -83,6 +83,9 @@ void  main( void )  {
 
 	//キー入力の格納配列
 	int key_state[KEY_NUM];
+
+	//フィールド
+	struct Field field;
 
 	//戦艦
 	struct BattleShip battleShip[5];
@@ -106,58 +109,6 @@ void  main( void )  {
 	battleShip[3].dir = DOWN;
 
 	while( 1 ) {
-		/*
-		//キー情報取得
-		{
-			int key = *((volatile unsigned short*)0xA9000002);
-
-			for(i=0;i<KEY_NUM;i++){
-				if((key|0xfffE)&0x0001){
-					key_state[i] = 0;				
-				}
-				else{
-					key_state[i] = 1;
-				}
-				key = key>>1;
-			}
-	
-			//UP
-			if(key_state[0]){
-				
-			}
-			//DOWN
-			if(key_state[1]){
-				
-			}
-			//UPもDOWNも押されていない
-			if(key_state[0]==0 && key_state[1]==0){
-				
-			}
-
-			//RIGHT
-			if(key_state[3]){
-			
-			}
-			//LEFT
-			if(key_state[2]){
-			
-			}
-			//RIGHTもLEFTも押されていない
-			if(key_state[2]==0 && key_state[3]==0){
-			
-			}
-
-			//B
-			if(key_state[5]){
-			
-			}
-
-			//A
-			if(key_state[4]){
-			}
-		}
-		*/
-		
 		//描画
 		{
 			//Init
@@ -171,37 +122,11 @@ void  main( void )  {
 			agDrawSPRITE( &DBuf, 0, 0, 0, s(FB_WIDTH), s(FB_HEIGHT) );
 
 			//フィールド
-			agDrawSETFCOLOR( &DBuf, ARGB( 255, 255, 0, 0 ) );
-			ageTransferAAC( &DBuf, fieldGraph, 0, NULL, NULL );
-			agDrawSETDBMODE( &DBuf, 0xff, 0, 2, 1 );
-			agDrawSPRITE( &DBuf, 1, s(FIELD_X), s(FIELD_Y), s(FIELD_X+CELL_SIZE*FIELD_WIDTH_NUM), s(FIELD_Y+CELL_SIZE*FIELD_HEIGHT_NUM));
+			drawField( &DBuf, &field);
 
 			//戦艦
 			for(i=0;i<5;i++){
 				drawBattleShip(&DBuf, &battleShip[i]);
-				/*
-				agDrawSETFCOLOR( &DBuf, ARGB( 255, 255, 0, 0 ) );
-				ageTransferAAC( &DBuf, battleShipGraph[battleShip[i].dir], 0, NULL, NULL );
-				agDrawSETDBMODE( &DBuf, 0xff, 0, 2, 1 );
-				switch(battleShip[i].dir){
-					case LEFT:
-						agDrawSPRITE( &DBuf, 1, s(FIELD_X + battleShip[i].i*CELL_SIZE), s(FIELD_Y + battleShip[i].j*CELL_SIZE),
-							s(FIELD_X + (battleShip[i].i + battleShip[i].len)*CELL_SIZE), s(FIELD_Y + (battleShip[i].j + battleShip[i].wid)*CELL_SIZE));
-						break;
-					case UP:
-						agDrawSPRITE( &DBuf, 1, s(FIELD_X + battleShip[i].i*CELL_SIZE), s(FIELD_Y + battleShip[i].j*CELL_SIZE),
-							s(FIELD_X + (battleShip[i].i + battleShip[i].wid)*CELL_SIZE), s(FIELD_Y + (battleShip[i].j + battleShip[i].len)*CELL_SIZE));
-						break;
-					case RIGHT:
-						agDrawSPRITE( &DBuf, 1, s(FIELD_X + (battleShip[i].i - battleShip[i].len + 1)*CELL_SIZE), s(FIELD_Y + battleShip[i].j*CELL_SIZE),
-							s(FIELD_X + (battleShip[i].i + 1)*CELL_SIZE), s(FIELD_Y + (battleShip[i].j + battleShip[i].wid)*CELL_SIZE));
-						break;
-					case DOWN:
-						agDrawSPRITE( &DBuf, 1, s(FIELD_X + battleShip[i].i*CELL_SIZE), s(FIELD_Y + (battleShip[i].j - battleShip[i].len + 1 )*CELL_SIZE),
-							s(FIELD_X + (battleShip[i].i + battleShip[i].wid)*CELL_SIZE), s(FIELD_Y + (battleShip[i].j + 1)*CELL_SIZE));
-						break;
-				}*/
-				
 			}
 			
 			//数字を描画する場所の白い四角
