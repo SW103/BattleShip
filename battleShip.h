@@ -1,7 +1,7 @@
 #ifndef __BATTLESHIP__
 #define __BATTLESHIP__
 
-#include "export.h"
+#include "import.h"
 
 #ifdef __cplusplus
 extern "C" {

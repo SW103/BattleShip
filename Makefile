@@ -11,7 +11,7 @@ ROOTDIR = ../../..
 CGROMDIR = .
 
 # ƒ‚ƒWƒ…[ƒ‹ŒQ
-C_SRC  = main.c export.c battleShip.c field.c
+C_SRC  = main.c export.c battleShip.c field.c player.c game.c
 
 include $(ROOTDIR)/include/makefile.def
 

@@ -1,32 +1,34 @@
-#ifndef __GAME__
-#define __GAME__
+#ifndef __PLAYER__
+#define __PLAYER__
 
 #include "import.h"
-#include "field.h"
-#include "player.h"
+#include "battleShip.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-enum GameMode{
-	MODE_SET, MODE_BATTLE, MODE_NUM
+struct Player
+{
+	struct BattleShip battleShip[5];
 };
+
 
 /***************************************************************/
 /*                       関数の宣言                             */
 /***************************************************************/
 
-void initGame();
+void initPlayer(struct Player* player);
+/*
 void runSet();
 void runBattle();
-void drawSet(AGDrawBuffer* DBuf, struct Field* field, struct Player* player);
+void drawSet(AGDrawBuffer* DBuf);
 void drawBattle(AGDrawBuffer* DBuf);
-
+*/
 
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* __GAME__ */
+#endif /* __PLAYER__ */

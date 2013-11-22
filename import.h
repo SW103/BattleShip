@@ -1,8 +1,6 @@
 #ifndef __IMPORT__
 #define __IMPORT__
 
-
-
 #ifdef __cplusplus
 extern "C" {
 #endif
