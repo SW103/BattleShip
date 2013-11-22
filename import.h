@@ -7,9 +7,7 @@
 extern "C" {
 #endif
 
-// export.hで必要
-#include <agexport.h>
-#include <ag3d.h>
+#include "export.h"
 
 // main.cで必要
 #include <amlib.h>

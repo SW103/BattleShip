@@ -1,7 +1,9 @@
 #ifndef __AG_EXPORT__
 #define __AG_EXPORT__
 
-#include "import.h"
+#include <agexport.h>
+#include <ag3d.h>
+
 
 #ifdef __cplusplus
 extern "C" {
