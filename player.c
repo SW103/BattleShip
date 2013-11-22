@@ -12,9 +12,20 @@ void initPlayer(struct Player* player)
 		player->battleShip[i].life = 1;
 		player->battleShip[i].len = 5;
 		player->battleShip[i].dir = LEFT;
+		player->battleShip[i].visible = 1;
 	}
 	player->battleShip[1].dir = RIGHT;
 	player->battleShip[2].dir = UP;
 	player->battleShip[3].dir = DOWN;
 }
 
+int getBattleShip(struct Player* player, int i, int j)
+{
+	int index;
+	//戦艦の初期化
+	for(index=0;index<5;index++){
+		if( player->battleShip[index].i == i && player->battleShip[index].j == j )
+			return index;
+	}
+	return -1;
+}

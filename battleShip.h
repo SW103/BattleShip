@@ -29,6 +29,7 @@ struct BattleShip{
 	int len,wid;		//長さ、幅
 	enum Direction dir;	//向いている方向
 	int life;			//ライフ
+	int visible;		//可視状態  0:不可視  1:可視
 	//被弾箇所の配列
 	int bombed[MAX_BATTLESHIP_HEIGHT_NUM][MAX_BATTLESHIP_WIDTH_NUM];
 };

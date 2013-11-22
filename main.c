@@ -13,9 +13,9 @@
 #include "field.h"
 #include "player.h"
 #include "game.h"
+#include "touch.h"
 
-
-
+extern int holdingIndex;
 /*
 struct Rect{
 	int x,y,w,h;
@@ -48,7 +48,7 @@ void  main( void )  {
 	enum GameMode gameMode = MODE_SET;
 
 	//キー入力の格納配列
-	int key_state[KEY_NUM];
+	//int key_state[KEY_NUM];
 
 	//フィールド
 	struct Field field;
@@ -59,16 +59,28 @@ void  main( void )  {
 	//プレイヤー
 	struct Player player;
 
+	//タッチ
+	struct Touch touch;
+
+	//
+	initTouch(&touch);
 	initPlayer(&player);
 
 	agpDisableCpuInterrupts();
 	aglInitialize();
 	agpEnableCpuInterrupts();
 
+	//タッチの初期化
+	agTouchInit(1024<<2,768<<2);
+
 	while( 1 ) {
+
+		//タッチの取得
+		getTouch(&touch);
+
 		switch(gameMode){
 			case MODE_SET:
-				runSet();
+				runSet(&touch, &field, &player);
 				drawSet(&DBuf, &field, &player);
 				break;
 			case MODE_BATTLE:
@@ -78,5 +90,25 @@ void  main( void )  {
 			default:
 				break;
 		}
+
+	
+		//数字を描画する場所の白い四角
+		//agDrawSETFCOLOR( &DBuf, ARGB( 255, 255, 255, 255 ) );
+		//agDrawSETDBMODE( &DBuf, 0xff, 0, 0, 1 );
+		//agDrawSPRITE( &DBuf, 0, 100-20, 100-20, 100+50*10+20, 100+90+20);
+		//数字の描画
+		//drawNumberGraph(holdingIndex, 100,100,50,90,10,&DBuf);
+		
+		//drawNumberGraph(100, 100,100,50,90,10,&DBuf);
+	
+		drawNumberGraph(touch.x, 100,300,50,90,10,&DBuf);
+	
+		//_dprint("%d ", )
+			
+		agDrawEODL( &DBuf );
+		agTransferDrawDMA( &DBuf );
+	
+		aglWaitVSync();
+		aglSwap();
 	};
 }

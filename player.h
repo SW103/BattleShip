@@ -19,6 +19,8 @@ struct Player
 /***************************************************************/
 
 void initPlayer(struct Player* player);
+
+int getBattleShip(struct Player* player, int i, int j);
 /*
 void runSet();
 void runBattle();
