@@ -16,7 +16,7 @@ void runSet(struct Touch* touch, struct Field* field, struct Player* player)
 	enum ObjectType type;
 
 	if(touch->count == 1){
-		index = getTouchObject(&type, touch, field, player, &hold.d_i, &hold.d_j);
+		index = getTouchObject(&type, touch, field, player, &hold);
 		//_dprintf("index = %d \n", index);
 		if( index >= 0/* && type == BATTLESHIP*/ ){
 			//タッチされた戦艦を不可視にする
@@ -92,12 +92,11 @@ void drawBattle(AGDrawBuffer* DBuf)
 
 
 // タッチしたオブジェクトの種類を取得
-int getTouchObject(enum ObjectType* type, struct Touch* touch, struct Field* field, struct Player* player, int* d_i, int* d_j)
+int getTouchObject(enum ObjectType* type, struct Touch* touch, struct Field* field, struct Player* player, struct HoldingObject* hold)
 {
 	int x = touch->x;
 	int y = touch->y;
 	int i, j;
-	int index;
 
 	// 範囲外のとき
 	if( (x < FIELD_X) || (y < FIELD_Y) || (x > FIELD_X + CELL_SIZE*FIELD_WIDTH_NUM) || (y > FIELD_Y + CELL_SIZE*FIELD_HEIGHT_NUM) ){
@@ -110,9 +109,7 @@ int getTouchObject(enum ObjectType* type, struct Touch* touch, struct Field* fie
 	j = (y - FIELD_Y)/CELL_SIZE;
 	
 	*type = BATTLESHIP;
-	index = getBattleShip(player, i, j, d_i, d_j);
-
-	return index;
+	return getBattleShip(player, i, j, hold);
 }
 
 // リリースした場所を取得
@@ -120,11 +117,6 @@ int getReleaseObject(int* i, int* j, struct Touch* touch, struct Field* field, s
 {
 	int x = touch->x;
 	int y = touch->y;
-	//int i, j;
-	int index;
-
-	//_dprintf("x = %d  \n", x);
-	//_dprintf("y = %d  \n\n", y);
 
 	// 範囲外のとき
 	if( (x < FIELD_X) || (y < FIELD_Y) || (x > FIELD_X + CELL_SIZE*FIELD_WIDTH_NUM) || (y > FIELD_Y + CELL_SIZE*FIELD_HEIGHT_NUM) ){
@@ -136,7 +128,14 @@ int getReleaseObject(int* i, int* j, struct Touch* touch, struct Field* field, s
 	*i = (x - FIELD_X)/CELL_SIZE;
 	*j = (y - FIELD_Y)/CELL_SIZE;
 	
-	//*type = BATTLESHIP;
 	return 1;
-	//return getBattleShip(player, *i, *j);
+}
+
+
+// リリースする位置に戦艦を配置できるかどうか
+int placeable(int i, int j, struct Player* player, struct HoldingObject* hold)
+{
+
+
+	
 }

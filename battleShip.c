@@ -38,7 +38,7 @@ void drawBattleShip(AGDrawBuffer* DBuf, struct BattleShip* battleShip)
 	}
 }
 
-int isThereBattleShip(struct BattleShip* battleShip, int field_i, int field_j, int *d_i, int *d_j)
+int isThereBattleShip(struct BattleShip* battleShip, int field_i, int field_j, struct HoldingObject* hold)
 {
 	int i, j, wid, len;
 
@@ -75,10 +75,11 @@ int isThereBattleShip(struct BattleShip* battleShip, int field_i, int field_j, i
 	//_dprintf("wid = %d  \n", wid);
 	//_dprintf("len = %d  \n\n", len);
 	if( i <= field_i && i + wid > field_i && j <= field_j && j + len > field_j ){
-		*d_i = field_i - battleShip->i;
-		*d_j = field_j - battleShip->j;
-		_dprintf("di = %d  \n", *d_i);
-		_dprintf("dj = %d  \n\n", *d_j);
+		hold->d_i = field_i - battleShip->i;
+		hold->d_j = field_j - battleShip->j;
+		hold->battleShip = battleShip;
+		//_dprintf("di = %d  \n", *d_i);
+		//_dprintf("dj = %d  \n\n", *d_j);
 		return 1;
 	}
 	return 0;

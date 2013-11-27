@@ -14,12 +14,11 @@ void initPlayer(struct Player* player)
 		player->battleShip[i].dir = LEFT;
 		player->battleShip[i].visible = 1;
 	}
-	player->battleShip[1].dir = RIGHT;
-	player->battleShip[2].dir = UP;
-	player->battleShip[3].dir = DOWN;
+	player->battleShip[1].dir = UP;
+	player->battleShip[3].dir = UP;
 }
 
-int getBattleShip(struct Player* player, int i, int j, int *d_i, int *d_j)
+int getBattleShip(struct Player* player, int i, int j, struct HoldingObject* hold)
 {
 	int index;
 	//戦艦の初期化
@@ -28,7 +27,7 @@ int getBattleShip(struct Player* player, int i, int j, int *d_i, int *d_j)
 		//_dprintf("b_i = %d  \n", player->battleShip[index].i);
 		//_dprintf("b_j = %d  \n\n", player->battleShip[index].j);
 		
-		if(isThereBattleShip( &player->battleShip[index], i, j , d_i, d_j ))
+		if(isThereBattleShip( &player->battleShip[index], i, j , hold))
 			return index;
 
 		/*if( player->battleShip[index].i == i && player->battleShip[index].j == j )
