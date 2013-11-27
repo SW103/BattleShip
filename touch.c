@@ -11,12 +11,18 @@ void initTouch(struct Touch* touch)
 void getTouch(struct Touch* touch)
 {
 	int stat, posz;
-	agTouchGetData( &touch->x, &touch->y, &posz, &stat );
+	agTouchGetData( &(touch->x), &(touch->y), &posz, &stat );
+
+	touch->x /= 4;	
+	touch->y /= 4;
 
 	//タッチが放されたとき
 	if(touch->count > 0 && stat == 0){
 		touch->count = -1;
+	}else if(touch->count == -1){
+		touch->count = 0;
 	}else{
-		touch->count = stat;
+		if(stat>0)
+			touch->count++;
 	}
 }

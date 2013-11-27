@@ -15,7 +15,7 @@
 #include "game.h"
 #include "touch.h"
 
-extern int holdingIndex;
+//extern int holdingIndex;
 /*
 struct Rect{
 	int x,y,w,h;
@@ -99,11 +99,9 @@ void  main( void )  {
 		//数字の描画
 		//drawNumberGraph(holdingIndex, 100,100,50,90,10,&DBuf);
 		
-		//drawNumberGraph(100, 100,100,50,90,10,&DBuf);
+		drawNumberGraph(touch.count + 1, 100,200,50,90,10,&DBuf);
 	
-		drawNumberGraph(touch.x, 100,300,50,90,10,&DBuf);
-	
-		//_dprint("%d ", )
+		//_dprintf("%d ", holdingIndex);
 			
 		agDrawEODL( &DBuf );
 		agTransferDrawDMA( &DBuf );

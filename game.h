@@ -18,6 +18,13 @@ enum ObjectType{
 	NULLTYPE, BATTLESHIP, OBJECTTYPE_NUM
 };
 
+struct HoldingObject{
+	enum ObjectType type;	//オブジェクトの種類
+	int shipIndex;			//戦艦の番号
+	int d_i,d_j;			//戦艦の先頭からの相対位置
+	
+};
+
 /***************************************************************/
 /*                       関数の宣言                             */
 /***************************************************************/
@@ -29,7 +36,7 @@ void drawSet(AGDrawBuffer* DBuf, struct Field* field, struct Player* player);
 void drawBattle(AGDrawBuffer* DBuf);
 
 // タッチしたオブジェクトの種類を取得
-int getTouchObject(enum ObjectType* type, struct Touch* touch, struct Field* field, struct Player* player);
+int getTouchObject(enum ObjectType* type, struct Touch* touch, struct Field* field, struct Player* player, int* d_i, int* d_j);
 
 // リリースした場所を取得
 int getReleaseObject(int* i, int* j, struct Touch* touch, struct Field* field, struct Player* player);

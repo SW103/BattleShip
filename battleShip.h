@@ -41,6 +41,8 @@ struct BattleShip{
 void initBattleShip();
 void drawBattleShip(AGDrawBuffer* DBuf, struct BattleShip* battleShip);
 
+int isThereBattleShip(struct BattleShip* battleShip, int field_i, int field_j, int *d_i, int *d_j);
+
 
 
 #ifdef __cplusplus
