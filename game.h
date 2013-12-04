@@ -33,6 +33,10 @@ int getReleaseObject(int* i, int* j, struct Touch* touch, struct Field* field, s
 
 // リリースする位置に戦艦を配置できるかどうか
 int placeable(int i, int j, struct Player* player, struct HoldingObject* hold);
+	//フィールド上の適正な位置に配置できるかどうか
+	int placeableField();
+	//他の戦艦と衝突していないかどうか
+	int placeableBattleShip();
 
 #ifdef __cplusplus
 }

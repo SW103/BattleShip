@@ -13,16 +13,17 @@ void runSet(struct Touch* touch, struct Field* field, struct Player* player)
 {
 	int index = -1;
 	int i, j;
-	enum ObjectType type;
+	//enum ObjectType type;
+	enum FieldObject obj;
 
 	if(touch->count == 1){
-		index = getTouchObject(&type, touch, field, player, &hold);
+		index = getTouchObject(&obj, touch, field, player, &hold);
 		//_dprintf("index = %d \n", index);
 		if( index >= 0/* && type == BATTLESHIP*/ ){
 			//タッチされた戦艦を不可視にする
 			player->battleShip[index].visible = 0;
 			//戦艦をつかむ
-			hold.type = BATTLESHIP;
+			hold.obj = BATTLESHIP;
 			hold.shipIndex = index;
 		}
 
@@ -38,7 +39,7 @@ void runSet(struct Touch* touch, struct Field* field, struct Player* player)
 		//放された戦艦を可視にする
 		player->battleShip[hold.shipIndex].visible = 1;
 		//なにもつかんでいない
-		hold.type = NULLTYPE;
+		hold.obj = NULLTYPE;
 		hold.shipIndex = -1;
 	}
 }
@@ -137,5 +138,5 @@ int placeable(int i, int j, struct Player* player, struct HoldingObject* hold)
 {
 
 
-	
+
 }

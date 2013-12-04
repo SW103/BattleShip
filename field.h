@@ -8,7 +8,6 @@
 extern "C" {
 #endif
 
-
 /***************************************************************/
 /*                       Field                                 */
 /***************************************************************/
@@ -22,6 +21,14 @@ struct Field{
 
 void initField();
 void drawField(AGDrawBuffer* DBuf, struct Field* field);
+
+
+void addShipToField(struct BattleShip* battleShip);
+
+void removeShipFromField();
+
+//フィールド情報の更新
+void updateField(struct Field* field, struct Player* player);
 
 
 

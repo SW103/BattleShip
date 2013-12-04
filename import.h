@@ -28,6 +28,12 @@ extern "C" {
 #define FIELD_X 150
 #define FIELD_Y 100
 
+/***************************************************************/
+/*                    Field Object                             */
+/***************************************************************/
+enum FieldObject{
+	NULLOBJECT, BATTLESHIP, OBJECT_NUM
+};
 
 
 #ifdef __cplusplus
