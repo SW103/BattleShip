@@ -1,4 +1,4 @@
-/*
+﻿/*
 #include <amlib.h>
 #include <agdraw.h>
 #include <agesndmgr.h>
@@ -22,7 +22,11 @@ struct Rect{
 };
 */
 
+<<<<<<< HEAD
 //ブランチきる練習品川
+=======
+//Brunch Matsushita
+>>>>>>> origin/Brunch_Matsushita
 
 void drawNumberGraph(int number ,int x, int y, int size_x, int size_y , int order ,AGDrawBuffer* DBuf) {
 	int i, n;
