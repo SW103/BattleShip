@@ -8,18 +8,28 @@
 extern "C" {
 #endif
 
+
+/***************************************************************/
+/*                    Field Object                             */
+/***************************************************************/
+enum FieldObject{
+	NONE_OBJ, BATTLESHIP_OBJ, ATTACKEDSHIP_OBJ, ATTACKEDPOINT_OBJ
+};
+
+
 /***************************************************************/
 /*                       Field                                 */
 /***************************************************************/
 struct Field{
-	int filed[FIELD_HEIGHT_NUM][FIELD_WIDTH_NUM];
+	int field[FIELD_HEIGHT_NUM][FIELD_WIDTH_NUM];			//フィールド情報
+	int virtualField[FIELD_HEIGHT_NUM][FIELD_WIDTH_NUM];	//仮想フィールド情報
 };
 
 /***************************************************************/
 /*                       関数の宣言                             */
 /***************************************************************/
 
-void initField();
+void initField(struct Field* field);
 void drawField(AGDrawBuffer* DBuf, struct Field* field);
 
 
@@ -29,6 +39,9 @@ void removeShipFromField();
 
 //フィールド情報の更新
 void updateField(struct Field* field, struct Player* player);
+
+//バーチャルフィールド情報の更新
+void updateVirtualField(struct Field* field, struct Player* player);
 
 
 

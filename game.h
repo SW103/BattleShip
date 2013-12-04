@@ -14,6 +14,16 @@ enum GameMode{
 	MODE_SET, MODE_BATTLE, MODE_NUM
 };
 
+/***************************************************************/
+/*                   Holding Object                            */
+/***************************************************************/
+struct HoldingObject{
+	enum FieldObject obj;	//オブジェクトの種類
+	int shipIndex;			//戦艦の番号
+	int d_i,d_j;			//戦艦の先頭からの相対位置
+	struct BattleShip* battleShip;	//戦艦のポインタ	
+};
+
 
 /***************************************************************/
 /*                       関数の宣言                             */
