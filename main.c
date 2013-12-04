@@ -22,6 +22,8 @@ struct Rect{
 };
 */
 
+//ブランチきる練習品川
+
 void drawNumberGraph(int number ,int x, int y, int size_x, int size_y , int order ,AGDrawBuffer* DBuf) {
 	int i, n;
 	int draw_x;
