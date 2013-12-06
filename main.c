@@ -1,27 +1,12 @@
-﻿/*
-#include <amlib.h>
-#include <agdraw.h>
-#include <agesndmgr.h>
-#include <agetool.h>
-#include <agtransfer.h>
-#include <vdpreg.h>
-#include <stdlib.h>
-*/
-//#include "import.h"
-#include "export.h"
+﻿
+
+
+#include "import.h"
 #include "battleShip.h"
 #include "field.h"
 #include "player.h"
 #include "game.h"
 #include "touch.h"
-
-//extern int holdingIndex;
-/*
-struct Rect{
-	int x,y,w,h;
-};
-*/
-
 
 void drawNumberGraph(int number ,int x, int y, int size_x, int size_y , int order ,AGDrawBuffer* DBuf) {
 	int i, n;

@@ -41,12 +41,14 @@ int getTouchObject(enum ObjectType* type, struct Touch* touch, struct Field* fie
 // リリースした場所を取得
 int getReleaseObject(int* i, int* j, struct Touch* touch, struct Field* field, struct Player* player);
 
+//フィールド情報の更新
+void updateField(int i, int j, struct Field* field, struct HoldingObject* hold);
+
+//バーチャルフィールド情報の更新
+void updateVirtualField(int i, int j, struct Field* field, struct HoldingObject* hold);
+
 // リリースする位置に戦艦を配置できるかどうか
-int placeable(int i, int j, struct Player* player, struct HoldingObject* hold);
-	//フィールド上の適正な位置に配置できるかどうか
-	int placeableField();
-	//他の戦艦と衝突していないかどうか
-	int placeableBattleShip();
+int placeable(int i, int j, struct Field* field, struct HoldingObject* hold);
 
 #ifdef __cplusplus
 }

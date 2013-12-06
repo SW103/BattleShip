@@ -52,6 +52,7 @@ struct BattleShip{
 void initBattleShip();
 void drawBattleShip(AGDrawBuffer* DBuf, struct BattleShip* battleShip);
 
+void getBattleShipPosition(struct BattleShip* battleShip, int* i, int* j, int* w, int* l);
 int isThereBattleShip(struct BattleShip* battleShip, int field_i, int field_j, struct HoldingObject* hold);
 
 

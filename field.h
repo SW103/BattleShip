@@ -37,11 +37,6 @@ void addShipToField(struct BattleShip* battleShip);
 
 void removeShipFromField();
 
-//フィールド情報の更新
-void updateField(struct Field* field, struct Player* player);
-
-//バーチャルフィールド情報の更新
-void updateVirtualField(struct Field* field, struct Player* player);
 
 
 

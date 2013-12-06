@@ -25,16 +25,21 @@ void runSet(struct Touch* touch, struct Field* field, struct Player* player)
 			//戦艦をつかむ
 			hold.obj = BATTLESHIP;
 			hold.shipIndex = index;
+			//バーチャルフィールドの更新
+			updateVirtualField(field, &hold);
 		}
 
 	}else if(touch->count == -1){
 		index = getReleaseObject(&i, &j, touch, field, player);
 		//_dprintf("i = %d  \n", i);
 		//_dprintf("j = %d  \n\n", j);
-		if( index >= 0 ){ // 盤上でリリースしたとき
+		if( index == 1 && placeable(i, j,field, &hold) == 1 ){ // 盤上でリリースしたとき
 			//放された戦艦の位置を変更する
 			player->battleShip[hold.shipIndex].i = i - hold.d_i;
 			player->battleShip[hold.shipIndex].j = j - hold.d_j;
+
+			//フィールドの更新
+			updateField(i, j, field, &hold);
 		}
 		//放された戦艦を可視にする
 		player->battleShip[hold.shipIndex].visible = 1;
@@ -134,9 +139,71 @@ int getReleaseObject(int* i, int* j, struct Touch* touch, struct Field* field, s
 
 
 // リリースする位置に戦艦を配置できるかどうか
-int placeable(int i, int j, struct Player* player, struct HoldingObject* hold)
+int placeable(int _i, int _j, struct Field* field, struct HoldingObject* hold)
 {
+	int i, j, wid, len;
+	
+	//バトルシップの位置を取得
+	getBattleShipPosition(battleShip, &i, &j, &wid, &len);
+
+	//放した位置にすでに戦艦がいるかどうかを調べる
+	for(h=_j;h<len;h++){
+		for(w=_i;w<wid;w++){
+			if(field->field[h][w] = BATTLESHIP_OBJ)
+				return -1;
+		}
+	}
+	return 1;
+}
 
 
+//フィールド情報の更新
+void updateField(int _i, int _j, struct Field* field, struct HoldingObject* hold)
+{
+	int w,h;
 
+	int i, j, wid, len;
+
+	//バトルシップの位置を取得
+	getBattleShipPosition(battleShip, &i, &j, &wid, &len);
+
+	//フィールド情報をバーチャルフィールドからコピー
+	for(h=0;h<FIELD_HEIGHT_NUM;h++){
+		for(w=0;w<FIELD_WIDTH_NUM;w++){
+			field->field[h][w] = field->vietualField[h][w];
+		}
+	}
+
+	//戦艦の追加
+	for(h=_j;h<len;h++){
+		for(w=_i;w<wid;w++){
+			field->field[h][w] = BATTLESHIP_OBJ;
+		}
+	}
+
+}
+
+//バーチャルフィールド情報の更新
+void updateVirtualField(int _i, int _j, struct Field* field, struct HoldingObject* hold)
+{
+	int w,h;
+
+	int i, j, wid, len;
+
+	//バトルシップの位置を取得
+	getBattleShipPosition(battleShip, &i, &j, &wid, &len);
+
+	//フィールド情報をバーチャルフィールドからコピー
+	for(h=0;h<FIELD_HEIGHT_NUM;h++){
+		for(w=0;w<FIELD_WIDTH_NUM;w++){
+			field->vietualField[h][w] = field->field[h][w];
+		}
+	}
+
+	//戦艦の追加
+	for(h=_j;h<len;h++){
+		for(w=_i;w<wid;w++){
+			field->vietualField[h][w] = NONE_OBJ;
+		}
+	}
 }
