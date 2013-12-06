@@ -43,9 +43,37 @@ void runSet(struct Touch* touch, struct Field* field, struct Player* player)
 	}
 }
 
-void runBattle()
+void runBattle(struct Touch* touch, struct Field* field)
 {
-	return;
+	int x,y;
+	if( (touch->x >= FIELD_X) 
+		&& (touch->y >= FIELD_Y) 
+		&& (touch->x < FIELD_X+CELL_SIZE*FIELD_WIDTH_NUM)
+		&& (touch->y < FIELD_Y+CELL_SIZE*FIELD_HEIGHT_NUM) ){
+
+		x = (touch->x - FIELD_X)/CELL_SIZE;
+		y = (touch->y - FIELD_Y)/CELL_SIZE;
+
+		if( field->field[y][x]!=SELECTED && field->field[y][x]!=ATTACKED ){			
+			field->field[field->selected/10][field->selected%10]=UNSELECTED;
+			field->selected=x+y*FIELD_WIDTH_NUM;
+			field->field[y][x]=SELECTED;
+		}else if(field->field[y][x]==ATTACKED){
+			field->field[field->selected/10][field->selected%10]=UNSELECTED;
+		}
+	}
+
+	//攻撃ボタンが押され、かつマスが選択されていたら攻撃を行う。
+	if( (touch->x >= ATTACK_BUTTON_X) 
+		&& (touch->x < ATTACK_BUTTON_X+ATTACK_BUTTON_W) 
+		&& (touch->y >= ATTACK_BUTTON_Y) 
+		&& (touch->y < ATTACK_BUTTON_Y+ATTACK_BUTTON_H) ){
+		if(field->selected!=-1){
+			field->field[field->selected/10][field->selected%10]=ATTACKED;
+			field->selected=-1;
+		}
+	}
+	
 }
 
 
@@ -64,7 +92,7 @@ void drawSet(AGDrawBuffer* DBuf, struct Field* field, struct Player* player)
 	agDrawSPRITE( DBuf, 0, 0, 0, s(FB_WIDTH), s(FB_HEIGHT) );
 
 	//フィールド
-	drawField( DBuf, field);
+	drawField( DBuf, field, s(FIELD_X), s(FIELD_Y), s(CELL_SIZE));
 
 	//戦艦
 	for(i=0;i<5;i++){
@@ -83,10 +111,34 @@ void drawSet(AGDrawBuffer* DBuf, struct Field* field, struct Player* player)
 	
 }
 
-void drawBattle(AGDrawBuffer* DBuf)
+void drawBattle(AGDrawBuffer* DBuf, struct Field* field, struct Player* player)
 {
-	return;
+	int i,w,h;
+
+	//Init
+	agDrawBufferInit( DBuf , DrawBuffer );
+	agDrawSETDAVR( DBuf , 0 , 0 , aglGetDrawFrame() , 0 , 0 );
+	agDrawSETDAVF( DBuf, 0, 0, s(FB_WIDTH), s(FB_HEIGHT) );
+
+	//白背景
+	agDrawSETFCOLOR( DBuf, ARGB( 255, 255, 255, 255 ) );
+	agDrawSETDBMODE( DBuf, 0xff, 0, 0, 1 );
+	agDrawSPRITE( DBuf, 0, 0, 0, s(FB_WIDTH), s(FB_HEIGHT) );
+
+	//敵のフィールド
+	drawField( DBuf, field, s(FIELD_X), s(FIELD_Y), s(CELL_SIZE));
+
+
+	//自分のフィールド
+	drawField( DBuf, field, s(700), s(125), s(30));
+
+	//攻撃ボタン
+	agDrawSETFCOLOR( DBuf, ARGB( 255, 255, 0, 0 ) );
+	ageTransferAAC( DBuf, AG_CG_ATTACK, 0, &w, &h );
+	agDrawSETDBMODE( DBuf, 0xff, 0, 2, 1 );
+	agDrawSPRITE( DBuf, 1, s(ATTACK_BUTTON_X), s(ATTACK_BUTTON_Y), s(ATTACK_BUTTON_X)+s(ATTACK_BUTTON_W), s(ATTACK_BUTTON_Y)+s(ATTACK_BUTTON_H) );	
 }
+
 
 
 

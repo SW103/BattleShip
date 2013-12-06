@@ -21,9 +21,9 @@ enum GameMode{
 
 void initGame();
 void runSet(struct Touch* touch, struct Field* field, struct Player* player);
-void runBattle();
+void runBattle(struct Touch* touch, struct Field* field);
 void drawSet(AGDrawBuffer* DBuf, struct Field* field, struct Player* player);
-void drawBattle(AGDrawBuffer* DBuf);
+void drawBattle(AGDrawBuffer* DBuf, struct Field* field, struct Player* player);
 
 // タッチしたオブジェクトの種類を取得
 int getTouchObject(enum ObjectType* type, struct Touch* touch, struct Field* field, struct Player* player, struct HoldingObject* hold);

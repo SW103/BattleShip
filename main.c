@@ -45,7 +45,7 @@ void  main( void )  {
 	int i;
 
 	//ゲームのモード変数
-	enum GameMode gameMode = MODE_SET;
+	enum GameMode gameMode = MODE_BATTLE;
 
 	//キー入力の格納配列
 	//int key_state[KEY_NUM];
@@ -63,6 +63,7 @@ void  main( void )  {
 	struct Touch touch;
 
 	//
+	initField(&field);
 	initTouch(&touch);
 	initPlayer(&player);
 
@@ -76,21 +77,26 @@ void  main( void )  {
 	while( 1 ) {
 
 		//タッチの取得
+		initTouch(&touch);
 		getTouch(&touch);
 
+/*
 		switch(gameMode){
 			case MODE_SET:
 				runSet(&touch, &field, &player);
 				drawSet(&DBuf, &field, &player);
 				break;
 			case MODE_BATTLE:
-				runBattle();
-				drawBattle(&DBuf);
+				runBattle(&touch, &field);
+				drawBattle(&DBuf, &field, &player);
 				break;
 			default:
 				break;
 		}
+*/
 
+		runBattle(&touch, &field);
+		drawBattle(&DBuf, &field, &player);
 	
 		//数字を描画する場所の白い四角
 		//agDrawSETFCOLOR( &DBuf, ARGB( 255, 255, 255, 255 ) );
@@ -99,7 +105,7 @@ void  main( void )  {
 		//数字の描画
 		//drawNumberGraph(holdingIndex, 100,100,50,90,10,&DBuf);
 		
-		drawNumberGraph(touch.count + 1, 100,200,50,90,10,&DBuf);
+		drawNumberGraph((int)field.field[9][0], 100,200,50,90,10,&DBuf);
 	
 		//_dprintf("%d ", holdingIndex);
 			
