@@ -21,7 +21,7 @@ enum GameMode{
 
 void initGame();
 void runSet(struct Touch* touch, struct Field* field, struct Player* player);
-void runBattle(struct Touch* touch, struct Field* field);
+void runBattle(struct Touch* touch, struct Field* field, struct Player* player);
 void drawSet(AGDrawBuffer* DBuf, struct Field* field, struct Player* player);
 void drawBattle(AGDrawBuffer* DBuf, struct Field* field, struct Player* player);
 

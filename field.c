@@ -26,13 +26,17 @@ void drawField(AGDrawBuffer* DBuf, struct Field* field, int x, int y, int cell_s
 	for(i=0; i<FIELD_HEIGHT_NUM; i++){
 		for(j=0; j<FIELD_WIDTH_NUM;j++){
 			if(field->field[i][j]==SELECTED){
-				agDrawSETFCOLOR( DBuf, ARGB( 128, 255, 0, 128 ) );
+				agDrawSETFCOLOR( DBuf, ARGB( 128, 0, 255, 0 ) );
 				agDrawSETDBMODE( DBuf, 0xff, 0, 0, 1 );
 				agDrawSPRITE( DBuf, 0, x+cell_size*j, y+cell_size*i, x+cell_size*(j+1), y+cell_size*(i+1) );
-			}else if(field->field[i][j]==ATTACKED){
-				agDrawSETFCOLOR( DBuf, ARGB( 128, 0, 0, 0 ) );
+			}else if(field->field[i][j]==HIT){
+				agDrawSETFCOLOR( DBuf, ARGB( 128, 255, 0, 0 ) );
 				agDrawSETDBMODE( DBuf, 0xff, 0, 0, 1 );
 				agDrawSPRITE( DBuf, 0, x+cell_size*j, y+cell_size*i, x+cell_size*(j+1), y+cell_size*(i+1) );
+			}else if(field->field[i][j]==MISS){
+				agDrawSETFCOLOR( DBuf, ARGB( 128, 0, 0, 255 ) );
+				agDrawSETDBMODE( DBuf, 0xff, 0, 0, 1 );
+				agDrawSPRITE( DBuf, 0, x+cell_size*j, y+cell_size*i, x+cell_size*(j+1), y+cell_size*(i+1) );				
 			}
 		}
 	}

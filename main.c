@@ -62,11 +62,6 @@ void  main( void )  {
 	//タッチ
 	struct Touch touch;
 
-	//
-	initField(&field);
-	initTouch(&touch);
-	initPlayer(&player);
-
 	agpDisableCpuInterrupts();
 	aglInitialize();
 	agpEnableCpuInterrupts();
@@ -74,29 +69,29 @@ void  main( void )  {
 	//タッチの初期化
 	agTouchInit(1024<<2,768<<2);
 
+	//
+	initTouch(&touch);
+	initPlayer(&player);
+	initField(&field);
+
 	while( 1 ) {
 
 		//タッチの取得
-		initTouch(&touch);
 		getTouch(&touch);
 
-/*
+
 		switch(gameMode){
 			case MODE_SET:
 				runSet(&touch, &field, &player);
 				drawSet(&DBuf, &field, &player);
 				break;
 			case MODE_BATTLE:
-				runBattle(&touch, &field);
+				runBattle(&touch, &field, &player);
 				drawBattle(&DBuf, &field, &player);
 				break;
 			default:
 				break;
 		}
-*/
-
-		runBattle(&touch, &field);
-		drawBattle(&DBuf, &field, &player);
 	
 		//数字を描画する場所の白い四角
 		//agDrawSETFCOLOR( &DBuf, ARGB( 255, 255, 255, 255 ) );
@@ -107,7 +102,7 @@ void  main( void )  {
 		
 		drawNumberGraph((int)field.field[9][0], 100,200,50,90,10,&DBuf);
 	
-		//_dprintf("%d ", holdingIndex);
+
 			
 		agDrawEODL( &DBuf );
 		agTransferDrawDMA( &DBuf );

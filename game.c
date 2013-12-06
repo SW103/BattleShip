@@ -43,25 +43,9 @@ void runSet(struct Touch* touch, struct Field* field, struct Player* player)
 	}
 }
 
-void runBattle(struct Touch* touch, struct Field* field)
+void runBattle(struct Touch* touch, struct Field* field, struct Player* player)
 {
-	int x,y;
-	if( (touch->x >= FIELD_X) 
-		&& (touch->y >= FIELD_Y) 
-		&& (touch->x < FIELD_X+CELL_SIZE*FIELD_WIDTH_NUM)
-		&& (touch->y < FIELD_Y+CELL_SIZE*FIELD_HEIGHT_NUM) ){
-
-		x = (touch->x - FIELD_X)/CELL_SIZE;
-		y = (touch->y - FIELD_Y)/CELL_SIZE;
-
-		if( field->field[y][x]!=SELECTED && field->field[y][x]!=ATTACKED ){			
-			field->field[field->selected/10][field->selected%10]=UNSELECTED;
-			field->selected=x+y*FIELD_WIDTH_NUM;
-			field->field[y][x]=SELECTED;
-		}else if(field->field[y][x]==ATTACKED){
-			field->field[field->selected/10][field->selected%10]=UNSELECTED;
-		}
-	}
+	int i,x,y;
 
 	//攻撃ボタンが押され、かつマスが選択されていたら攻撃を行う。
 	if( (touch->x >= ATTACK_BUTTON_X) 
@@ -69,11 +53,43 @@ void runBattle(struct Touch* touch, struct Field* field)
 		&& (touch->y >= ATTACK_BUTTON_Y) 
 		&& (touch->y < ATTACK_BUTTON_Y+ATTACK_BUTTON_H) ){
 		if(field->selected!=-1){
-			field->field[field->selected/10][field->selected%10]=ATTACKED;
-			field->selected=-1;
+			_dprintf("%d ", field->selected);
+			if(getBattleShip(player, field->selected%10, field->selected/10, &hold ) != -1){
+				field->field[field->selected/10][field->selected%10]=HIT;
+
+
+			}else{
+				field->field[field->selected/10][field->selected%10]=MISS;			
+			}
 		}
+		field->selected=-1;	
 	}
-	
+
+
+	//フィールドが押された時の反応。
+	if( (touch->x >= FIELD_X) 
+	&& (touch->y >= FIELD_Y) 
+	&& (touch->x < FIELD_X+CELL_SIZE*FIELD_WIDTH_NUM)
+	&& (touch->y < FIELD_Y+CELL_SIZE*FIELD_HEIGHT_NUM) ){
+
+		x = (touch->x - FIELD_X)/CELL_SIZE;
+		y = (touch->y - FIELD_Y)/CELL_SIZE;
+
+		if( field->field[y][x]==UNSELECTED ){
+			if(field->selected != -1)
+				field->field[field->selected/10][field->selected%10]=UNSELECTED;
+			field->selected=x+y*FIELD_WIDTH_NUM;
+			field->field[y][x]=SELECTED;
+		}else if( field->field[y][x]==HIT || field->field[y][x]==MISS ){
+			if(field->selected != -1)
+				field->field[field->selected/10][field->selected%10]=UNSELECTED;
+				field->selected = -1;
+		}
+	}else{
+		field->field[field->selected/10][field->selected%10]=UNSELECTED;
+		field->selected=-1;	
+	}
+
 }
 
 
@@ -131,6 +147,11 @@ void drawBattle(AGDrawBuffer* DBuf, struct Field* field, struct Player* player)
 
 	//自分のフィールド
 	drawField( DBuf, field, s(700), s(125), s(30));
+
+
+	for(i=0;i<5;i++){
+		drawBattleShip(DBuf, &(player->battleShip[i]));
+	}
 
 	//攻撃ボタン
 	agDrawSETFCOLOR( DBuf, ARGB( 255, 255, 0, 0 ) );
