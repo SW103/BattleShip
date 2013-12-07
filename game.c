@@ -43,56 +43,6 @@ void runSet(struct Touch* touch, struct Field* field, struct Player* player)
 	}
 }
 
-void runBattle(struct Touch* touch, struct Field* field, struct Player* player)
-{
-	int i,x,y;
-
-	//攻撃ボタンが押され、かつマスが選択されていたら攻撃を行う。
-	if( (touch->x >= ATTACK_BUTTON_X) 
-		&& (touch->x < ATTACK_BUTTON_X+ATTACK_BUTTON_W) 
-		&& (touch->y >= ATTACK_BUTTON_Y) 
-		&& (touch->y < ATTACK_BUTTON_Y+ATTACK_BUTTON_H) ){
-		if(field->selected!=-1){
-			_dprintf("%d ", field->selected);
-			if(getBattleShip(player, field->selected%10, field->selected/10, &hold ) != -1){
-				field->field[field->selected/10][field->selected%10]=HIT;
-
-
-			}else{
-				field->field[field->selected/10][field->selected%10]=MISS;			
-			}
-		}
-		field->selected=-1;	
-	}
-
-
-	//フィールドが押された時の反応。
-	if( (touch->x >= FIELD_X) 
-	&& (touch->y >= FIELD_Y) 
-	&& (touch->x < FIELD_X+CELL_SIZE*FIELD_WIDTH_NUM)
-	&& (touch->y < FIELD_Y+CELL_SIZE*FIELD_HEIGHT_NUM) ){
-
-		x = (touch->x - FIELD_X)/CELL_SIZE;
-		y = (touch->y - FIELD_Y)/CELL_SIZE;
-
-		if( field->field[y][x]==UNSELECTED ){
-			if(field->selected != -1)
-				field->field[field->selected/10][field->selected%10]=UNSELECTED;
-			field->selected=x+y*FIELD_WIDTH_NUM;
-			field->field[y][x]=SELECTED;
-		}else if( field->field[y][x]==HIT || field->field[y][x]==MISS ){
-			if(field->selected != -1)
-				field->field[field->selected/10][field->selected%10]=UNSELECTED;
-				field->selected = -1;
-		}
-	}else{
-		field->field[field->selected/10][field->selected%10]=UNSELECTED;
-		field->selected=-1;	
-	}
-
-}
-
-
 void drawSet(AGDrawBuffer* DBuf, struct Field* field, struct Player* player)
 {
 	int i;
@@ -127,6 +77,68 @@ void drawSet(AGDrawBuffer* DBuf, struct Field* field, struct Player* player)
 	
 }
 
+void runBattle(struct Touch* touch, struct Field* field, struct Player* player)
+{
+	int i,x,y;
+	int index;
+	int lifeFlag;
+
+	lifeFlag = 0;
+
+	//攻撃ボタンが押され、かつマスが選択されていたら攻撃を行う。
+	if( (touch->x >= ATTACK_BUTTON_X) 
+		&& (touch->x < ATTACK_BUTTON_X+ATTACK_BUTTON_W) 
+		&& (touch->y >= ATTACK_BUTTON_Y) 
+		&& (touch->y < ATTACK_BUTTON_Y+ATTACK_BUTTON_H) ){
+		if(field->selected!=-1){
+			_dprintf("%d ", field->selected);
+			index = getBattleShip(player, field->selected%10, field->selected/10, &hold );
+			if(index != -1){
+				field->field[field->selected/10][field->selected%10]=HIT;
+				for(i=0;i<player->battleShip[index].len;i++){
+					if(player->battleShip[index].bombed[i] == field->selected){
+						player->battleShip[index].bombed[i] = -1;
+					}
+					lifeFlag += player->battleShip[index].bombed[i];
+				}
+				if(lifeFlag == -5){
+					player->battleShip[index].life = 0;
+				}
+			}else{
+				field->field[field->selected/10][field->selected%10]=MISS;			
+			}
+		}
+		field->selected=-1;	
+	}
+
+
+
+	//フィールドが押された時の反応。
+	if( (touch->x >= FIELD_X) 
+	&& (touch->y >= FIELD_Y) 
+	&& (touch->x < FIELD_X+CELL_SIZE*FIELD_WIDTH_NUM)
+	&& (touch->y < FIELD_Y+CELL_SIZE*FIELD_HEIGHT_NUM) ){
+
+		x = (touch->x - FIELD_X)/CELL_SIZE;
+		y = (touch->y - FIELD_Y)/CELL_SIZE;
+
+		if( field->field[y][x]==UNSELECTED ){
+			if(field->selected != -1)
+				field->field[field->selected/10][field->selected%10]=UNSELECTED;
+			field->selected=x+y*FIELD_WIDTH_NUM;
+			field->field[y][x]=SELECTED;
+		}else if( field->field[y][x]==HIT || field->field[y][x]==MISS ){
+			if(field->selected != -1)
+				field->field[field->selected/10][field->selected%10]=UNSELECTED;
+				field->selected = -1;
+		}
+	}else{
+		field->field[field->selected/10][field->selected%10]=UNSELECTED;
+		field->selected=-1;	
+	}
+
+}
+
 void drawBattle(AGDrawBuffer* DBuf, struct Field* field, struct Player* player)
 {
 	int i,w,h;
@@ -143,15 +155,15 @@ void drawBattle(AGDrawBuffer* DBuf, struct Field* field, struct Player* player)
 
 	//敵のフィールド
 	drawField( DBuf, field, s(FIELD_X), s(FIELD_Y), s(CELL_SIZE));
+	drawFieldColor( DBuf, field, s(FIELD_X), s(FIELD_Y), s(CELL_SIZE));
 
+	for(i=0;i<5;i++){
+		if(player->battleShip[i].life == 0)
+			drawBattleShip(DBuf, &(player->battleShip[i]));
+	}
 
 	//自分のフィールド
 	drawField( DBuf, field, s(700), s(125), s(30));
-
-
-	for(i=0;i<5;i++){
-		drawBattleShip(DBuf, &(player->battleShip[i]));
-	}
 
 	//攻撃ボタン
 	agDrawSETFCOLOR( DBuf, ARGB( 255, 255, 0, 0 ) );

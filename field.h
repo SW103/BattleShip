@@ -31,6 +31,7 @@ struct Field{
 
 void initField(struct Field* field);
 void drawField(AGDrawBuffer* DBuf, struct Field* field, int x, int y, int cell_size);
+void drawFieldColor(AGDrawBuffer* DBuf, struct Field* field, int x, int y, int cell_size);
 
 
 

@@ -10,6 +10,7 @@ extern "C" {
 
 #define MAX_BATTLESHIP_HEIGHT_NUM 6
 #define MAX_BATTLESHIP_WIDTH_NUM 2
+#define MAX_BATTLESHIP_LENGTH 5
 
 /***************************************************************/
 /*                       Direction                             */
@@ -37,7 +38,7 @@ struct BattleShip{
 	int life;			//ライフ
 	int visible;		//可視状態  0:不可視  1:可視
 	//被弾箇所の配列
-	int bombed[MAX_BATTLESHIP_HEIGHT_NUM][MAX_BATTLESHIP_WIDTH_NUM];
+	int bombed[MAX_BATTLESHIP_LENGTH];
 };
 
 /***************************************************************/

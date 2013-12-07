@@ -71,15 +71,13 @@ void  main( void )  {
 
 	//
 	initTouch(&touch);
-	initPlayer(&player);
 	initField(&field);
+	initPlayer(&player);
 
 	while( 1 ) {
 
 		//タッチの取得
 		getTouch(&touch);
-
-
 		switch(gameMode){
 			case MODE_SET:
 				runSet(&touch, &field, &player);

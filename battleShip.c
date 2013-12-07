@@ -12,12 +12,16 @@ void drawBattleShip(AGDrawBuffer* DBuf, struct BattleShip* battleShip)
 	u16 battleShipGraph[DIR_NUM] = {AG_CG_SENKAN_LEFT,AG_CG_SENKAN_UP,AG_CG_SENKAN_RIGHT,AG_CG_SENKAN_DOWN};
 	
 	// 不可視ならなにもしない
-	if(battleShip->visible == 0)
+	if(battleShip->visible == 0){
+		//_dprintf("%d",battleShip->i);
 		return;
+	}
 
 	agDrawSETFCOLOR( DBuf, ARGB( 255, 255, 0, 0 ) );
 	ageTransferAAC( DBuf, battleShipGraph[battleShip->dir], 0, NULL, NULL );
 	agDrawSETDBMODE( DBuf, 0xff, 0, 2, 1 );
+
+	//_dprintf("%d",battleShip->i);
 	switch(battleShip->dir){
 		case LEFT:
 			agDrawSPRITE( DBuf, 1, s(FIELD_X + battleShip->i*CELL_SIZE), s(FIELD_Y + battleShip->j*CELL_SIZE),

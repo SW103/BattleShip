@@ -13,8 +13,6 @@ void initField(struct Field* field)
 
 void drawField(AGDrawBuffer* DBuf, struct Field* field, int x, int y, int cell_size)
 {
-	int i,j;
-
 	//背景画像
 	u16 fieldGraph = AG_CG_FIELD;
 
@@ -22,7 +20,12 @@ void drawField(AGDrawBuffer* DBuf, struct Field* field, int x, int y, int cell_s
 	ageTransferAAC( DBuf, fieldGraph, 0, NULL, NULL );
 	agDrawSETDBMODE( DBuf, 0xff, 0, 2, 1 );
 	agDrawSPRITE( DBuf, 1, x, y, x+cell_size*FIELD_WIDTH_NUM, y+cell_size*FIELD_HEIGHT_NUM);
+}
 
+
+void drawFieldColor(AGDrawBuffer* DBuf, struct Field* field, int x, int y, int cell_size){
+	int i,j;
+	
 	for(i=0; i<FIELD_HEIGHT_NUM; i++){
 		for(j=0; j<FIELD_WIDTH_NUM;j++){
 			if(field->field[i][j]==SELECTED){
