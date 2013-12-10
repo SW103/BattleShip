@@ -22,9 +22,12 @@ enum Direction{
 /***************************************************************/
 /*                     Object Type                             */
 /***************************************************************/
+/*
 enum ObjectType{
 	NULLTYPE, BATTLESHIP, OBJECTTYPE_NUM
-};
+};*/
+
+
 
 
 /***************************************************************/
@@ -40,15 +43,7 @@ struct BattleShip{
 	int bombed[MAX_BATTLESHIP_HEIGHT_NUM][MAX_BATTLESHIP_WIDTH_NUM];
 };
 
-/***************************************************************/
-/*                   Holding Object                            */
-/***************************************************************/
-struct HoldingObject{
-	enum ObjectType type;	//オブジェクトの種類
-	int shipIndex;			//戦艦の番号
-	int d_i,d_j;			//戦艦の先頭からの相対位置
-	struct BattleShip* battleShip;	//戦艦のポインタ	
-};
+
 
 /***************************************************************/
 /*                       関数の宣言                             */
@@ -57,7 +52,8 @@ struct HoldingObject{
 void initBattleShip();
 void drawBattleShip(AGDrawBuffer* DBuf, struct BattleShip* battleShip);
 
-int isThereBattleShip(struct BattleShip* battleShip, int field_i, int field_j, struct HoldingObject* hold);
+void getBattleShipPosition(struct BattleShip* battleShip, int* i, int* j, int* w, int* l);
+int isThereBattleShip(struct BattleShip* battleShip, int field_i, int field_j);
 
 
 

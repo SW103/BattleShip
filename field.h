@@ -10,18 +10,37 @@ extern "C" {
 
 
 /***************************************************************/
+/*                    Field Object                             */
+/***************************************************************/
+enum FieldObject{
+	NONE_OBJ, BATTLESHIP_OBJ, ATTACKEDSHIP_OBJ, ATTACKEDPOINT_OBJ
+};
+
+
+/***************************************************************/
 /*                       Field                                 */
 /***************************************************************/
 struct Field{
-	int filed[FIELD_HEIGHT_NUM][FIELD_WIDTH_NUM];
+	/*
+	int field[FIELD_HEIGHT_NUM][FIELD_WIDTH_NUM];			//フィールド情報
+	int virtualField[FIELD_HEIGHT_NUM][FIELD_WIDTH_NUM];	//仮想フィールド情報
+	*/
+	int field[FIELD_WIDTH_NUM][FIELD_HEIGHT_NUM];			//フィールド情報
+	int virtualField[FIELD_WIDTH_NUM][FIELD_HEIGHT_NUM];	//仮想フィールド情報
 };
 
 /***************************************************************/
 /*                       関数の宣言                             */
 /***************************************************************/
 
-void initField();
+void initField(struct Field* field);
 void drawField(AGDrawBuffer* DBuf, struct Field* field);
+
+
+void addShipToField(struct BattleShip* battleShip);
+
+void removeShipFromField();
+
 
 
 

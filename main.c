@@ -62,10 +62,25 @@ void  main( void )  {
 	//タッチ
 	struct Touch touch;
 
-	//
+	//初期化
 	initTouch(&touch);
 	initPlayer(&player);
+	initField(&field);
 
+	//フィールドに初期値をいれる
+	{
+		int i,j,k;
+		int ship_i,ship_j,w,l;
+		for(i=0;i<5;i++){
+			getBattleShipPosition(&player.battleShip[i], &ship_i, &ship_j, &w, &l);
+			for(j=ship_i;j<ship_i+w;j++){
+				for(k=ship_j;k<ship_j+l;k++){
+					field.field[j][k] = 1;
+				}
+			}
+		}
+	}
+	
 	agpDisableCpuInterrupts();
 	aglInitialize();
 	agpEnableCpuInterrupts();

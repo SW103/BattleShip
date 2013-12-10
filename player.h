@@ -15,12 +15,12 @@ struct Player
 
 
 /***************************************************************/
-/*                       関数の宣言                             */
+/*                       関数の宣言                            　 */
 /***************************************************************/
 
 void initPlayer(struct Player* player);
 
-int getBattleShip(struct Player* player, int i, int j, struct HoldingObject* hold);
+int getBattleShip(struct Player* player, int i, int j);
 /*
 void runSet();
 void runBattle();

@@ -1,8 +1,14 @@
 #include "field.h"
 
-void initField()
+void initField(struct Field* field)
 {
-	return;
+	int i,j;
+	for(i=0;i<FIELD_HEIGHT_NUM;i++){
+		for(j=0;j<FIELD_WIDTH_NUM;j++){
+			field->field[i][j] = 0;
+			field->virtualField[i][j] = 0;
+		}
+	}
 }
 
 
