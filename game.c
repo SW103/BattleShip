@@ -43,7 +43,7 @@ void runSet(struct Touch* touch, struct Field* field, struct Player* player)
 
 		}
 
-	}else if(touch->count == -1){
+	}else if(touch->count == -1 && hold.obj != NONE_OBJ){
 		index = getReleaseObject(&i, &j, touch, field, player);
 		//_dprintf("i = %d  \n", i);
 		//_dprintf("j = %d  \n\n", j);
@@ -53,17 +53,16 @@ void runSet(struct Touch* touch, struct Field* field, struct Player* player)
 			player->battleShip[hold.shipIndex].j = j - hold.d_j;
 
 			//フィールドの更新
-			updateField(touch, field, &hold);
-
-			_dprintf("\nAfter Update Field \n","");
-			for(j=0;j<FIELD_HEIGHT_NUM;j++){
-				for(i=0;i<FIELD_WIDTH_NUM;i++){
-					_dprintf(" %d",field->field[i][j]);				
-				}
-				_dprintf("\n","");
-			}
-			_dprintf("\n\n","");
+			updateField(touch, field, &hold);	
 		}
+		_dprintf("\nAfter Release Field \n","");
+		for(j=0;j<FIELD_HEIGHT_NUM;j++){
+			for(i=0;i<FIELD_WIDTH_NUM;i++){
+				_dprintf(" %d",field->field[i][j]);				
+			}
+			_dprintf("\n","");
+		}
+		_dprintf("\n\n","");
 		//放された戦艦を可視にする
 		player->battleShip[hold.shipIndex].visible = 1;
 		//なにもつかんでいない
@@ -129,6 +128,7 @@ int getTouchObject(struct Touch* touch/*, struct Field* field*/, struct Player* 
 
 	// 範囲外のとき
 	if( (x < FIELD_X) || (y < FIELD_Y) || (x > FIELD_X + CELL_SIZE*FIELD_WIDTH_NUM) || (y > FIELD_Y + CELL_SIZE*FIELD_HEIGHT_NUM) ){
+		hold->obj = NONE_OBJ;
 		return -1;
 	}
 
@@ -141,12 +141,15 @@ int getTouchObject(struct Touch* touch/*, struct Field* field*/, struct Player* 
 	ship_index = getBattleShip(player, i, j);
 
 	//戦艦がいないとき
-	if(ship_index == -1)
+	if(ship_index == -1){
+		hold->obj = NONE_OBJ;
 		return -1;
+	}
 
 	hold->d_i = i - player->battleShip[ship_index].i;
 	hold->d_j = j - player->battleShip[ship_index].j;
 	hold->battleShip = player->battleShip + ship_index;
+	hold->obj = BATTLESHIP_OBJ;
 	
 	return ship_index;
 }
@@ -186,10 +189,15 @@ int placeable(struct Touch* touch, struct Field* field, struct HoldingObject* ho
 	touch_i = (touch_i - FIELD_X)/CELL_SIZE;
 	touch_j = (touch_j - FIELD_Y)/CELL_SIZE;
 
+	//放した位置がフィールド内かどうかを調べる
+	if(touch_i-hold->d_i < 0 || touch_i-hold->d_i+wid > FIELD_WIDTH_NUM
+		|| touch_j-hold->d_j < 0 || touch_j-hold->d_j+len > FIELD_HEIGHT_NUM)
+		return -1;
+
 	//放した位置にすでに戦艦がいるかどうかを調べる
-	for(w=touch_i;w<touch_i+wid;w++){
-		for(h=touch_j;h<touch_j+len;h++){
-			if(field->field[w][h] == BATTLESHIP_OBJ)
+	for(w=touch_i-hold->d_i;w<touch_i-hold->d_i+wid;w++){
+		for(h=touch_j-hold->d_j;h<touch_j-hold->d_j+len;h++){
+			if(field->virtualField[w][h] == BATTLESHIP_OBJ)
 				return -1;
 		}
 	}
@@ -222,8 +230,8 @@ void updateField(struct Touch* touch, struct Field* field, struct HoldingObject*
 	}
 
 	//戦艦の追加
-	for(w=touch_i;w<touch_i+wid;w++){
-		for(h=touch_j;h<touch_j+len;h++){
+	for(w=touch_i-hold->d_i;w<touch_i-hold->d_i+wid;w++){
+		for(h=touch_j-hold->d_j;h<touch_j-hold->d_j+len;h++){
 			field->field[w][h] = BATTLESHIP_OBJ;
 		}
 	}
@@ -255,8 +263,8 @@ void updateVirtualField(struct Touch* touch, struct Field* field, struct Holding
 	}
 
 	//戦艦の追加
-	for(w=touch_i;w<touch_i+wid;w++){
-		for(h=touch_j;h<touch_j+len;h++){
+	for(w=touch_i-hold->d_i;w<touch_i-hold->d_i+wid;w++){
+		for(h=touch_j-hold->d_j;h<touch_j-hold->d_j+len;h++){
 			field->virtualField[w][h] = NONE_OBJ;
 		}
 	}
