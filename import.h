@@ -27,6 +27,7 @@ extern "C" {
 #define CELL_SIZE 50
 #define FIELD_X 150
 #define FIELD_Y 100
+#define PLAYER_NUM 2
 
 
 

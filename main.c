@@ -51,31 +51,34 @@ void  main( void )  {
 	//int key_state[KEY_NUM];
 
 	//フィールド
-	struct Field field;
+	struct Field field[PLAYER_NUM];
 
 	//戦艦
 	//struct BattleShip battleShip[5];
 
 	//プレイヤー
-	struct Player player;
+	struct Player player[PLAYER_NUM];
 
 	//タッチ
-	struct Touch touch;
+	struct Touch touch[PLAYER_NUM];
 
 	//初期化
-	initTouch(&touch);
-	initPlayer(&player);
-	initField(&field);
+	for(i=0;i<PLAYER_NUM;i++){
+		initTouch(&touch[i]);
+		initPlayer(&player[i]);
+		initField(&field[i]);	
+	}
+	
 
 	//フィールドに初期値をいれる
 	{
 		int i,j,k;
 		int ship_i,ship_j,w,l;
 		for(i=0;i<5;i++){
-			getBattleShipPosition(&player.battleShip[i], &ship_i, &ship_j, &w, &l);
+			getBattleShipPosition(&player[0].battleShip[i], &ship_i, &ship_j, &w, &l);
 			for(j=ship_i;j<ship_i+w;j++){
 				for(k=ship_j;k<ship_j+l;k++){
-					field.field[j][k] = 1;
+					field[0].field[j][k] = 1;
 				}
 			}
 		}
@@ -91,12 +94,12 @@ void  main( void )  {
 	while( 1 ) {
 
 		//タッチの取得
-		getTouch(&touch);
+		getTouch(&touch[0]);
 
 		switch(gameMode){
 			case MODE_SET:
-				runSet(&touch, &field, &player);
-				drawSet(&DBuf, &field, &player);
+				runSet(&touch[0], &field[0], &player[0]);
+				drawSet(&DBuf, &field[0], &player[0]);
 				break;
 			case MODE_BATTLE:
 				runBattle();
@@ -114,7 +117,7 @@ void  main( void )  {
 		//数字の描画
 		//drawNumberGraph(holdingIndex, 100,100,50,90,10,&DBuf);
 		
-		drawNumberGraph(touch.count + 1, 100,200,50,90,10,&DBuf);
+		drawNumberGraph(touch[0].count + 1, 100,200,50,90,10,&DBuf);
 	
 		//_dprintf("%d ", holdingIndex);
 			
