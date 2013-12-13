@@ -10,6 +10,9 @@
 extern "C" {
 #endif
 
+extern struct Field field[PLAYER_NUM];
+extern struct Player player[PLAYER_NUM];
+
 enum GameMode{
 	MODE_SET, MODE_BATTLE, MODE_NUM
 };
@@ -32,7 +35,7 @@ struct HoldingObject{
 void initGame();
 void runSet(struct Touch* touch, struct Field* field, struct Player* player);
 void runBattle();
-void drawSet(AGDrawBuffer* DBuf, struct Field* field, struct Player* player);
+void drawSet(AGDrawBuffer* DBuf, struct Player* player);
 void drawBattle(AGDrawBuffer* DBuf);
 
 // タッチしたオブジェクトの種類を取得
@@ -40,12 +43,6 @@ int _getTouchObject(struct Touch* touch/*, struct Field* field*/, struct Player*
 
 // リリースした場所を取得
 int getReleaseObject(int* i, int* j, struct Touch* touch, struct Field* field, struct Player* player);
-
-//フィールド情報の更新
-void updateField(struct Touch* touch, struct Field* field, struct HoldingObject* hold);
-
-//バーチャルフィールド情報の更新
-void updateVirtualField(struct Touch* touch, struct Field* field, struct HoldingObject* hold);
 
 // リリースする位置に戦艦を配置できるかどうか
 int placeable(struct Touch* touch, struct Field* field, struct HoldingObject* hold);

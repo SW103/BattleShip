@@ -28,6 +28,8 @@ extern "C" {
 #define FIELD_X 150
 #define FIELD_Y 100
 
+#define PLAYER_NUM 2
+
 
 
 #ifdef __cplusplus
