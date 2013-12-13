@@ -22,25 +22,6 @@ void runSet(struct Touch* touch, struct Field* field, struct Player* player)
 			player->battleShip[index].visible = 0;
 			//戦艦をつかむ
 			hold.shipIndex = index;
-			//バーチャルフィールドの更新
-			updateVirtualField(touch, field, &hold);
-
-			_dprintf("Field \n","");
-			for(j=0;j<FIELD_HEIGHT_NUM;j++){
-				for(i=0;i<FIELD_WIDTH_NUM;i++){
-					_dprintf(" %d",field->field[i][j]);				
-				}
-				_dprintf("\n","");
-			}
-			_dprintf("\nVirtual \n","");
-			for(j=0;j<FIELD_HEIGHT_NUM;j++){
-				for(i=0;i<FIELD_WIDTH_NUM;i++){
-					_dprintf(" %d",field->virtualField[i][j]);				
-				}
-				_dprintf("\n","");
-			}
-			_dprintf("\n\n","");
-
 		}
 
 	}else if(touch->count == -1 && hold.obj != NONE_OBJ){
@@ -51,18 +32,7 @@ void runSet(struct Touch* touch, struct Field* field, struct Player* player)
 			//放された戦艦の位置を変更する
 			player->battleShip[hold.shipIndex].i = i - hold.d_i;
 			player->battleShip[hold.shipIndex].j = j - hold.d_j;
-
-			//フィールドの更新
-			updateField(touch, field, &hold);	
 		}
-		_dprintf("\nAfter Release Field \n","");
-		for(j=0;j<FIELD_HEIGHT_NUM;j++){
-			for(i=0;i<FIELD_WIDTH_NUM;i++){
-				_dprintf(" %d",field->field[i][j]);				
-			}
-			_dprintf("\n","");
-		}
-		_dprintf("\n\n","");
 		//放された戦艦を可視にする
 		player->battleShip[hold.shipIndex].visible = 1;
 		//なにもつかんでいない
@@ -194,79 +164,5 @@ int placeable(struct Touch* touch, struct Field* field, struct HoldingObject* ho
 		|| touch_j-hold->d_j < 0 || touch_j-hold->d_j+len > FIELD_HEIGHT_NUM)
 		return -1;
 
-	//放した位置にすでに戦艦がいるかどうかを調べる
-	for(w=touch_i-hold->d_i;w<touch_i-hold->d_i+wid;w++){
-		for(h=touch_j-hold->d_j;h<touch_j-hold->d_j+len;h++){
-			if(field->virtualField[w][h] == BATTLESHIP_OBJ)
-				return -1;
-		}
-	}
 	return 1;
 }
-
-
-//フィールド情報の更新
-void updateField(struct Touch* touch, struct Field* field, struct HoldingObject* hold)
-{
-	int w,h;
-
-	int i, j, wid, len;
-
-	int touch_i = touch->x;
-	int touch_j = touch->y;
-
-	// タッチされた場所
-	touch_i = (touch_i - FIELD_X)/CELL_SIZE;
-	touch_j = (touch_j - FIELD_Y)/CELL_SIZE;
-
-	//バトルシップの位置を取得
-	getBattleShipPosition(hold->battleShip, &i, &j, &wid, &len);
-
-	//フィールド情報をバーチャルフィールドからコピー
-	for(w=0;w<FIELD_WIDTH_NUM;w++){
-		for(h=0;h<FIELD_HEIGHT_NUM;h++){
-			field->field[w][h] = field->virtualField[w][h];
-		}
-	}
-
-	//戦艦の追加
-	for(w=touch_i-hold->d_i;w<touch_i-hold->d_i+wid;w++){
-		for(h=touch_j-hold->d_j;h<touch_j-hold->d_j+len;h++){
-			field->field[w][h] = BATTLESHIP_OBJ;
-		}
-	}
-
-}
-
-//バーチャルフィールド情報の更新
-void updateVirtualField(struct Touch* touch, struct Field* field, struct HoldingObject* hold)
-{
-	int w,h;
-
-	int i, j, wid, len;
-
-	int touch_i = touch->x;
-	int touch_j = touch->y;
-
-	// タッチされた場所
-	touch_i = (touch_i - FIELD_X)/CELL_SIZE;
-	touch_j = (touch_j - FIELD_Y)/CELL_SIZE;
-
-	//バトルシップの位置を取得
-	getBattleShipPosition(hold->battleShip, &i, &j, &wid, &len);
-
-	//バーチャルフィールド情報をフィールドからコピー
-	for(w=0;w<FIELD_HEIGHT_NUM;w++){
-		for(h=0;h<FIELD_WIDTH_NUM;h++){
-			field->virtualField[w][h] = field->field[w][h];
-		}
-	}
-
-	//戦艦の追加
-	for(w=touch_i-hold->d_i;w<touch_i-hold->d_i+wid;w++){
-		for(h=touch_j-hold->d_j;h<touch_j-hold->d_j+len;h++){
-			field->virtualField[w][h] = NONE_OBJ;
-		}
-	}
-}
-

@@ -41,12 +41,6 @@ int _getTouchObject(struct Touch* touch/*, struct Field* field*/, struct Player*
 // リリースした場所を取得
 int getReleaseObject(int* i, int* j, struct Touch* touch, struct Field* field, struct Player* player);
 
-//フィールド情報の更新
-void updateField(struct Touch* touch, struct Field* field, struct HoldingObject* hold);
-
-//バーチャルフィールド情報の更新
-void updateVirtualField(struct Touch* touch, struct Field* field, struct HoldingObject* hold);
-
 // リリースする位置に戦艦を配置できるかどうか
 int placeable(struct Touch* touch, struct Field* field, struct HoldingObject* hold);
 
