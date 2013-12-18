@@ -56,6 +56,7 @@ void getBattleShipPosition(struct BattleShip* battleShip, int* i, int* j, int* w
 		case RIGHT:
 			*i = battleShip->i - (battleShip->len - 1);
 			*j = battleShip->j - (battleShip->wid - 1);
+			//*j = battleShip->j;
 			*w = battleShip->len;
 			*l = battleShip->wid;
 			break;

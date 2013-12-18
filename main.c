@@ -68,7 +68,8 @@ void  main( void )  {
 		initPlayer(&player[i]);
 		initField(&field[i]);	
 	}
-	
+	//holdのバトルシップに初期値を入れている
+	initGame(&player[0]);
 
 	//フィールドに初期値をいれる
 	{

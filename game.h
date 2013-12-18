@@ -29,7 +29,7 @@ struct HoldingObject{
 /*                       関数の宣言                             */
 /***************************************************************/
 
-void initGame();
+void initGame(struct Player* player);
 void runSet(struct Touch* touch, struct Field* field, struct Player* player);
 void runBattle();
 void drawSet(AGDrawBuffer* DBuf, struct Field* field, struct Player* player);
@@ -43,6 +43,11 @@ int getReleaseObject(int* i, int* j, struct Touch* touch, struct Field* field, s
 
 // リリースする位置に戦艦を配置できるかどうか
 int placeable(struct Touch* touch, struct Field* field, struct HoldingObject* hold);
+
+//回転ボタンが押されたかどうか
+int isPushedRotation(struct Touch* touch);
+//最後にリリースされた戦艦の回転処理
+int rotationBattleShip(struct HoldingObject* hold);
 
 #ifdef __cplusplus
 }
