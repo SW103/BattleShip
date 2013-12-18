@@ -25,7 +25,7 @@ struct Rect{
 void drawNumberGraph(int number ,int x, int y, int size_x, int size_y , int order ,AGDrawBuffer* DBuf) {
 	int i, n;
 	int draw_x;
-	int id[10] = {AG_CG_NUM_0,AG_CG_NUM_1,AG_CG_NUM_2,AG_CG_NUM_3,AG_CG_NUM_4,AG_CG_NUM_5,AG_CG_NUM_6,AG_CG_NUM_7,AG_CG_NUM_8,AG_CG_NUM_9};
+	int id[10] = {AG_CG_NUM_0_0,AG_CG_NUM_1_0,AG_CG_NUM_2_0,AG_CG_NUM_3_0,AG_CG_NUM_4_0,AG_CG_NUM_5_0,AG_CG_NUM_6_0,AG_CG_NUM_7_0,AG_CG_NUM_8_0,AG_CG_NUM_9_0};
 	draw_x = x + (order-1)*size_x;
 
 	for(i=0;i<order;i++) {
@@ -111,10 +111,11 @@ void  main( void )  {
 		}
 
 	
-		//数字を描画する場所の白い四角
-		//agDrawSETFCOLOR( &DBuf, ARGB( 255, 255, 255, 255 ) );
-		//agDrawSETDBMODE( &DBuf, 0xff, 0, 0, 1 );
-		//agDrawSPRITE( &DBuf, 0, 100-20, 100-20, 100+50*10+20, 100+90+20);
+		//回転ボタン
+		agDrawSETFCOLOR( &DBuf, ARGB( 255, 255, 0, 0 ) );
+		ageTransferAAC( &DBuf, AG_CG_KAITEN, 0, NULL, NULL );
+		agDrawSETDBMODE( &DBuf, 0xff, 0, 2, 1 );
+		agDrawSPRITE( &DBuf, 1, s(300), s(600), s(300 + 200), s(600+100));
 		//数字の描画
 		//drawNumberGraph(holdingIndex, 100,100,50,90,10,&DBuf);
 		

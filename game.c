@@ -242,10 +242,10 @@ int isPushedRotation(struct Touch* touch)
 {
 	int x = touch->x;
 	int y = touch->y;
-	int b_x1 = 0;
-	int b_y1 = 0;
-	int b_x2 = 150;
-	int b_y2 = 100;
+	int b_x1 = 300;
+	int b_y1 = 300+200;
+	int b_x2 = 600;
+	int b_y2 = 600+100;
 
 	if( x>=b_x1 && x<b_x2 && y>=b_y1 && y<b_y2 && touch->count == 1)
 		return 1;

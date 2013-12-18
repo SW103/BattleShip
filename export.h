@@ -4,7 +4,6 @@
 #include <agexport.h>
 #include <ag3d.h>
 
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -28,21 +27,22 @@ extern "C" {
 /***************************************************************/
 /*                    Rom Member Symbol                        */
 /***************************************************************/
-#define AG_CG_FIELD	(0)
-#define AG_CG_NUM_0	(1)
-#define AG_CG_NUM_1	(2)
-#define AG_CG_NUM_2	(3)
-#define AG_CG_NUM_3	(4)
-#define AG_CG_NUM_4	(5)
-#define AG_CG_NUM_5	(6)
-#define AG_CG_NUM_6	(7)
-#define AG_CG_NUM_7	(8)
-#define AG_CG_NUM_8	(9)
-#define AG_CG_NUM_9	(10)
-#define AG_CG_SENKAN_DOWN	(11)
-#define AG_CG_SENKAN_LEFT	(12)
-#define AG_CG_SENKAN_RIGHT	(13)
-#define AG_CG_SENKAN_UP	(14)
+#define AG_CG_KAITEN	(0)
+#define AG_CG_NUM_0_0	(1)
+#define AG_CG_NUM_1_0	(2)
+#define AG_CG_NUM_2_0	(3)
+#define AG_CG_NUM_3_0	(4)
+#define AG_CG_NUM_4_0	(5)
+#define AG_CG_NUM_5_0	(6)
+#define AG_CG_NUM_6_0	(7)
+#define AG_CG_NUM_7_0	(8)
+#define AG_CG_NUM_8_0	(9)
+#define AG_CG_NUM_9_0	(10)
+#define AG_CG_FIELD	(11)
+#define AG_CG_SENKAN_DOWN	(12)
+#define AG_CG_SENKAN_LEFT	(13)
+#define AG_CG_SENKAN_RIGHT	(14)
+#define AG_CG_SENKAN_UP	(15)
 
 /***************************************************************/
 /*                     RM3 Member Symbol                       */
@@ -55,7 +55,7 @@ extern "C" {
 /***************************************************************/
 /*                          Data Member                        */
 /***************************************************************/
-extern const AGERomMember ageRM[15];
+extern const AGERomMember ageRM[16];
 extern const AGERM3Member ageRM3[1];
 extern const u32 ageReserve[1];
 extern const u32 ageUser[1];
