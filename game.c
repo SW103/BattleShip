@@ -23,6 +23,11 @@ void runSet(struct Touch* touch, struct Field* field, struct Player* player)
 			player->battleShip[index].visible = 0;
 			//戦艦をつかむ
 			hold.shipIndex = index;
+			_dprintf("h_dir:%d\n",player->battleShip[hold.shipIndex].dir);
+			_dprintf("h_i:%d\n",player->battleShip[hold.shipIndex].i);
+			_dprintf("h_j:%d\n",player->battleShip[hold.shipIndex].j);
+			_dprintf("h_wid:%d\n",player->battleShip[hold.shipIndex].wid);
+			_dprintf("h_len:%d\n\n",player->battleShip[hold.shipIndex].len);
 		}
 
 	}else if(touch->count == -1 && hold.obj != NONE_OBJ){
@@ -36,6 +41,11 @@ void runSet(struct Touch* touch, struct Field* field, struct Player* player)
 			//放された戦艦の位置を変更する
 			//player->battleShip[hold.shipIndex].i = i - hold.d_i;
 			//player->battleShip[hold.shipIndex].j = j - hold.d_j;
+			_dprintf("r_dir:%d\n",player->battleShip[hold.shipIndex].dir);
+			_dprintf("r_i:%d\n",player->battleShip[hold.shipIndex].i);
+			_dprintf("r_j:%d\n",player->battleShip[hold.shipIndex].j);
+			_dprintf("r_wid:%d\n",player->battleShip[hold.shipIndex].wid);
+			_dprintf("r_len:%d\n\n",player->battleShip[hold.shipIndex].len);
 			player->battleShip[hold.shipIndex].i = i + hold.d_i;
 			player->battleShip[hold.shipIndex].j = j + hold.d_j;
 		}
@@ -245,8 +255,8 @@ int isPushedRotation(struct Touch* touch)
 	int x = touch->x;
 	int y = touch->y;
 	int b_x1 = 300;
-	int b_y1 = 300+200;
-	int b_x2 = 600;
+	int b_y1 = 600;
+	int b_x2 = 300+200;
 	int b_y2 = 600+100;
 
 	if( x>=b_x1 && x<b_x2 && y>=b_y1 && y<b_y2 && touch->count == 1)
