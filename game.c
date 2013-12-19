@@ -34,8 +34,10 @@ void runSet(struct Touch* touch, struct Field* field, struct Player* player)
 		if( index == 1 && placeable(touch, field, &hold) == 1 ){ // 盤上でリリースしたとき
 			_dprintf("move!\n");
 			//放された戦艦の位置を変更する
-			player->battleShip[hold.shipIndex].i = i - hold.d_i;
-			player->battleShip[hold.shipIndex].j = j - hold.d_j;
+			//player->battleShip[hold.shipIndex].i = i - hold.d_i;
+			//player->battleShip[hold.shipIndex].j = j - hold.d_j;
+			player->battleShip[hold.shipIndex].i = i + hold.d_i;
+			player->battleShip[hold.shipIndex].j = j + hold.d_j;
 		}
 		//放された戦艦を可視にする
 		player->battleShip[hold.shipIndex].visible = 1;
