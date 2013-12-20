@@ -51,6 +51,7 @@ struct BattleShip{
 
 void initBattleShip();
 void drawBattleShip(AGDrawBuffer* DBuf, struct BattleShip* battleShip);
+void drawSkeltonBattleShip(AGDrawBuffer* DBuf, struct BattleShip* battleShip, int touch_x, int touch_y, int d_i, int d_j);
 
 void getBattleShipPosition(struct BattleShip* battleShip, int* i, int* j, int* w, int* l);
 int isThereBattleShip(struct BattleShip* battleShip, int field_i, int field_j);

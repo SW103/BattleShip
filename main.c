@@ -100,7 +100,7 @@ void  main( void )  {
 		switch(gameMode){
 			case MODE_SET:
 				runSet(&touch[0], &field[0], &player[0]);
-				drawSet(&DBuf, &field[0], &player[0]);
+				drawSet(&DBuf, &field[0], &player[0], &touch[0]);
 				break;
 			case MODE_BATTLE:
 				runBattle();

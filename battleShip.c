@@ -6,6 +6,34 @@ void initBattleShip()
 }
 
 
+void drawSkeltonBattleShip(AGDrawBuffer* DBuf, struct BattleShip* battleShip, int i, int j, int d_i, int d_j)
+{
+	//戦艦画像の配列
+	u16 battleShipGraph[DIR_NUM] = {AG_CG_SENKAN_SKELTON_LEFT,AG_CG_SENKAN_SKELTON_UP,AG_CG_SENKAN_SKELTON_RIGHT,AG_CG_SENKAN_SKELTON_DOWN};
+
+	agDrawSETFCOLOR( DBuf, ARGB( 255, 255, 0, 0 ) );
+	ageTransferAAC( DBuf, battleShipGraph[battleShip->dir], 0, NULL, NULL );
+	agDrawSETDBMODE( DBuf, 0xff, 0, 2, 1 );
+	switch(battleShip->dir){
+		case LEFT:
+			agDrawSPRITE( DBuf, 1, s(FIELD_X + (i+d_i)*CELL_SIZE), s(FIELD_Y + (j+d_j)*CELL_SIZE),
+				s(FIELD_X + ((i+d_i) + battleShip->len)*CELL_SIZE), s(FIELD_Y + ((j+d_j) + battleShip->wid)*CELL_SIZE));
+			break;
+		case UP:
+			agDrawSPRITE( DBuf, 1, s(FIELD_X + (i+d_i)*CELL_SIZE), s(FIELD_Y + (j+d_j)*CELL_SIZE),
+				s(FIELD_X + ((i+d_i) + battleShip->wid)*CELL_SIZE), s(FIELD_Y + ((j+d_j) + battleShip->len)*CELL_SIZE));
+			break;
+		case RIGHT:
+			agDrawSPRITE( DBuf, 1, s(FIELD_X + ((i+d_i) - battleShip->len + 1)*CELL_SIZE), s(FIELD_Y + (j+d_j)*CELL_SIZE),
+				s(FIELD_X + ((i+d_i) + 1)*CELL_SIZE), s(FIELD_Y + ((j+d_j) + battleShip->wid)*CELL_SIZE));
+			break;
+		case DOWN:
+			agDrawSPRITE( DBuf, 1, s(FIELD_X + (i+d_i)*CELL_SIZE), s(FIELD_Y + ((j+d_j) - battleShip->len + 1 )*CELL_SIZE),
+				s(FIELD_X + ((i+d_i) + battleShip->wid)*CELL_SIZE), s(FIELD_Y + ((j+d_j) + 1)*CELL_SIZE));
+			break;
+	}
+}
+
 void drawBattleShip(AGDrawBuffer* DBuf, struct BattleShip* battleShip)
 {
 	//戦艦画像の配列

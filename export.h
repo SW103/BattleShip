@@ -43,6 +43,10 @@ extern "C" {
 #define AG_CG_SENKAN_LEFT	(13)
 #define AG_CG_SENKAN_RIGHT	(14)
 #define AG_CG_SENKAN_UP	(15)
+#define AG_CG_SENKAN_SKELTON_DOWN	(16)
+#define AG_CG_SENKAN_SKELTON_LEFT	(17)
+#define AG_CG_SENKAN_SKELTON_RIGHT	(18)
+#define AG_CG_SENKAN_SKELTON_UP	(19)
 
 /***************************************************************/
 /*                     RM3 Member Symbol                       */
@@ -55,7 +59,7 @@ extern "C" {
 /***************************************************************/
 /*                          Data Member                        */
 /***************************************************************/
-extern const AGERomMember ageRM[16];
+extern const AGERomMember ageRM[20];
 extern const AGERM3Member ageRM3[1];
 extern const u32 ageReserve[1];
 extern const u32 ageUser[1];

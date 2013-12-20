@@ -23,13 +23,19 @@ void runSet(struct Touch* touch, struct Field* field, struct Player* player)
 			player->battleShip[index].visible = 0;
 			//戦艦をつかむ
 			hold.shipIndex = index;
+			//ホールディングフラグを立てる
+			hold.isHolding = 1;
+			/*
 			_dprintf("h_dir:%d\n",player->battleShip[hold.shipIndex].dir);
 			_dprintf("h_i:%d\n",player->battleShip[hold.shipIndex].i);
 			_dprintf("h_j:%d\n",player->battleShip[hold.shipIndex].j);
 			_dprintf("h_wid:%d\n",player->battleShip[hold.shipIndex].wid);
 			_dprintf("h_len:%d\n\n",player->battleShip[hold.shipIndex].len);
+			*/
+		}else{
+			//ホールディングフラグを下げる
+			hold.isHolding = 0;	
 		}
-
 	}else if(touch->count == -1 && hold.obj != NONE_OBJ){
 		_dprintf("release!\n");
 		index = getReleaseObject(&i, &j, touch, field, player);
@@ -41,11 +47,13 @@ void runSet(struct Touch* touch, struct Field* field, struct Player* player)
 			//放された戦艦の位置を変更する
 			//player->battleShip[hold.shipIndex].i = i - hold.d_i;
 			//player->battleShip[hold.shipIndex].j = j - hold.d_j;
+			/*
 			_dprintf("r_dir:%d\n",player->battleShip[hold.shipIndex].dir);
 			_dprintf("r_i:%d\n",player->battleShip[hold.shipIndex].i);
 			_dprintf("r_j:%d\n",player->battleShip[hold.shipIndex].j);
 			_dprintf("r_wid:%d\n",player->battleShip[hold.shipIndex].wid);
 			_dprintf("r_len:%d\n\n",player->battleShip[hold.shipIndex].len);
+			*/
 			player->battleShip[hold.shipIndex].i = i + hold.d_i;
 			player->battleShip[hold.shipIndex].j = j + hold.d_j;
 		}
@@ -53,6 +61,8 @@ void runSet(struct Touch* touch, struct Field* field, struct Player* player)
 		player->battleShip[hold.shipIndex].visible = 1;
 		//なにもつかんでいない
 		hold.shipIndex = -1;
+		//ホールディングフラグを下げる
+		hold.isHolding = 0;
 	}
 
 	//回転ボタン
@@ -68,7 +78,7 @@ void runBattle()
 }
 
 
-void drawSet(AGDrawBuffer* DBuf, struct Field* field, struct Player* player)
+void drawSet(AGDrawBuffer* DBuf, struct Field* field, struct Player* player, struct Touch* touch)
 {
 	int i;
 
@@ -88,6 +98,24 @@ void drawSet(AGDrawBuffer* DBuf, struct Field* field, struct Player* player)
 	//戦艦
 	for(i=0;i<5;i++){
 		drawBattleShip(DBuf, &(player->battleShip[i]));
+	}
+
+	if(hold.isHolding == 1){
+		_dprintf("Skelton!\n");
+		{
+			int x = touch->x;
+			int y = touch->y;
+			_dprintf("x:%d\n",x);
+			_dprintf("y:%d\n\n",y);
+			// 範囲内のとき
+			if( (x >= FIELD_X) && (y >= FIELD_Y) && (x <= FIELD_X + CELL_SIZE*FIELD_WIDTH_NUM) && (y <= FIELD_Y + CELL_SIZE*FIELD_HEIGHT_NUM) ){
+				_dprintf("Skelton2!\n\n");
+				x = (x - FIELD_X)/CELL_SIZE;
+				y = (y - FIELD_Y)/CELL_SIZE;
+				//ホールディング戦艦
+				drawSkeltonBattleShip(DBuf, hold.battleShip, x, y, hold.d_i, hold.d_j);
+			}
+		}	
 	}
 	
 

@@ -18,6 +18,7 @@ enum GameMode{
 /*                   Holding Object                            */
 /***************************************************************/
 struct HoldingObject{
+	int isHolding;			//ホールディングしていた1 していなかったら0
 	enum FieldObject obj;	//オブジェクトの種類
 	int shipIndex;			//戦艦の番号
 	int d_i,d_j;			//戦艦の先頭からの相対位置
@@ -32,7 +33,7 @@ struct HoldingObject{
 void initGame(struct Player* player);
 void runSet(struct Touch* touch, struct Field* field, struct Player* player);
 void runBattle();
-void drawSet(AGDrawBuffer* DBuf, struct Field* field, struct Player* player);
+void drawSet(AGDrawBuffer* DBuf, struct Field* field, struct Player* player, struct Touch* touch);
 void drawBattle(AGDrawBuffer* DBuf);
 
 // タッチしたオブジェクトの種類を取得

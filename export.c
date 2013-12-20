@@ -21,6 +21,10 @@ const AGERomMember ageRM[] = {
 	{       2944,          0,  250,   50,  128,  8,       1408, NULL },		/* AG_CG_SENKAN_LEFT */
 	{       3120,          0,  250,   50,  128,  8,       1376, NULL },		/* AG_CG_SENKAN_RIGHT */
 	{       3292,          0,   50,  250,   32,  8,       1344, NULL },		/* AG_CG_SENKAN_UP */
+	{       3460,          0,   50,  250,   32,  8,       1344, NULL },		/* AG_CG_SENKAN_SKELTON_DOWN */
+	{       3628,          0,  250,   50,  128,  8,       1376, NULL },		/* AG_CG_SENKAN_SKELTON_LEFT */
+	{       3800,          0,  250,   50,  128,  8,       1344, NULL },		/* AG_CG_SENKAN_SKELTON_RIGHT */
+	{       3968,          0,   50,  250,   32,  8,       1376, NULL },		/* AG_CG_SENKAN_SKELTON_UP */
 };
 
 /***************************************************************/
