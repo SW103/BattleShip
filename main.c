@@ -7,7 +7,7 @@
 #include <vdpreg.h>
 #include <stdlib.h>
 */
-//#include "import.h"
+#include "import.h"
 #include "export.h"
 #include "battleShip.h"
 #include "field.h"
@@ -39,10 +39,13 @@ void drawNumberGraph(int number ,int x, int y, int size_x, int size_y , int orde
 	}
 }
 
+static volatile u32 _SystemVSyncCount=0;
+
 void  main( void )  {
 	AGDrawBuffer DBuf;
 
 	int i;
+	int MyID;
 
 	//ゲームのモード変数
 	enum GameMode gameMode = MODE_BATTLE;
@@ -67,15 +70,16 @@ void  main( void )  {
 	agpEnableCpuInterrupts();
 
 	//タッチの初期化
-	agTouchInit(1024<<2,768<<2);
+    agPDevSyncInit( 1024<<2,768<<2,&_SystemVSyncCount,60 );
 
 	//
 	initTouch(&touch);
 	initField(&field);
 	initPlayer(&player);
+	MyID=agPDevSyncGetMyID();
+	_dprintf("%d",MyID);
 
 	while( 1 ) {
-
 		//タッチの取得
 		getTouch(&touch);
 		switch(gameMode){
@@ -98,9 +102,7 @@ void  main( void )  {
 		//数字の描画
 		//drawNumberGraph(holdingIndex, 100,100,50,90,10,&DBuf);
 		
-		drawNumberGraph((int)field.field[9][0], 100,200,50,90,10,&DBuf);
-	
-
+		drawNumberGraph(MyID, 100,200,50,90,10,&DBuf);
 			
 		agDrawEODL( &DBuf );
 		agTransferDrawDMA( &DBuf );

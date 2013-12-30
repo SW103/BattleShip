@@ -16,6 +16,7 @@ extern "C" {
 #include <vdpreg.h>
 #include <stdlib.h>
 #include <agtouch.h>
+#include <agPDevSync.h>
 
 /***************************************************************/
 /*                       define                                */
