@@ -83,7 +83,7 @@ void  main( void )  {
 	struct Player player;
 
 	//タッチ
-	struct Touch touch;
+	struct Touch touch[2];
 
 #ifdef __DSP_3_BUFF__
     static u8 uFBINDEX[3]={
@@ -114,7 +114,7 @@ void  main( void )  {
 #endif
 
 
-    agPDevSyncInit( 1024<<2, 768<<2, &_SystemVSyncCount, 60);	
+    agPDevSyncInit( FB_WIDTH, FB_HEIGHT, &_SystemVSyncCount, 60);
 
 	//タッチの初期化
 
@@ -124,9 +124,11 @@ void  main( void )  {
 	initPlayer(&player);
 	_dprintf("Start\n");
 	MyID=(int)agPDevSyncGetMyID();
-	_dprintf("%d",MyID);
+	//_dprintf("%d",MyID);
 
 	while( 1 ) {
+        agPDevSyncWait();
+
 		//タッチの取得
 		getTouch(&touch);
 		switch(gameMode){
@@ -135,8 +137,13 @@ void  main( void )  {
 				drawSet(&DBuf, &field, &player);
 				break;
 			case MODE_BATTLE:
-				runBattle(&touch, &field, &player);
-				drawBattle(&DBuf, &field, &player);
+				if(MyID == 0){
+					runBattle(&touch[0], &field, &player);
+					drawBattle(&DBuf, &field, &player);
+				}else{
+					runBattle(&touch[0], &field, &player);
+					drawBattle(&DBuf, &field, &player);					
+				}
 				break;
 			default:
 				break;
@@ -148,13 +155,7 @@ void  main( void )  {
 		//agDrawSPRITE( &DBuf, 0, 100-20, 100-20, 100+50*10+20, 100+90+20);
 		//数字の描画
 		//drawNumberGraph(holdingIndex, 100,100,50,90,10,&DBuf);
-		
 
-		if(0 == MyID){
-			i=1;
-		}else{
-			i=0;
-		}
 		drawNumberGraph(i, 100,200,50,90,10,&DBuf);
 			
 		agDrawEODL( &DBuf );

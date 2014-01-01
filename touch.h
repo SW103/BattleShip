@@ -8,9 +8,10 @@ extern "C" {
 #endif
 
 struct Touch{
-	//タッチ座標
-	int x, y;
 
+	s32 x;
+	s32 y;
+	u32 stat;
 	// タッチされてないとき 	0
 	// タッチされた瞬間 		1
 	// タッチが放された瞬間 	-1

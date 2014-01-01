@@ -91,7 +91,6 @@ void runBattle(struct Touch* touch, struct Field* field, struct Player* player)
 		&& (touch->y >= ATTACK_BUTTON_Y) 
 		&& (touch->y < ATTACK_BUTTON_Y+ATTACK_BUTTON_H) ){
 		if(field->selected!=-1){
-			_dprintf("%d ", field->selected);
 			index = getBattleShip(player, field->selected%10, field->selected/10, &hold );
 			if(index != -1){
 				field->field[field->selected/10][field->selected%10]=HIT;
