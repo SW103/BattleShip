@@ -10,7 +10,7 @@ void initGame(struct Player* player)
 	return;
 }
 
-void runSet(struct Touch* touch, struct Field* field, struct Player* player)
+int runSet(struct Touch* touch, struct Field* field, struct Player* player)
 {
 	int index = -1;
 	int i, j;
@@ -70,6 +70,18 @@ void runSet(struct Touch* touch, struct Field* field, struct Player* player)
 		_dprintf("Pushed!\n");
 		rotationBattleShip(&hold);
 	}
+
+	//スタートボタン
+	if(isPushedStart(touch)==1){
+		_dprintf("START Pushed!\n");
+		//重なっているとき
+		if(isOverlap(player)==1){
+			return 1;
+		}else{
+			return 2;
+		}
+	}
+	return 0;
 }
 
 void runBattle()
@@ -115,9 +127,21 @@ void drawSet(AGDrawBuffer* DBuf, struct Field* field, struct Player* player, str
 				//ホールディング戦艦
 				drawSkeltonBattleShip(DBuf, hold.battleShip, x, y, hold.d_i, hold.d_j);
 			}
-		}	
+		}
 	}
 	
+	//回転ボタン
+	agDrawSETFCOLOR( DBuf, ARGB( 255, 255, 0, 0 ) );
+	ageTransferAAC( DBuf, AG_CG_KAITEN, 0, NULL, NULL );
+	agDrawSETDBMODE( DBuf, 0xff, 0, 2, 1 );
+	agDrawSPRITE( DBuf, 1, s(300), s(600), s(300 + 200), s(600+100));
+
+	//スタートボタン
+	agDrawSETFCOLOR( DBuf, ARGB( 255, 255, 0, 0 ) );
+	ageTransferAAC( DBuf, AG_CG_START, 0, NULL, NULL );
+	agDrawSETDBMODE( DBuf, 0xff, 0, 2, 1 );
+	agDrawSPRITE( DBuf, 1, s(600), s(600), s(600 + 200), s(600+100));
+
 
 	/*
 	//数字を描画する場所の白い四角
@@ -313,4 +337,46 @@ int rotationBattleShip(struct HoldingObject* hold)
 		if(i>=0 && j>=0 && i+wid<=FIELD_WIDTH_NUM && j+len<=FIELD_HEIGHT_NUM)
 			break;
 	}
+}
+
+//スタートボタンが押されたかどうか
+int isPushedStart(struct Touch* touch)
+{
+	int x = touch->x;
+	int y = touch->y;
+	int b_x1 = 600;
+	int b_y1 = 600;
+	int b_x2 = 600+200;
+	int b_y2 = 600+100;
+
+	if( x>=b_x1 && x<b_x2 && y>=b_y1 && y<b_y2 && touch->count == 1)
+		return 1;
+	return 0;
+}
+
+//重なっている配置があるかどうか
+int isOverlap(struct Player* player)
+{
+	struct Field field;
+	int i, j, wid, len;
+	int k,w,l;
+
+	initField(&field);
+
+	for(k=0;k<5;k++){
+		//バトルシップの位置を取得
+		getBattleShipPosition(&player->battleShip[k], &i, &j, &wid, &len);
+		//フィールドにバトル湿布情報を格納
+		for(w=i;w<i+wid;w++){
+			for(l=j;l<j+len;l++){
+				//すでに戦艦がいた場合、重なっているので、1を返す
+				if(field.field[l][w] == 1){
+					return 1;
+				}
+				field.field[l][w] = 1;
+			}
+		}
+	}
+
+	return 0;
 }

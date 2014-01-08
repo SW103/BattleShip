@@ -42,7 +42,7 @@ void drawNumberGraph(int number ,int x, int y, int size_x, int size_y , int orde
 void  main( void )  {
 	AGDrawBuffer DBuf;
 
-	int i;
+	int i, result;
 
 	//ゲームのモード変数
 	enum GameMode gameMode = MODE_SET;
@@ -99,8 +99,35 @@ void  main( void )  {
 
 		switch(gameMode){
 			case MODE_SET:
-				runSet(&touch[0], &field[0], &player[0]);
+				result = runSet(&touch[0], &field[0], &player[0]);
 				drawSet(&DBuf, &field[0], &player[0], &touch[0]);
+				if(result==1){
+					gameMode = MODE_SET_OVERLAP;
+				}else if(result==2){
+					gameMode = MODE_SET_WAIT;
+				}
+				break;
+			case MODE_SET_OVERLAP:
+				drawSet(&DBuf, &field[0], &player[0], &touch[0]);
+				//戦艦が重なっています
+				agDrawSETFCOLOR( &DBuf, ARGB( 255, 255, 0, 0 ) );
+				ageTransferAAC( &DBuf, AG_CG_OVERLAP, 0, NULL, NULL );
+				agDrawSETDBMODE( &DBuf, 0xff, 0, 2, 1 );
+				agDrawSPRITE( &DBuf, 1, s(250), s(300), s(250 + 500), s(300+100));
+				if(touch->count==1){
+					gameMode = MODE_SET;
+				}
+				break;
+			case MODE_SET_WAIT:
+				drawSet(&DBuf, &field[0], &player[0], &touch[0]);
+				//待機しています
+				agDrawSETFCOLOR( &DBuf, ARGB( 255, 255, 0, 0 ) );
+				ageTransferAAC( &DBuf, AG_CG_WAIT, 0, NULL, NULL );
+				agDrawSETDBMODE( &DBuf, 0xff, 0, 2, 1 );
+				agDrawSPRITE( &DBuf, 1, s(250), s(300), s(250 + 500), s(300+100));
+				///////////////////////////
+				//条件を満たしたらMODE_BATTLEへ
+				///////////////////////////
 				break;
 			case MODE_BATTLE:
 				runBattle();
@@ -110,12 +137,6 @@ void  main( void )  {
 				break;
 		}
 
-	
-		//回転ボタン
-		agDrawSETFCOLOR( &DBuf, ARGB( 255, 255, 0, 0 ) );
-		ageTransferAAC( &DBuf, AG_CG_KAITEN, 0, NULL, NULL );
-		agDrawSETDBMODE( &DBuf, 0xff, 0, 2, 1 );
-		agDrawSPRITE( &DBuf, 1, s(300), s(600), s(300 + 200), s(600+100));
 		//数字の描画
 		//drawNumberGraph(holdingIndex, 100,100,50,90,10,&DBuf);
 		

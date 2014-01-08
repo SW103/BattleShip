@@ -25,6 +25,9 @@ const AGERomMember ageRM[] = {
 	{       3628,          0,  250,   50,  128,  8,       1376, NULL },		/* AG_CG_SENKAN_SKELTON_LEFT */
 	{       3800,          0,  250,   50,  128,  8,       1344, NULL },		/* AG_CG_SENKAN_SKELTON_RIGHT */
 	{       3968,          0,   50,  250,   32,  8,       1376, NULL },		/* AG_CG_SENKAN_SKELTON_UP */
+	{       4140,          0,  200,  100,  104,  8,       1312, NULL },		/* AG_CG_START */
+	{       4304,          0,  500,  100,  256,  8,       4352, NULL },		/* AG_CG_OVERLAP */
+	{       4848,          0,  500,  100,  256,  8,       2560, NULL },		/* AG_CG_WAIT */
 };
 
 /***************************************************************/

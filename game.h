@@ -11,7 +11,7 @@ extern "C" {
 #endif
 
 enum GameMode{
-	MODE_SET, MODE_BATTLE, MODE_NUM
+	MODE_SET, MODE_SET_OVERLAP, MODE_SET_WAIT, MODE_BATTLE, MODE_NUM
 };
 
 /***************************************************************/
@@ -31,7 +31,7 @@ struct HoldingObject{
 /***************************************************************/
 
 void initGame(struct Player* player);
-void runSet(struct Touch* touch, struct Field* field, struct Player* player);
+int runSet(struct Touch* touch, struct Field* field, struct Player* player);
 void runBattle();
 void drawSet(AGDrawBuffer* DBuf, struct Field* field, struct Player* player, struct Touch* touch);
 void drawBattle(AGDrawBuffer* DBuf);
@@ -49,6 +49,12 @@ int placeable(struct Touch* touch, struct Field* field, struct HoldingObject* ho
 int isPushedRotation(struct Touch* touch);
 //最後にリリースされた戦艦の回転処理
 int rotationBattleShip(struct HoldingObject* hold);
+
+//スタートボタンが押されたかどうか
+int isPushedStart(struct Touch* touch);
+//重なっている配置があるかどうか
+int isOverlap(struct Player* player);
+
 
 #ifdef __cplusplus
 }
