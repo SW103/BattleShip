@@ -122,14 +122,16 @@ void runBattle(struct Touch* touch, struct Field* field, struct Player* player)
 		y = (touch->y - FIELD_Y)/CELL_SIZE;
 
 		if( field->field[y][x]==UNSELECTED ){
-			if(field->selected != -1)
+			if(field->selected != -1){
 				field->field[field->selected/10][field->selected%10]=UNSELECTED;
+			}
 			field->selected=x+y*FIELD_WIDTH_NUM;
 			field->field[y][x]=SELECTED;
 		}else if( field->field[y][x]==HIT || field->field[y][x]==MISS ){
-			if(field->selected != -1)
+			if(field->selected != -1){
 				field->field[field->selected/10][field->selected%10]=UNSELECTED;
 				field->selected = -1;
+			}
 		}
 	}else{
 		field->field[field->selected/10][field->selected%10]=UNSELECTED;
@@ -140,7 +142,14 @@ void runBattle(struct Touch* touch, struct Field* field, struct Player* player)
 
 void drawBattle(AGDrawBuffer* DBuf, struct Field* field, struct Player* player)
 {
-	int i,w,h;
+	int i,w,h,MyID,EnID;
+
+	MyID=(int)agPDevSyncGetMyID();
+	if(MyID==0){
+		EnID=1;
+	}else{
+		EnID=0;
+	}
 
 	//Init
 	agDrawBufferInit( DBuf , DrawBuffer );
@@ -154,15 +163,16 @@ void drawBattle(AGDrawBuffer* DBuf, struct Field* field, struct Player* player)
 
 	//敵のフィールド
 	drawField( DBuf, field, s(FIELD_X), s(FIELD_Y), s(CELL_SIZE));
-	drawFieldColor( DBuf, field, s(FIELD_X), s(FIELD_Y), s(CELL_SIZE));
+	drawFieldColor( DBuf, &field[EnID], s(FIELD_X), s(FIELD_Y), s(CELL_SIZE));
 
 	for(i=0;i<5;i++){
-		if(player->battleShip[i].life == 0)
-			drawBattleShip(DBuf, &(player->battleShip[i]));
+		if(player[EnID].battleShip[i].life == 0)
+			drawBattleShip( DBuf, &(player[EnID].battleShip[i]));
 	}
 
 	//自分のフィールド
 	drawField( DBuf, field, s(700), s(125), s(30));
+	drawFieldColor( DBuf, &field[MyID], s(700), s(125), s(30));
 
 	//攻撃ボタン
 	agDrawSETFCOLOR( DBuf, ARGB( 255, 255, 0, 0 ) );

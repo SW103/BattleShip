@@ -74,13 +74,13 @@ void  main( void )  {
 	//int key_state[KEY_NUM];
 
 	//フィールド
-	struct Field field;
+	struct Field field[2];
 
 	//戦艦
 	//struct BattleShip battleShip[5];
 
 	//プレイヤー
-	struct Player player;
+	struct Player player[2];
 
 	//タッチ
 	struct Touch touch[2];
@@ -137,13 +137,9 @@ void  main( void )  {
 				drawSet(&DBuf, &field, &player);
 				break;
 			case MODE_BATTLE:
-				if(MyID == 0){
-					runBattle(&touch[0], &field, &player);
-					drawBattle(&DBuf, &field, &player);
-				}else{
-					runBattle(&touch[0], &field, &player);
-					drawBattle(&DBuf, &field, &player);					
-				}
+				runBattle(&touch[0], &field[1], &player[1]);
+				runBattle(&touch[1], &field[0], &player[0]);
+				drawBattle(&DBuf, &field, &player);
 				break;
 			default:
 				break;

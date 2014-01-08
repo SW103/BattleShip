@@ -2,13 +2,15 @@
 
 void initField(struct Field* field)
 {	
-	int i,j;
-	for(i=0; i<=FIELD_HEIGHT_NUM; i++){
-		for(j=0; j<=FIELD_WIDTH_NUM;j++){
-			field->field[i][j]=UNSELECTED;
+	int i,j,ID;
+	for(ID=0;ID<PLAYER_NUM;ID++){
+		for(i=0; i<=FIELD_HEIGHT_NUM; i++){
+			for(j=0; j<=FIELD_WIDTH_NUM;j++){
+				field[ID].field[i][j]=UNSELECTED;
+			}
 		}
+		field[ID].selected = -1;
 	}
-	field->selected = -1;
 }
 
 void drawField(AGDrawBuffer* DBuf, struct Field* field, int x, int y, int cell_size)
