@@ -56,7 +56,7 @@ struct HoldingObject{
 /***************************************************************/
 
 void initBattleShip();
-void drawBattleShip(AGDrawBuffer* DBuf, struct BattleShip* battleShip);
+void drawBattleShip(AGDrawBuffer* DBuf, struct BattleShip* battleShip, int x, int y, int cell_size);
 
 int isThereBattleShip(struct BattleShip* battleShip, int field_i, int field_j, struct HoldingObject* hold);
 

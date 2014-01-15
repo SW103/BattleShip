@@ -10,7 +10,7 @@ void initPlayer(struct Player* player)
 			player[ID].battleShip[i].j = i;
 			player[ID].battleShip[i].len = 5;
 			player[ID].battleShip[i].wid = 1;
-			player[ID].battleShip[i].life = 1;
+			player[ID].battleShip[i].life = 5;
 			player[ID].battleShip[i].len = 5;
 			player[ID].battleShip[i].dir = LEFT;
 			player[ID].battleShip[i].visible = 1;

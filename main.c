@@ -137,8 +137,7 @@ void  main( void )  {
 				drawSet(&DBuf, &field, &player);
 				break;
 			case MODE_BATTLE:
-				runBattle(&touch[0], &field[1], &player[1]);
-				runBattle(&touch[1], &field[0], &player[0]);
+				runBattle(&touch, &field, &player);
 				drawBattle(&DBuf, &field, &player);
 				break;
 			default:
@@ -152,7 +151,7 @@ void  main( void )  {
 		//数字の描画
 		//drawNumberGraph(holdingIndex, 100,100,50,90,10,&DBuf);
 
-		drawNumberGraph(i, 100,200,50,90,10,&DBuf);
+		//drawNumberGraph(i, 100,200,50,90,10,&DBuf);
 			
 		agDrawEODL( &DBuf );
 		agTransferDrawDMA( &DBuf );
