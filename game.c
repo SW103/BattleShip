@@ -194,8 +194,36 @@ void drawBattle(AGDrawBuffer* DBuf, struct Field* field, struct Player* player)
 }
 
 
+void runStart(struct Touch* touch, struct Player* player)
+{
+	int ID;
+	
+	for(ID=0; ID<PLAYER_NUM; ID++){
+		if(touch[ID].stat==1){
+			player[ID].Sync=1;
+		}
+	}
+}
 
+void drawStart(AGDrawBuffer* DBuf)
+{
+	int w,h;
 
+	//Init
+	agDrawBufferInit( DBuf , DrawBuffer );
+	agDrawSETDAVR( DBuf , 0 , 0 , aglGetDrawFrame() , 0 , 0 );
+	agDrawSETDAVF( DBuf, 0, 0, s(FB_WIDTH), s(FB_HEIGHT) );
+
+	//白背景
+	agDrawSETFCOLOR( DBuf, ARGB( 255, 255, 255, 255 ) );
+	agDrawSETDBMODE( DBuf, 0xff, 0, 0, 1 );
+	agDrawSPRITE( DBuf, 0, 0, 0, s(FB_WIDTH), s(FB_HEIGHT) );	
+
+	agDrawSETFCOLOR( DBuf, ARGB( 255, 255, 0, 0 ) );
+	ageTransferAAC( DBuf, AG_CG_TITLE, 0, &w, &h );
+	agDrawSETDBMODE( DBuf, 0xff, 0, 2, 1 );
+	agDrawSPRITE( DBuf, 1, 0, 0, s(FB_WIDTH), s(FB_HEIGHT));	
+}
 
 // タッチしたオブジェクトの種類を取得
 int getTouchObject(enum ObjectType* type, struct Touch* touch, struct Field* field, struct Player* player, struct HoldingObject* hold)

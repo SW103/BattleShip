@@ -11,6 +11,7 @@ extern "C" {
 struct Player
 {
 	struct BattleShip battleShip[5];
+	int Sync;
 };
 
 

@@ -68,7 +68,7 @@ void  main( void )  {
 	int MyID;
 
 	//ゲームのモード変数
-	enum GameMode gameMode = MODE_BATTLE;
+	enum GameMode gameMode = MODE_START;
 
 	//キー入力の格納配列
 	//int key_state[KEY_NUM];
@@ -132,6 +132,13 @@ void  main( void )  {
 		//タッチの取得
 		getTouch(&touch);
 		switch(gameMode){
+			case MODE_START:			
+				runStart(&touch, &player);
+				drawStart(&DBuf);
+				if(player[0].Sync==1 && player[1].Sync==1){
+					gameMode=MODE_BATTLE;
+				}
+				break;
 			case MODE_SET:
 				runSet(&touch, &field, &player);
 				drawSet(&DBuf, &field, &player);
