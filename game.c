@@ -374,8 +374,7 @@ void drawEnd(AGDrawBuffer* DBuf, struct Player* player){
        		ageTransferAAC( DBuf, AG_CG_YOULOSE, 0, &w, &h );
         	agDrawSETDBMODE( DBuf, 0xff, 0, 2, 1 );
         	agDrawSPRITE( DBuf, 1, 0, 0, s(FB_WIDTH), s(FB_HEIGHT)); 
-        	}              
-        else if(player[MyID].Result==0){
+        }else{
             agDrawSETFCOLOR( DBuf, ARGB( 255, 255, 0, 0 ) );
         	ageTransferAAC( DBuf, AG_CG_YOUWIN, 0, &w, &h );
         	agDrawSETDBMODE( DBuf, 0xff, 0, 2, 1 );

@@ -7,6 +7,7 @@ void initPlayer(struct Player* player)
 	//戦艦の初期化
 	for(ID=0;ID<PLAYER_NUM;ID++){
 		player[ID].Sync=0;
+		player[ID].Result=0;
 		for(i=0;i<5;i++){
 			player[ID].battleShip[i].i = i;
 			player[ID].battleShip[i].j = i;
