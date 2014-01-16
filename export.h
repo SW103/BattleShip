@@ -47,10 +47,13 @@ extern "C" {
 #define AG_CG_SCOPE	(17)
 #define AG_CG_X	(18)
 #define AG_CG_TITLE	(19)
+#define AG_CG_YOULOSE	(20)
+#define AG_CG_YOUWIN	(21)
 
 /***************************************************************/
 /*                     RM3 Member Symbol                       */
 /***************************************************************/
+#define AG_RP_EXPLOSION	(0)
 
 /***************************************************************/
 /*                       Vram Group Symbol                     */
@@ -59,7 +62,7 @@ extern "C" {
 /***************************************************************/
 /*                          Data Member                        */
 /***************************************************************/
-extern const AGERomMember ageRM[20];
+extern const AGERomMember ageRM[22];
 extern const AGERM3Member ageRM3[1];
 extern const u32 ageReserve[1];
 extern const u32 ageUser[1];

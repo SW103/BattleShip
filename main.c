@@ -65,7 +65,7 @@ void  main( void )  {
 	AGDrawBuffer DBuf;
 
 	int i;
-	int MyID;
+	int MyID,ID;
 
 	//ゲームのモード変数
 	enum GameMode gameMode = MODE_START;
@@ -113,39 +113,58 @@ void  main( void )  {
     _dprintf( "\n>> sample [PDevSync2] start.\n" );
 #endif
 
-
     agPDevSyncInit( FB_WIDTH, FB_HEIGHT, &_SystemVSyncCount, 60);
 
 	//タッチの初期化
+	initTouch(touch);
 
-	//
-	initTouch(&touch);
-	initField(&field);
-	initPlayer(&player);
 	_dprintf("Start\n");
 	MyID=(int)agPDevSyncGetMyID();
 	//_dprintf("%d",MyID);
 
 	while( 1 ) {
         agPDevSyncWait();
-
 		//タッチの取得
-		getTouch(&touch);
+		getTouch(touch);
 		switch(gameMode){
 			case MODE_START:			
-				runStart(&touch, &player);
+				runStart(touch, player);
 				drawStart(&DBuf);
 				if(player[0].Sync==1 && player[1].Sync==1){
 					gameMode=MODE_BATTLE;
+					initTouch(touch);
+					initField(field);
+					initPlayer(player);	
 				}
 				break;
 			case MODE_SET:
-				runSet(&touch, &field, &player);
-				drawSet(&DBuf, &field, &player);
+				runSet(touch, field, player);
+				drawSet(&DBuf, field, player);
 				break;
 			case MODE_BATTLE:
-				runBattle(&touch, &field, &player);
-				drawBattle(&DBuf, &field, &player);
+				runBattle(touch, field, player);
+				drawBattle(&DBuf, field, player);
+				for(ID=0;ID<PLAYER_NUM;ID++){
+					for(i=0;i<BATTLESHIP_NUM;i++){
+						if(player[ID].battleShip[i].life==0){
+							gameMode=MODE_END;
+							player[ID].Result=-1;
+						}else{
+							gameMode=MODE_BATTLE;
+							player[ID].Result=0;
+							break;
+						}
+
+					}
+				}
+				break;
+			case MODE_END:
+				runEnd(touch, player);
+				drawEnd(&DBuf, player);
+				if(player[0].Sync==1 && player[1].Sync==1){
+					gameMode=MODE_START;
+					initPlayer(player);	
+				}
 				break;
 			default:
 				break;

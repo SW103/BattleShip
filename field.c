@@ -10,6 +10,7 @@ void initField(struct Field* field)
 			}
 		}
 		field[ID].selected = -1;
+		field[ID].flag=0;
 	}
 }
 

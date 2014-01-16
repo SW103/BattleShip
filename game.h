@@ -11,7 +11,7 @@ extern "C" {
 #endif
 
 enum GameMode{
-	MODE_START, MODE_SET, MODE_BATTLE, MODE_NUM
+	MODE_START, MODE_SET, MODE_BATTLE, MODE_END, MODE_NUM
 };
 
 
@@ -23,9 +23,12 @@ void initGame();
 void runStart(struct Touch* touch, struct Player* player);
 void runSet(struct Touch* touch, struct Field* field, struct Player* player);
 void runBattle(struct Touch* touch, struct Field* field, struct Player* player);
+void runEnd(struct Touch* touch, struct Player* player);
 void drawStart(AGDrawBuffer* DBuf);
 void drawSet(AGDrawBuffer* DBuf, struct Field* field, struct Player* player);
 void drawBattle(AGDrawBuffer* DBuf, struct Field* field, struct Player* player);
+void drawEnd(AGDrawBuffer* DBuf, struct Player* player); 
+
 
 
 // タッチしたオブジェクトの種類を取得

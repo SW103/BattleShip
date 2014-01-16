@@ -3,11 +3,6 @@
 
 #include "import.h"
 
-#define ATTACK_BUTTON_X 650
-#define ATTACK_BUTTON_Y 500
-#define ATTACK_BUTTON_W 300
-#define ATTACK_BUTTON_H 100
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -23,6 +18,7 @@ enum FieldStat{
 struct Field{
 	enum FieldStat field[FIELD_HEIGHT_NUM][FIELD_WIDTH_NUM];
 	int selected;
+	int flag;
 };
 
 /***************************************************************/

@@ -81,15 +81,15 @@ void runBattle(struct Touch* touch, struct Field* field, struct Player* player)
 {
 	int i,x,y;
 	int w,h;
-	int index,ID,_ID;
+	int index,ID,EnID;
 
 
 
 	for(ID=0;ID<PLAYER_NUM;ID++){
 		if(ID==0){
-			_ID=1;
+			EnID=1;
 		}else{
-			_ID=0;
+			EnID=0;
 		}		
 
 		//攻撃ボタンが押され、かつマスが選択されていたら攻撃を行う。
@@ -97,24 +97,26 @@ void runBattle(struct Touch* touch, struct Field* field, struct Player* player)
 			&& (touch[ID].x < ATTACK_BUTTON_X+ATTACK_BUTTON_W) 
 			&& (touch[ID].y >= ATTACK_BUTTON_Y) 
 			&& (touch[ID].y < ATTACK_BUTTON_Y+ATTACK_BUTTON_H) ){
-			if(field[_ID].selected!=-1){
-				index = getBattleShip(&player[_ID], field[_ID].selected%10, field[_ID].selected/10, &hold );
+			if(field[EnID].selected!=-1){
+
+				index = getBattleShip(&player[EnID], field[EnID].selected%10, field[EnID].selected/10, &hold );
 				if(index != -1){
-					field[_ID].field[field[_ID].selected/10][field[_ID].selected%10]=HIT;
-					for(i=0;i<player[_ID].battleShip[index].len;i++){
-						if(player[_ID].battleShip[index].bombed[i] == field[_ID].selected){
-							player[_ID].battleShip[index].bombed[i] = -1;
-							player[_ID].battleShip[index].life += -1;
+
+					field[EnID].field[field[EnID].selected/10][field[EnID].selected%10]=HIT;
+					for(i=0;i<player[EnID].battleShip[index].len;i++){
+						if(player[EnID].battleShip[index].bombed[i] == field[EnID].selected){
+							player[EnID].battleShip[index].bombed[i] = -1;
+							player[EnID].battleShip[index].life += -1;
 						}
 					}
 				}else{
-					field[_ID].field[field[_ID].selected/10][field[_ID].selected%10]=MISS;			
+					field[EnID].field[field[EnID].selected/10][field[EnID].selected%10]=MISS;			
 				}
 			}
-			field[_ID].selected=-1;	
+			field[EnID].selected=-1;	
 		}
 
-		//フィールドが押された時の反応。
+		//フィールドが押された時の。
 		if( (touch[ID].x >= FIELD_X) 
 			&& (touch[ID].y >= FIELD_Y) 
 			&& (touch[ID].x < FIELD_X+CELL_SIZE*FIELD_WIDTH_NUM)
@@ -123,26 +125,27 @@ void runBattle(struct Touch* touch, struct Field* field, struct Player* player)
 			x = (touch[ID].x - FIELD_X)/CELL_SIZE;
 			y = (touch[ID].y - FIELD_Y)/CELL_SIZE;
 
-			if( field[_ID].field[y][x]==UNSELECTED ){
+			if( field[EnID].field[y][x]==UNSELECTED ){
 		
-			for(h=0; h<FIELD_HEIGHT_NUM; h++){
-				for(w=0; w<FIELD_WIDTH_NUM; w++){
-					if(field[_ID].field[h][w]==SELECTED){
-						field[_ID].field[h][w]=UNSELECTED;	
+				for(h=0; h<FIELD_HEIGHT_NUM; h++){
+					for(w=0; w<FIELD_WIDTH_NUM; w++){
+						if(field[EnID].field[h][w]==SELECTED){
+							field[EnID].field[h][w]=UNSELECTED;	
+						}
 					}
 				}
-			}
-			field[_ID].selected=x+y*FIELD_WIDTH_NUM;
-			field[_ID].field[y][x]=SELECTED;
-			}else if( field[_ID].field[y][x]==HIT || field[_ID].field[y][x]==MISS ){
-				if(field[_ID].selected != -1){
-					field[_ID].field[field[_ID].selected/10][field[_ID].selected%10]=UNSELECTED;
-					field[_ID].selected = -1;
+
+			field[EnID].selected=x+y*FIELD_WIDTH_NUM;
+			field[EnID].field[y][x]=SELECTED;
+			}else if( field[EnID].field[y][x]==HIT || field[EnID].field[y][x]==MISS ){
+				if(field[EnID].selected != -1){
+					field[EnID].field[field[EnID].selected/10][field[EnID].selected%10]=UNSELECTED;
+					field[EnID].selected = -1;
 				}
 			}
 		}else{
-			field[_ID].field[field[_ID].selected/10][field[_ID].selected%10]=UNSELECTED;
-			field[_ID].selected=-1;	
+			field[EnID].field[field[EnID].selected/10][field[EnID].selected%10]=UNSELECTED;
+			field[EnID].selected=-1;	
 		}
 	}
 }
@@ -273,3 +276,35 @@ int placeable(int i, int j, struct Player* player, struct HoldingObject* hold)
 
 	
 }
+
+void runEnd(struct Touch* touch, struct Player* player)
+{
+	int ID;
+	
+	for(ID=0; ID<PLAYER_NUM; ID++){
+		if(touch[ID].stat==1){
+			player[ID].Sync=1;
+		}
+	}
+}
+
+void drawEnd(AGDrawBuffer* DBuf, struct Player* player){
+	int w,h,MyID;
+	int GAME_RESULT;
+
+	MyID=(int)agPDevSyncGetMyID();
+	if(player[MyID].Result==-1)
+		GAME_RESULT=AG_CG_YOULOSE;
+	else if(player[MyID].Result==0)
+		GAME_RESULT=AG_CG_YOUWIN;
+
+	//Init
+	agDrawBufferInit( DBuf , DrawBuffer );
+	agDrawSETDAVR( DBuf , 0 , 0 , aglGetDrawFrame() , 0 , 0 );
+	agDrawSETDAVF( DBuf, 0, 0, s(FB_WIDTH), s(FB_HEIGHT) );
+
+	agDrawSETFCOLOR( DBuf, ARGB( 255, 255, 0, 0 ) );
+	ageTransferAAC( DBuf, GAME_RESULT, 0, &w, &h );
+	agDrawSETDBMODE( DBuf, 0xff, 0, 2, 1 );
+	agDrawSPRITE( DBuf, 1, 0, 0, s(FB_WIDTH), s(FB_HEIGHT));		
+} 

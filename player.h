@@ -12,8 +12,9 @@ struct Player
 {
 	struct BattleShip battleShip[5];
 	int Sync;
+	//0:まだ勝負がついていない。 -1:負け。
+	int Result;
 };
-
 
 /***************************************************************/
 /*                       関数の宣言                             */
