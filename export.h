@@ -46,14 +46,16 @@ extern "C" {
 #define AG_CG_SENKAN_SKELTON_DOWN	(16)
 #define AG_CG_SENKAN_SKELTON_LEFT	(17)
 #define AG_CG_SENKAN_SKELTON_RIGHT	(18)
-#define AG_CG_SENKAN_SKELTON_UP	(19)
-#define AG_CG_START	(20)
-#define AG_CG_OVERLAP	(21)
-#define AG_CG_WAIT	(22)
-#define AG_CG_ATTACK	(23)
-#define AG_CG_TITLE	(24)
-#define AG_CG_SCOPE	(25)
-#define AG_CG_X	(26)
+#define AG_CG_YOULOSE	(19)
+#define AG_CG_YOUWIN	(20)
+#define AG_CG_SENKAN_SKELTON_UP	(21)
+#define AG_CG_START	(22)
+#define AG_CG_OVERLAP	(23)
+#define AG_CG_WAIT	(24)
+#define AG_CG_ATTACK	(25)
+#define AG_CG_TITLE	(26)
+#define AG_CG_SCOPE	(27)
+#define AG_CG_X	(28)
 
 /***************************************************************/
 /*                     RM3 Member Symbol                       */
@@ -66,7 +68,7 @@ extern "C" {
 /***************************************************************/
 /*                          Data Member                        */
 /***************************************************************/
-extern const AGERomMember ageRM[27];
+extern const AGERomMember ageRM[29];
 extern const AGERM3Member ageRM3[1];
 extern const u32 ageReserve[1];
 extern const u32 ageUser[1];

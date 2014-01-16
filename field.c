@@ -10,7 +10,8 @@ void initField(struct Field* field)
 				field[ID].virtualField[i][j] = 0;
 			}
 		}
-		field[ID].selected = -1;
+		field[ID].selected_x = -1;
+                field[ID].selected_y = -1;
 	}
 }
 

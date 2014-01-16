@@ -64,8 +64,8 @@ static s32 ifnc_draw(int type)
 void  main( void )  {
 	AGDrawBuffer DBuf;
 
-	int i, result;
-	int MyID;
+	int i, ship_num;
+	int MyID,ID;
 
 	//ゲームのモード変数
 	enum GameMode gameMode = MODE_START;
@@ -120,8 +120,6 @@ void  main( void )  {
     agPDevSyncInit( FB_WIDTH, FB_HEIGHT, &_SystemVSyncCount, 60);
 
     initTouch(touch);
-    initField(field);
-    initPlayer(player);
     _dprintf("Start\n");
     MyID=(int)agPDevSyncGetMyID();
 
@@ -136,9 +134,11 @@ void  main( void )  {
                 runStart(touch, player);
                 drawStart(&DBuf);
                 if(player[0].Sync==1 && player[1].Sync==1){
+                	    initField(field);
+    					initPlayer(player);
                 		player[0].Sync = 0;
                 		player[1].Sync = 0;
-                        gameMode=MODE_BATTLE;
+                        gameMode=MODE_SET;
                 }
                 break;
 			case MODE_SET:
@@ -147,9 +147,6 @@ void  main( void )  {
 				if(player[0].Sync==2 && player[1].Sync==2){
                 		player[0].Sync = 0;
                 		player[1].Sync = 0;
-                		initTouch(touch);
-    					initField(field);
-    					initPlayer(player);
                         gameMode=MODE_BATTLE;
                 }
 				/*
@@ -161,18 +158,40 @@ void  main( void )  {
 				break;
 			case MODE_BATTLE:
 				runBattle(touch, field, player);
-                drawBattle(&DBuf, field, player);
+				drawBattle(&DBuf, field, player);
+				for(ID=0;ID<PLAYER_NUM;ID++){
+					ship_num=BATTLESHIP_NUM;
+					for(i=0;i<BATTLESHIP_NUM;i++){
+						if(player[ID].battleShip[i].life==0){
+							ship_num += -1;
+						}
+					}
+					if(ship_num==0){
+						player[ID].Result=-1;
+						gameMode=MODE_END;
+					}
+				}
+				break;
+			case MODE_END:
+				runEnd(touch, player);
+				drawEnd(&DBuf, player);
+				if(player[0].Sync==1 && player[1].Sync==1){
+					gameMode=MODE_START;
+					initPlayer(player);	
+				}
 				break;
 			default:
 				break;
 		}
-
+	
+		//数字を描画する場所の白い四角
+		//agDrawSETFCOLOR( &DBuf, ARGB( 255, 255, 255, 255 ) );
+		//agDrawSETDBMODE( &DBuf, 0xff, 0, 0, 1 );
+		//agDrawSPRITE( &DBuf, 0, 100-20, 100-20, 100+50*10+20, 100+90+20);
 		//数字の描画
 		//drawNumberGraph(holdingIndex, 100,100,50,90,10,&DBuf);
-		
-		drawNumberGraph(touch[MyID].count + 1, 100,200,50,90,10,&DBuf);
-	
-		//_dprintf("%d ", holdingIndex);
+
+		//drawNumberGraph(i, 100,200,50,90,10,&DBuf);
 			
 		agDrawEODL( &DBuf );
 		agTransferDrawDMA( &DBuf );

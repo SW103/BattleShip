@@ -31,7 +31,7 @@ struct Field{
 	int field[FIELD_WIDTH_NUM][FIELD_HEIGHT_NUM];			//フィールド情報
 	//enum FieldStat field2[FIELD_HEIGHT_NUM][FIELD_WIDTH_NUM];
 	int virtualField[FIELD_WIDTH_NUM][FIELD_HEIGHT_NUM];	//仮想フィールド情報
-	int selected;
+	int selected_x,selected_y;
 };
 
 /***************************************************************/

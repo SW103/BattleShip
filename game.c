@@ -238,8 +238,6 @@ void runBattle(struct Touch* touch, struct Field* field, struct Player* player)
         }else{
                 MyID=0;
         }
-        if(field[MyID].selected!=0)
-        _dprintf("0:MyID=%d\n",field[MyID].selected);
 
         for(ID=0;ID<PLAYER_NUM;ID++){
                 if(ID==0){
@@ -253,37 +251,19 @@ void runBattle(struct Touch* touch, struct Field* field, struct Player* player)
                         && (touch[ID].x < ATTACK_BUTTON_X+ATTACK_BUTTON_W) 
                         && (touch[ID].y >= ATTACK_BUTTON_Y) 
                         && (touch[ID].y < ATTACK_BUTTON_Y+ATTACK_BUTTON_H) ){
-                        if(field[EnID].selected!=-1){
+                        if(field[EnID].selected_x!=-1 && field[EnID].selected_y!=-1){
 
                                 //index = getBattleShip(&player[EnID], field[EnID].selected%10, field[EnID].selected/10, &hold );
-                        		if(field[EnID].selected<0 || field[EnID].selected>=100){
-        							_dprintf("selected=%d\n",field[EnID].selected);
-                        		}
-                        		_dprintf("01:MyID=%d\n",field[MyID].selected);
-                        		index = getBattleShip(&player[EnID], field[EnID].selected%10, field[EnID].selected/10);
-                        		_dprintf("02:MyID=%d\n",field[MyID].selected);
+                        		index = getBattleShip(&player[EnID], field[EnID].selected_x, field[EnID].selected_y);
                                 if(index != -1){
-                                		_dprintf("03:MyID=%d\n",field[MyID].selected);
-                                        field[EnID].field[field[EnID].selected/10][field[EnID].selected%10]=HIT;
-                                        _dprintf("04:MyID=%d\n",field[MyID].selected);
-                                        for(i=0;i<player[EnID].battleShip[index].len;i++){
-                                                if(player[EnID].battleShip[index].bombed[i] == field[EnID].selected){
-                                                        player[EnID].battleShip[index].bombed[i] = -1;
-                                                        player[EnID].battleShip[index].life += -1;
-                                                }
-                                        }
-                                        _dprintf("05:MyID=%d\n",field[MyID].selected);
+                                        field[EnID].field[field[EnID].selected_y][field[EnID].selected_x]=HIT;
+                                        player[EnID].battleShip[index].life += -1;
                                 }else{
-                                		_dprintf("06:MyID=%d\n",field[MyID].selected);
-                                        field[EnID].field[field[EnID].selected/10][field[EnID].selected%10]=MISS;
-                                        _dprintf("07:MyID=%d\n",field[MyID].selected);                        
+                                        field[EnID].field[field[EnID].selected_y][field[EnID].selected_x]=MISS;                        
                                 }
                         }
-                        if(field[MyID].selected!=0)
-                        _dprintf("1:MyID=%d\n",field[MyID].selected);
-                        field[EnID].selected=-1;
-                        if(field[MyID].selected!=0)
-                        _dprintf("2:MyID=%d\n",field[MyID].selected);        
+                        field[EnID].selected_x=-1;
+                        field[EnID].selected_y=-1;
                 }
 
                 //フィールドが押された時の。
@@ -304,26 +284,24 @@ void runBattle(struct Touch* touch, struct Field* field, struct Player* player)
                                                 }
                                         }
                                 }
-                        if(field[MyID].selected!=0)
-                        _dprintf("3:MyID=%d\n",field[MyID].selected);
 
-                        field[EnID].selected=x+y*FIELD_WIDTH_NUM;
-                        if(field[MyID].selected!=0)
-                        _dprintf("4:MyID=%d\n",field[MyID].selected);
+                        field[EnID].selected_x=x;
+                        field[EnID].selected_y=y;
+
                         field[EnID].field[y][x]=SELECTED;
                         }else if( field[EnID].field[y][x]==HIT || field[EnID].field[y][x]==MISS ){
-                                if(field[EnID].selected != -1){
-                                        field[EnID].field[field[EnID].selected/10][field[EnID].selected%10]=UNSELECTED;
-                                        field[EnID].selected = -1;
+                                if(field[EnID].selected_x != -1 && field[EnID].selected_y != -1){
+                                        field[EnID].field[field[EnID].selected_y][field[EnID].selected_x]=UNSELECTED;
+                                        field[EnID].selected_x = -1;
+                                        field[EnID].selected_y = -1;
                                 }
                         }
                 }else{
-                        field[EnID].field[field[EnID].selected/10][field[EnID].selected%10]=UNSELECTED;
-                        field[EnID].selected=-1;        
+                        field[EnID].field[field[EnID].selected_y][field[EnID].selected_x]=UNSELECTED;
+                        field[EnID].selected_x = -1;
+                        field[EnID].selected_y = -1;        
                 }
         }
-        if(field[MyID].selected!=0)
-        _dprintf("5:MyID=%d\n",field[MyID].selected);
 }
 
 void drawBattle(AGDrawBuffer* DBuf, struct Field* field, struct Player* player)
@@ -370,6 +348,39 @@ void drawBattle(AGDrawBuffer* DBuf, struct Field* field, struct Player* player)
         ageTransferAAC( DBuf, AG_CG_ATTACK, 0, &w, &h );
         agDrawSETDBMODE( DBuf, 0xff, 0, 2, 1 );
         agDrawSPRITE( DBuf, 1, s(ATTACK_BUTTON_X), s(ATTACK_BUTTON_Y), s(ATTACK_BUTTON_X)+s(ATTACK_BUTTON_W), s(ATTACK_BUTTON_Y)+s(ATTACK_BUTTON_H) );        
+}
+
+void runEnd(struct Touch* touch, struct Player* player)
+{
+        int ID;
+        
+        for(ID=0; ID<PLAYER_NUM; ID++){
+                if(touch[ID].stat==1){
+                        player[ID].Sync=1;
+                }
+        }
+}
+
+void drawEnd(AGDrawBuffer* DBuf, struct Player* player){
+        int w,h,MyID;
+
+        MyID=(int)agPDevSyncGetMyID();
+        //Init
+        agDrawBufferInit( DBuf , DrawBuffer );
+        agDrawSETDAVR( DBuf , 0 , 0 , aglGetDrawFrame() , 0 , 0 );
+        agDrawSETDAVF( DBuf, 0, 0, s(FB_WIDTH), s(FB_HEIGHT) );
+        if(player[MyID].Result==-1){
+        	agDrawSETFCOLOR( DBuf, ARGB( 255, 255, 0, 0 ) );
+       		ageTransferAAC( DBuf, AG_CG_YOULOSE, 0, &w, &h );
+        	agDrawSETDBMODE( DBuf, 0xff, 0, 2, 1 );
+        	agDrawSPRITE( DBuf, 1, 0, 0, s(FB_WIDTH), s(FB_HEIGHT)); 
+        	}              
+        else if(player[MyID].Result==0){
+            agDrawSETFCOLOR( DBuf, ARGB( 255, 255, 0, 0 ) );
+        	ageTransferAAC( DBuf, AG_CG_YOUWIN, 0, &w, &h );
+        	agDrawSETDBMODE( DBuf, 0xff, 0, 2, 1 );
+        	agDrawSPRITE( DBuf, 1, 0, 0, s(FB_WIDTH), s(FB_HEIGHT));                
+        }         
 }
 
 
