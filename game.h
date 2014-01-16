@@ -33,10 +33,10 @@ struct HoldingObject{
 void initGame(struct Player* player);
 void runStart(struct Touch* touch, struct Player* player);
 int runSet(struct Touch* touch, struct Field* field, struct Player* player);
-void runBattle();
+void runBattle(struct Touch* touch, struct Field* field, struct Player* player);
 void drawStart(AGDrawBuffer* DBuf);
 void drawSet(AGDrawBuffer* DBuf, struct Field* field, struct Player* player, struct Touch* touch);
-void drawBattle(AGDrawBuffer* DBuf);
+void drawBattle(AGDrawBuffer* DBuf, struct Field* field, struct Player* player);
 
 // タッチしたオブジェクトの種類を取得
 int _getTouchObject(struct Touch* touch/*, struct Field* field*/, struct Player* player, struct HoldingObject* hold);

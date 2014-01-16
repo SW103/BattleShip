@@ -8,8 +8,9 @@ extern "C" {
 #endif
 
 
-#define MAX_BATTLESHIP_HEIGHT_NUM 6
-#define MAX_BATTLESHIP_WIDTH_NUM 2
+//#define MAX_BATTLESHIP_HEIGHT_NUM 6
+//#define MAX_BATTLESHIP_WIDTH_NUM 2
+#define MAX_BATTLESHIP_LENGTH 5
 
 /***************************************************************/
 /*                       Direction                             */
@@ -40,7 +41,8 @@ struct BattleShip{
 	int life;			//ライフ
 	int visible;		//可視状態  0:不可視  1:可視
 	//被弾箇所の配列
-	int bombed[MAX_BATTLESHIP_HEIGHT_NUM][MAX_BATTLESHIP_WIDTH_NUM];
+	//int bombed[MAX_BATTLESHIP_HEIGHT_NUM][MAX_BATTLESHIP_WIDTH_NUM];
+	int bombed[MAX_BATTLESHIP_LENGTH];
 };
 
 
@@ -51,6 +53,7 @@ struct BattleShip{
 
 void initBattleShip();
 void drawBattleShip(AGDrawBuffer* DBuf, struct BattleShip* battleShip);
+void drawBattleShip2(AGDrawBuffer* DBuf, struct BattleShip* battleShip, int x, int y, int cell_size);
 void drawSkeltonBattleShip(AGDrawBuffer* DBuf, struct BattleShip* battleShip, int touch_x, int touch_y, int d_i, int d_j);
 
 void getBattleShipPosition(struct BattleShip* battleShip, int* i, int* j, int* w, int* l);

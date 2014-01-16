@@ -179,33 +179,9 @@ void  main( void )  {
 					gameMode = MODE_SET_WAIT;
 				}*/
 				break;
-				/*
-			case MODE_SET_OVERLAP:
-				drawSet(&DBuf, &field[0], &player[0], &touch[0]);
-				//戦艦が重なっています
-				agDrawSETFCOLOR( &DBuf, ARGB( 255, 255, 0, 0 ) );
-				ageTransferAAC( &DBuf, AG_CG_OVERLAP, 0, NULL, NULL );
-				agDrawSETDBMODE( &DBuf, 0xff, 0, 2, 1 );
-				agDrawSPRITE( &DBuf, 1, s(250), s(300), s(250 + 500), s(300+100));
-				if(touch->count==1){
-					gameMode = MODE_SET;
-				}
-				break;
-			case MODE_SET_WAIT:
-				drawSet(&DBuf, &field[0], &player[0], &touch[0]);
-				//待機しています
-				agDrawSETFCOLOR( &DBuf, ARGB( 255, 255, 0, 0 ) );
-				ageTransferAAC( &DBuf, AG_CG_WAIT, 0, NULL, NULL );
-				agDrawSETDBMODE( &DBuf, 0xff, 0, 2, 1 );
-				agDrawSPRITE( &DBuf, 1, s(250), s(300), s(250 + 500), s(300+100));
-				///////////////////////////
-				//条件を満たしたらMODE_BATTLEへ
-				///////////////////////////
-				break;
-				*/
 			case MODE_BATTLE:
-				runBattle();
-				drawBattle(&DBuf);
+				runBattle(touch, field, player);
+                drawBattle(&DBuf, field, player);
 				break;
 			default:
 				break;

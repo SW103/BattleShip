@@ -31,6 +31,10 @@ extern "C" {
 #define FIELD_Y 100
 #define PLAYER_NUM 2
 
+#define ATTACK_BUTTON_X 650
+#define ATTACK_BUTTON_Y 500
+#define ATTACK_BUTTON_W 300
+#define ATTACK_BUTTON_H 100
 
 
 #ifdef __cplusplus

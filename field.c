@@ -28,7 +28,7 @@ void drawField(AGDrawBuffer* DBuf, struct Field* field, int x, int y, int cell_s
 
 void drawFieldColor(AGDrawBuffer* DBuf, struct Field* field, int x, int y, int cell_size){
         int i,j;
-        /*
+        
         for(i=0; i<FIELD_HEIGHT_NUM; i++){
                 for(j=0; j<FIELD_WIDTH_NUM;j++){
                         if(field->field[i][j]==SELECTED){
@@ -56,5 +56,5 @@ void drawFieldColor(AGDrawBuffer* DBuf, struct Field* field, int x, int y, int c
                         }
                 }
         }
-        */
+        
 }
