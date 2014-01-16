@@ -65,7 +65,7 @@ void  main( void )  {
 	AGDrawBuffer DBuf;
 
 	int i, ship_num;
-	int MyID,ID;
+	int MyID,ID,turnID;
 
 	//ゲームのモード変数
 	enum GameMode gameMode = MODE_START;
@@ -136,6 +136,7 @@ void  main( void )  {
                 if(player[0].Sync==1 && player[1].Sync==1){
                 	    initField(field);
     					initPlayer(player);
+    					turnID=0;
                 		player[0].Sync = 0;
                 		player[1].Sync = 0;
                         gameMode=MODE_SET;
@@ -147,7 +148,7 @@ void  main( void )  {
 				if(player[0].Sync==2 && player[1].Sync==2){
                 		player[0].Sync = 0;
                 		player[1].Sync = 0;
-                        gameMode=MODE_BATTLE;
+                        gameMode=MODE_TURNBATTLE;
                 }
 				/*
 				if(result==1){
@@ -172,6 +173,22 @@ void  main( void )  {
 					}
 				}
 				break;
+			case MODE_TURNBATTLE:
+				runTurnBattle(touch, field, player, &turnID);
+				drawBattle(&DBuf, field, player);
+				for(ID=0;ID<PLAYER_NUM;ID++){
+					ship_num=BATTLESHIP_NUM;
+					for(i=0;i<BATTLESHIP_NUM;i++){
+						if(player[ID].battleShip[i].life==0){
+							ship_num += -1;
+						}
+					}
+					if(ship_num==0){
+						player[ID].Result=-1;
+						gameMode=MODE_END;
+					}
+				}
+				break;		
 			case MODE_END:
 				runEnd(touch, player);
 				drawEnd(&DBuf, player);

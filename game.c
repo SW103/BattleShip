@@ -304,6 +304,76 @@ void runBattle(struct Touch* touch, struct Field* field, struct Player* player)
         }
 }
 
+void runTurnBattle(struct Touch* touch, struct Field* field, struct Player* player, int *turnID)
+{
+        int i,x,y;
+        int w,h;
+        int index,EnID,ID;
+
+        ID = *turnID;
+
+                if(ID==0){
+                        EnID=1;
+                }else{
+                        EnID=0;
+                }                
+
+                //攻撃ボタンが押され、かつマスが選択されていたら攻撃を行う。
+                if( (touch[ID].x >= ATTACK_BUTTON_X) 
+                        && (touch[ID].x < ATTACK_BUTTON_X+ATTACK_BUTTON_W) 
+                        && (touch[ID].y >= ATTACK_BUTTON_Y) 
+                        && (touch[ID].y < ATTACK_BUTTON_Y+ATTACK_BUTTON_H) ){
+                        if(field[EnID].selected_x!=-1 && field[EnID].selected_y!=-1){
+                        		*turnID=EnID;
+                        		index = getBattleShip(&player[EnID], field[EnID].selected_x, field[EnID].selected_y);
+                                if(index != -1){
+                                        field[EnID].field[field[EnID].selected_y][field[EnID].selected_x]=HIT;
+                                        player[EnID].battleShip[index].life += -1;
+                                }else{
+                                        field[EnID].field[field[EnID].selected_y][field[EnID].selected_x]=MISS;                        
+                                }
+                        }
+                        field[EnID].selected_x=-1;
+                        field[EnID].selected_y=-1;
+                }
+
+                //フィールドが押された時の。
+                if( (touch[ID].x >= FIELD_X) 
+                        && (touch[ID].y >= FIELD_Y) 
+                        && (touch[ID].x < FIELD_X+CELL_SIZE*FIELD_WIDTH_NUM)
+                        && (touch[ID].y < FIELD_Y+CELL_SIZE*FIELD_HEIGHT_NUM) ){
+
+                        x = (touch[ID].x - FIELD_X)/CELL_SIZE;
+                        y = (touch[ID].y - FIELD_Y)/CELL_SIZE;
+
+                        if( field[EnID].field[y][x]==UNSELECTED ){
+                
+                                for(h=0; h<FIELD_HEIGHT_NUM; h++){
+                                        for(w=0; w<FIELD_WIDTH_NUM; w++){
+                                                if(field[EnID].field[h][w]==SELECTED){
+                                                        field[EnID].field[h][w]=UNSELECTED;        
+                                                }
+                                        }
+                                }
+
+                        field[EnID].selected_x=x;
+                        field[EnID].selected_y=y;
+
+                        field[EnID].field[y][x]=SELECTED;
+                        }else if( field[EnID].field[y][x]==HIT || field[EnID].field[y][x]==MISS ){
+                                if(field[EnID].selected_x != -1 && field[EnID].selected_y != -1){
+                                        field[EnID].field[field[EnID].selected_y][field[EnID].selected_x]=UNSELECTED;
+                                        field[EnID].selected_x = -1;
+                                        field[EnID].selected_y = -1;
+                                }
+                        }
+                }else{
+                        field[EnID].field[field[EnID].selected_y][field[EnID].selected_x]=UNSELECTED;
+                        field[EnID].selected_x = -1;
+                        field[EnID].selected_y = -1;        
+                }
+}
+
 void drawBattle(AGDrawBuffer* DBuf, struct Field* field, struct Player* player)
 {
         int i,w,h,MyID,EnID;
