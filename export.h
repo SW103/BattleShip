@@ -50,6 +50,7 @@ extern "C" {
 #define AG_CG_START	(20)
 #define AG_CG_OVERLAP	(21)
 #define AG_CG_WAIT	(22)
+#define AG_CG_TITLE	(23)
 
 /***************************************************************/
 /*                     RM3 Member Symbol                       */
@@ -62,7 +63,7 @@ extern "C" {
 /***************************************************************/
 /*                          Data Member                        */
 /***************************************************************/
-extern const AGERomMember ageRM[23];
+extern const AGERomMember ageRM[24];
 extern const AGERM3Member ageRM3[1];
 extern const u32 ageReserve[1];
 extern const u32 ageUser[1];

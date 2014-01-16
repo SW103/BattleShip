@@ -10,12 +10,14 @@ extern "C" {
 // main.cで必要
 #include <amlib.h>
 #include <agdraw.h>
+#include <aggl.h>
 #include <agesndmgr.h>
 #include <agetool.h>
 #include <agtransfer.h>
 #include <vdpreg.h>
 #include <stdlib.h>
 #include <agtouch.h>
+#include <agPDevSync.h>
 
 /***************************************************************/
 /*                       define                                */

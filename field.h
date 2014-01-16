@@ -8,6 +8,9 @@
 extern "C" {
 #endif
 
+enum FieldStat{
+        UNSELECTED, SELECTED, MISS, HIT, FIELD_STATE
+};
 
 /***************************************************************/
 /*                    Field Object                             */
@@ -27,6 +30,7 @@ struct Field{
 	*/
 	int field[FIELD_WIDTH_NUM][FIELD_HEIGHT_NUM];			//フィールド情報
 	int virtualField[FIELD_WIDTH_NUM][FIELD_HEIGHT_NUM];	//仮想フィールド情報
+	int selected;
 };
 
 /***************************************************************/
@@ -34,13 +38,14 @@ struct Field{
 /***************************************************************/
 
 void initField(struct Field* field);
-void drawField(AGDrawBuffer* DBuf, struct Field* field);
+void drawField(AGDrawBuffer* DBuf, struct Field* field, int x, int y, int cell_size);
+void drawFieldColor(AGDrawBuffer* DBuf, struct Field* field, int x, int y, int cell_size);
 
-
+/*
 void addShipToField(struct BattleShip* battleShip);
 
 void removeShipFromField();
-
+*/
 
 
 

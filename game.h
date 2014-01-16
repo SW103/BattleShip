@@ -11,7 +11,7 @@ extern "C" {
 #endif
 
 enum GameMode{
-	MODE_SET, MODE_SET_OVERLAP, MODE_SET_WAIT, MODE_BATTLE, MODE_NUM
+	MODE_START, MODE_SET, MODE_SET_OVERLAP, MODE_SET_WAIT, MODE_BATTLE, MODE_NUM
 };
 
 /***************************************************************/
@@ -27,12 +27,14 @@ struct HoldingObject{
 
 
 /***************************************************************/
-/*                       関数の宣言                             */
+/*                       関数の宣言                              */
 /***************************************************************/
 
 void initGame(struct Player* player);
+void runStart(struct Touch* touch, struct Player* player);
 int runSet(struct Touch* touch, struct Field* field, struct Player* player);
 void runBattle();
+void drawStart(AGDrawBuffer* DBuf);
 void drawSet(AGDrawBuffer* DBuf, struct Field* field, struct Player* player, struct Touch* touch);
 void drawBattle(AGDrawBuffer* DBuf);
 
