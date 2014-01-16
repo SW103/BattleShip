@@ -98,30 +98,7 @@ void  main( void )  {
     uMSRDP=0;
     uINDEX=0;
 #endif
-    /*
-	//初期化
-	for(i=0;i<PLAYER_NUM;i++){
-		initTouch(&touch[i]);
-		initPlayer(&player[i]);
-		initField(&field[i]);	
-	}
-	//holdのバトルシップに初期値を入れている
-	initGame(&player[0]);
 
-	//フィールドに初期値をいれる
-	{
-		int i,j,k;
-		int ship_i,ship_j,w,l;
-		for(i=0;i<5;i++){
-			getBattleShipPosition(&player[0].battleShip[i], &ship_i, &ship_j, &w, &l);
-			for(j=ship_i;j<ship_i+w;j++){
-				for(k=ship_j;k<ship_j+l;k++){
-					field[0].field[j][k] = 1;
-				}
-			}
-		}
-	}
-	*/
 	agpDisableCpuInterrupts();
 	aglInitialize();
 	agpEnableCpuInterrupts();
@@ -161,7 +138,7 @@ void  main( void )  {
                 if(player[0].Sync==1 && player[1].Sync==1){
                 		player[0].Sync = 0;
                 		player[1].Sync = 0;
-                        gameMode=MODE_SET;
+                        gameMode=MODE_BATTLE;
                 }
                 break;
 			case MODE_SET:
@@ -170,6 +147,9 @@ void  main( void )  {
 				if(player[0].Sync==2 && player[1].Sync==2){
                 		player[0].Sync = 0;
                 		player[1].Sync = 0;
+                		initTouch(touch);
+    					initField(field);
+    					initPlayer(player);
                         gameMode=MODE_BATTLE;
                 }
 				/*
