@@ -5,6 +5,7 @@
 #include "field.h"
 #include "player.h"
 #include "touch.h"
+#include "effect.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -36,9 +37,9 @@ int runSet(struct Touch* touch, struct Field* field, struct Player* player);
 void runBattle(struct Touch* touch, struct Field* field, struct Player* player);
 void runTurnBattle(struct Touch* touch, struct Field* field, struct Player* player, int *turnID);
 void runEnd(struct Touch* touch, struct Player* player);
-void drawStart(AGDrawBuffer* DBuf);
+void drawStart(AGDrawBuffer* DBuf,struct Effect* effect);
 void drawSet(AGDrawBuffer* DBuf, struct Field* field, struct Player* player, struct Touch* touch);
-void drawBattle(AGDrawBuffer* DBuf, struct Field* field, struct Player* player);
+void drawBattle(AGDrawBuffer* DBuf, struct Field* field, struct Player* player, struct Effect* effect);
 void drawEnd(AGDrawBuffer* DBuf, struct Player* player);
 
 // タッチしたオブジェクトの種類を取得

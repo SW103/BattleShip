@@ -22,24 +22,25 @@ void runStart(struct Touch* touch, struct Player* player)
         }
 }
 
-void drawStart(AGDrawBuffer* DBuf)
+void drawStart(AGDrawBuffer* DBuf,struct Effect* effect)
 {
-        int w,h;
+    int w,h;
+    _dprintf("Frame=%d,Count=%d,LastFrame=%d\n",effect->Frame,effect->Count,effect->LastFrame);
 
-        //Init
-        agDrawBufferInit( DBuf , DrawBuffer );
-        agDrawSETDAVR( DBuf , 0 , 0 , aglGetDrawFrame() , 0 , 0 );
-        agDrawSETDAVF( DBuf, 0, 0, s(FB_WIDTH), s(FB_HEIGHT) );
+    //Init
+    agDrawBufferInit( DBuf , DrawBuffer );
+    agDrawSETDAVR( DBuf , 0 , 0 , aglGetDrawFrame() , 0 , 0 );
+    agDrawSETDAVF( DBuf, 0, 0, s(FB_WIDTH), s(FB_HEIGHT) );
 
-        //白背景
-        agDrawSETFCOLOR( DBuf, ARGB( 255, 255, 255, 255 ) );
-        agDrawSETDBMODE( DBuf, 0xff, 0, 0, 1 );
-        agDrawSPRITE( DBuf, 0, 0, 0, s(FB_WIDTH), s(FB_HEIGHT) );        
-
-        agDrawSETFCOLOR( DBuf, ARGB( 255, 255, 0, 0 ) );
-        ageTransferAAC( DBuf, AG_CG_TITLE, 0, &w, &h );
-        agDrawSETDBMODE( DBuf, 0xff, 0, 2, 1 );
-        agDrawSPRITE( DBuf, 1, 0, 0, s(FB_WIDTH), s(FB_HEIGHT));
+    //白背景
+    agDrawSETFCOLOR( DBuf, ARGB( 255, 255, 255, 255 ) );
+    agDrawSETDBMODE( DBuf, 0xff, 0, 0, 1 );
+    agDrawSPRITE( DBuf, 0, 0, 0, s(FB_WIDTH), s(FB_HEIGHT) );
+    
+    ageTransferAAC_RM3( DBuf , AG_RP_BATTLESHIP_TITLE , 0 , &w , &h , effect->Frame );
+    agDrawSETDBMODE( DBuf, 0xff, 0, 2, 1 );
+    agDrawSPRITE( DBuf, 1, 0, 0, s(FB_WIDTH), s(FB_HEIGHT) );
+    
 }
 
 int runSet(struct Touch* touch, struct Field* field, struct Player* player)
@@ -374,7 +375,7 @@ void runTurnBattle(struct Touch* touch, struct Field* field, struct Player* play
                 }
 }
 
-void drawBattle(AGDrawBuffer* DBuf, struct Field* field, struct Player* player)
+void drawBattle(AGDrawBuffer* DBuf, struct Field* field, struct Player* player, struct Effect* effect)
 {
         int i,w,h,MyID,EnID;
         int x,y;
@@ -397,6 +398,12 @@ void drawBattle(AGDrawBuffer* DBuf, struct Field* field, struct Player* player)
         agDrawSPRITE( DBuf, 0, 0, 0, s(FB_WIDTH), s(FB_HEIGHT) );
 
         //敵のフィールド
+        //じゃみんぐ
+        if(MyID==1){
+            ageTransferAAC_RM3( DBuf , AG_RP_NOISE , 0 , &w , &h , effect->Frame );
+            agDrawSETDBMODE( DBuf, 0xff, 0, 2, 1 );
+            agDrawSPRITE( DBuf, 1, s(FIELD_X), s(FIELD_Y), s(FIELD_X)+s(CELL_SIZE)*FIELD_WIDTH_NUM, s(FIELD_Y)+s(CELL_SIZE)*FIELD_HEIGHT_NUM );
+        }
         drawField( DBuf, field, s(FIELD_X), s(FIELD_Y), s(CELL_SIZE));
         drawFieldColor( DBuf, &field[EnID], s(FIELD_X), s(FIELD_Y), s(CELL_SIZE));
 

@@ -14,6 +14,7 @@
 #include "player.h"
 #include "game.h"
 #include "touch.h"
+#include "effect.h"
 
 //extern int holdingIndex;
 /*
@@ -85,6 +86,9 @@ void  main( void )  {
 	//タッチ
 	struct Touch touch[PLAYER_NUM];
 
+	struct Effect title;
+	struct Effect noise;
+
 #ifdef __DSP_3_BUFF__
     static u8 uFBINDEX[3]={
         AG_FB_INDEX0,
@@ -120,7 +124,14 @@ void  main( void )  {
     agPDevSyncInit( FB_WIDTH, FB_HEIGHT, &_SystemVSyncCount, 60);
 
     initTouch(touch);
+    initEffect(&title);
+    initEffect(&noise);
     _dprintf("Start\n");
+    title.Name=AG_RP_BATTLESHIP_TITLE;
+    title.LastFrame=99;
+    noise.Name=AG_RP_NOISE;
+    noise.LastFrame=9;
+
     MyID=(int)agPDevSyncGetMyID();
 
 	while( 1 ) {
@@ -132,7 +143,8 @@ void  main( void )  {
 		switch(gameMode){
 			case MODE_START:                        
                 runStart(touch, player);
-                drawStart(&DBuf);
+                drawStart(&DBuf,&title);
+                countEffect( &title );
                 if(player[0].Sync==1 && player[1].Sync==1){
                 	    initField(field);
     					initPlayer(player);
@@ -159,7 +171,8 @@ void  main( void )  {
 				break;
 			case MODE_BATTLE:
 				runBattle(touch, field, player);
-				drawBattle(&DBuf, field, player);
+				drawBattle(&DBuf, field, player, &noise);
+				countEffect(&noise);
 				for(ID=0;ID<PLAYER_NUM;ID++){
 					ship_num=BATTLESHIP_NUM;
 					for(i=0;i<BATTLESHIP_NUM;i++){
@@ -175,7 +188,8 @@ void  main( void )  {
 				break;
 			case MODE_TURNBATTLE:
 				runTurnBattle(touch, field, player, &turnID);
-				drawBattle(&DBuf, field, player);
+				drawBattle(&DBuf, field, player, &noise);
+				countEffect(&noise);
 				for(ID=0;ID<PLAYER_NUM;ID++){
 					ship_num=BATTLESHIP_NUM;
 					for(i=0;i<BATTLESHIP_NUM;i++){
@@ -194,7 +208,9 @@ void  main( void )  {
 				drawEnd(&DBuf, player);
 				if(player[0].Sync==1 && player[1].Sync==1){
 					gameMode=MODE_START;
-					initPlayer(player);	
+					initPlayer(player);
+					initEffect(&title);
+					initEffect(&noise);
 				}
 				break;
 			default:
