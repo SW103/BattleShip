@@ -25,7 +25,6 @@ void runStart(struct Touch* touch, struct Player* player)
 void drawStart(AGDrawBuffer* DBuf,struct Effect* effect)
 {
     int w,h;
-    _dprintf("Frame=%d,Count=%d,LastFrame=%d\n",effect->Frame,effect->Count,effect->LastFrame);
 
     //Init
     agDrawBufferInit( DBuf , DrawBuffer );
@@ -42,6 +41,57 @@ void drawStart(AGDrawBuffer* DBuf,struct Effect* effect)
     agDrawSPRITE( DBuf, 1, 0, 0, s(FB_WIDTH), s(FB_HEIGHT) );
     
 }
+
+void runSelect(struct Touch* touch, struct Player* player, int* battlemode)
+{
+        int ID;
+        
+        for(ID=0; ID<PLAYER_NUM; ID++){
+            if(isPushedButton(&touch[ID],512-200,200,512+200,200+100)==1){
+                if(touch[ID].stat==1){
+                    player[ID].Sync=1;
+                }
+                *battlemode = MODE_BATTLE;
+            }else if(isPushedButton(&touch[ID],512-200,400,512+200,400+100)==1){
+                if(touch[ID].stat==1){
+                    player[ID].Sync=1;
+                }
+                *battlemode = MODE_TURNBATTLE;
+            }
+        }
+
+
+}
+
+void drawSelect(AGDrawBuffer* DBuf, struct Player* player)
+{
+    int w,h;
+
+    //Init
+    agDrawBufferInit( DBuf , DrawBuffer );
+    agDrawSETDAVR( DBuf , 0 , 0 , aglGetDrawFrame() , 0 , 0 );
+    agDrawSETDAVF( DBuf, 0, 0, s(FB_WIDTH), s(FB_HEIGHT) );
+
+    //白背景
+    agDrawSETFCOLOR( DBuf, ARGB( 255, 255, 255, 255 ) );
+    agDrawSETDBMODE( DBuf, 0xff, 0, 0, 1 );
+    agDrawSPRITE( DBuf, 0, 0, 0, s(FB_WIDTH), s(FB_HEIGHT) );
+
+    //リアルタイム制
+    agDrawSETFCOLOR( DBuf, ARGB( 255, 255, 0, 0 ) );
+    ageTransferAAC( DBuf, AG_CG_REALTIME_BATTLE, 0, NULL, NULL );
+    agDrawSETDBMODE( DBuf, 0xff, 0, 2, 1 );
+    agDrawSPRITE( DBuf, 1, s(512 - 200), s(200), s(512 + 200), s(200+100));    
+
+    //ターン制
+    agDrawSETFCOLOR( DBuf, ARGB( 255, 255, 0, 0 ) );
+    ageTransferAAC( DBuf, AG_CG_TURN_BATTLE, 0, NULL, NULL );
+    agDrawSETDBMODE( DBuf, 0xff, 0, 2, 1 );
+    agDrawSPRITE( DBuf, 1, s(512 - 200), s(400), s(512 + 200), s(400+100));
+
+
+}
+
 
 int runSet(struct Touch* touch, struct Field* field, struct Player* player)
 {
@@ -123,13 +173,12 @@ int runSet(struct Touch* touch, struct Field* field, struct Player* player)
 			}
 
 			//回転ボタン
-			if(isPushedRotation(&touch[ID])==1){
+			if(isPushedButton(&touch[ID],300, 600, 300 + 200, 600+100)==1){
 				//_dprintf("Pushed!\n");
 				rotationBattleShip(&hold[ID]);
 			}
-
 			//スタートボタン
-			if(isPushedStart(&touch[ID])==1){
+			if(isPushedButton(&touch[ID],600,600,600+200,600+100)==1){
 				//_dprintf("START Pushed!\n");
 				//重なっているとき
 				if(isOverlap(&player[ID])==1){
@@ -145,9 +194,9 @@ int runSet(struct Touch* touch, struct Field* field, struct Player* player)
 	return 0;
 }
 
-void drawSet(AGDrawBuffer* DBuf, struct Field* field, struct Player* player, struct Touch* touch)
+void drawSet(AGDrawBuffer* DBuf, struct Field* field, struct Player* player, struct Touch* touch, struct Effect* effect)
 {
-	int i, MyID;
+	int i, MyID, w, h;
 
 	MyID=(int)agPDevSyncGetMyID();
 
@@ -160,6 +209,10 @@ void drawSet(AGDrawBuffer* DBuf, struct Field* field, struct Player* player, str
 	agDrawSETFCOLOR( DBuf, ARGB( 255, 255, 255, 255 ) );
 	agDrawSETDBMODE( DBuf, 0xff, 0, 0, 1 );
 	agDrawSPRITE( DBuf, 0, 0, 0, s(FB_WIDTH), s(FB_HEIGHT) );
+
+    ageTransferAAC_RM3( DBuf , AG_RP_OCEAN , 0 , &w , &h , effect->Frame );
+    agDrawSETDBMODE( DBuf, 0xff, 0, 2, 1 );
+    agDrawSPRITE( DBuf, 1, 0, 0, s(FB_WIDTH), s(FB_HEIGHT) );
 
 	//フィールド
 	drawField( DBuf, field, s(FIELD_X), s(FIELD_Y), s(CELL_SIZE));
@@ -398,12 +451,10 @@ void drawBattle(AGDrawBuffer* DBuf, struct Field* field, struct Player* player, 
         agDrawSPRITE( DBuf, 0, 0, 0, s(FB_WIDTH), s(FB_HEIGHT) );
 
         //敵のフィールド
-        //じゃみんぐ
-        if(MyID==1){
-            ageTransferAAC_RM3( DBuf , AG_RP_NOISE , 0 , &w , &h , effect->Frame );
-            agDrawSETDBMODE( DBuf, 0xff, 0, 2, 1 );
-            agDrawSPRITE( DBuf, 1, s(FIELD_X), s(FIELD_Y), s(FIELD_X)+s(CELL_SIZE)*FIELD_WIDTH_NUM, s(FIELD_Y)+s(CELL_SIZE)*FIELD_HEIGHT_NUM );
-        }
+        ageTransferAAC_RM3( DBuf , AG_RP_OCEAN , 0 , &w , &h , effect->Frame );
+        agDrawSETDBMODE( DBuf, 0xff, 0, 2, 1 );
+        agDrawSPRITE( DBuf, 1, 0, 0, s(FB_WIDTH), s(FB_HEIGHT) );
+
         drawField( DBuf, field, s(FIELD_X), s(FIELD_Y), s(CELL_SIZE));
         drawFieldColor( DBuf, &field[EnID], s(FIELD_X), s(FIELD_Y), s(CELL_SIZE));
 
@@ -604,14 +655,10 @@ int placeable(struct Touch* touch, struct Field* field, struct HoldingObject* ho
 }
 
 //回転ボタンが押されたかどうか
-int isPushedRotation(struct Touch* touch)
+int isPushedButton(struct Touch* touch, int b_x1, int b_y1, int b_x2, int b_y2)
 {
 	int x = touch->x;
 	int y = touch->y;
-	int b_x1 = 300;
-	int b_y1 = 600;
-	int b_x2 = 300+200;
-	int b_y2 = 600+100;	
 
 	if( x>=b_x1 && x<b_x2 && y>=b_y1 && y<b_y2 && touch->count == 1)
 		return 1;
@@ -639,21 +686,6 @@ int rotationBattleShip(struct HoldingObject* hold)
 		if(i>=0 && j>=0 && i+wid<=FIELD_WIDTH_NUM && j+len<=FIELD_HEIGHT_NUM)
 			break;
 	}
-}
-
-//スタートボタンが押されたかどうか
-int isPushedStart(struct Touch* touch)
-{
-	int x = touch->x;
-	int y = touch->y;
-	int b_x1 = 600;
-	int b_y1 = 600;
-	int b_x2 = 600+200;
-	int b_y2 = 600+100;
-
-	if( x>=b_x1 && x<b_x2 && y>=b_y1 && y<b_y2 && touch->count == 1)
-		return 1;
-	return 0;
 }
 
 //重なっている配置があるかどうか

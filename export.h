@@ -38,30 +38,33 @@ extern "C" {
 #define AG_CG_NUM_7_0	(8)
 #define AG_CG_NUM_8_0	(9)
 #define AG_CG_NUM_9_0	(10)
-#define AG_CG_FIELD__2_	(11)
+#define AG_CG_FIELD 	(11)
 #define AG_CG_SENKAN_DOWN	(12)
 #define AG_CG_SENKAN_LEFT	(13)
 #define AG_CG_SENKAN_RIGHT	(14)
 #define AG_CG_SENKAN_UP	(15)
 #define AG_CG_SENKAN_SKELTON_DOWN	(16)
-#define AG_CG_YOULOSE	(17)
-#define AG_CG_YOUWIN	(18)
-#define AG_CG_SENKAN_SKELTON_LEFT	(19)
-#define AG_CG_SENKAN_SKELTON_RIGHT	(20)
-#define AG_CG_SENKAN_SKELTON_UP	(21)
-#define AG_CG_START	(22)
-#define AG_CG_OVERLAP	(23)
-#define AG_CG_WAIT	(24)
-#define AG_CG_ATTACK	(25)
-#define AG_CG_TITLE	(26)
-#define AG_CG_SCOPE	(27)
-#define AG_CG_X	(28)
+#define AG_CG_TURN_BATTLE	(17)
+#define AG_CG_REALTIME_BATTLE	(18)
+#define AG_CG_YOULOSE	(19)
+#define AG_CG_YOUWIN	(20)
+#define AG_CG_SENKAN_SKELTON_LEFT	(21)
+#define AG_CG_SENKAN_SKELTON_RIGHT	(22)
+#define AG_CG_SENKAN_SKELTON_UP	(23)
+#define AG_CG_START	(24)
+#define AG_CG_OVERLAP	(25)
+#define AG_CG_WAIT	(26)
+#define AG_CG_ATTACK	(27)
+#define AG_CG_TITLE	(28)
+#define AG_CG_SCOPE	(29)
+#define AG_CG_X	(30)
 
 /***************************************************************/
 /*                     RM3 Member Symbol                       */
 /***************************************************************/
 #define AG_RP_BATTLESHIP_TITLE	(0)
-#define AG_RP_NOISE	(1)
+#define AG_RP_OCEAN	(1)
+#define AG_RP_NOISE	(2)
 
 /***************************************************************/
 /*                       Vram Group Symbol                     */
@@ -70,8 +73,8 @@ extern "C" {
 /***************************************************************/
 /*                          Data Member                        */
 /***************************************************************/
-extern const AGERomMember ageRM[29];
-extern const AGERM3Member ageRM3[2];
+extern const AGERomMember ageRM[31];
+extern const AGERM3Member ageRM3[3];
 extern const u32 ageReserve[1];
 extern const u32 ageUser[1];
 extern const s16 ageVGCnt;

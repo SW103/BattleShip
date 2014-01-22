@@ -66,7 +66,7 @@ void  main( void )  {
 	AGDrawBuffer DBuf;
 
 	int i, ship_num;
-	int MyID,ID,turnID;
+	int MyID,ID,turnID,battlemode;
 
 	//ゲームのモード変数
 	enum GameMode gameMode = MODE_START;
@@ -88,6 +88,7 @@ void  main( void )  {
 
 	struct Effect title;
 	struct Effect noise;
+	struct Effect ocean;
 
 #ifdef __DSP_3_BUFF__
     static u8 uFBINDEX[3]={
@@ -125,10 +126,13 @@ void  main( void )  {
 
     initTouch(touch);
     initEffect(&title);
+    initEffect(&ocean);
     initEffect(&noise);
     _dprintf("Start\n");
     title.Name=AG_RP_BATTLESHIP_TITLE;
     title.LastFrame=99;
+    ocean.Name=AG_RP_OCEAN;
+    ocean.LastFrame=99;
     noise.Name=AG_RP_NOISE;
     noise.LastFrame=9;
 
@@ -145,7 +149,19 @@ void  main( void )  {
                 runStart(touch, player);
                 drawStart(&DBuf,&title);
                 countEffect( &title );
-                if(player[0].Sync==1 && player[1].Sync==1){
+                if(player[0].Sync==1 || player[1].Sync==1){
+                	    initField(field);
+    					initPlayer(player);
+    					turnID=0;
+                		player[0].Sync = 0;
+                		player[1].Sync = 0;
+                        gameMode=MODE_SELECT;
+                }
+                break;
+            case MODE_SELECT:
+            	runSelect(touch, player, &battlemode);
+            	drawSelect(&DBuf, player);
+                if(player[0].Sync==1 || player[1].Sync==1){
                 	    initField(field);
     					initPlayer(player);
     					turnID=0;
@@ -156,11 +172,12 @@ void  main( void )  {
                 break;
 			case MODE_SET:
 				runSet(touch, field, player);
-				drawSet(&DBuf, field, player, touch);
+				drawSet(&DBuf, field, player, touch, &ocean);
+				countEffect(&ocean);
 				if(player[0].Sync==2 && player[1].Sync==2){
                 		player[0].Sync = 0;
                 		player[1].Sync = 0;
-                        gameMode=MODE_TURNBATTLE;
+                        gameMode=battlemode;
                 }
 				/*
 				if(result==1){
@@ -171,8 +188,8 @@ void  main( void )  {
 				break;
 			case MODE_BATTLE:
 				runBattle(touch, field, player);
-				drawBattle(&DBuf, field, player, &noise);
-				countEffect(&noise);
+				drawBattle(&DBuf, field, player, &ocean);
+				countEffect(&ocean);
 				for(ID=0;ID<PLAYER_NUM;ID++){
 					ship_num=BATTLESHIP_NUM;
 					for(i=0;i<BATTLESHIP_NUM;i++){
@@ -210,6 +227,7 @@ void  main( void )  {
 					gameMode=MODE_START;
 					initPlayer(player);
 					initEffect(&title);
+					initEffect(&ocean);
 					initEffect(&noise);
 				}
 				break;
