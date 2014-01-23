@@ -1,4 +1,4 @@
-Optimizing Linkage Editor (V.9.04.00.000)         22-Jan-2014 15:40:59
+Optimizing Linkage Editor (V.9.04.00.000)         23-Jan-2014 15:42:02
 
 *** Options ***
 
@@ -47,19 +47,19 @@ Pinit
 Cinit
                                   8000095c  80000987        2c   4
 P
-                                  80000988  80008b0f      8188   4
+                                  80000988  800099ef      9068   4
 C
-                                  80008b10  80009b8b      107c   4
+                                  800099f0  8000ad6b      137c   4
 D
-                                  80009b8c  80009c2f        a4   4
+                                  8000ad6c  8000ae13        a8   4
 Q
-                                  8c000000  8c008187      8188   4
+                                  8c000000  8c009067      9068   4
 R
-                                  8c008188  8c00822b        a4   4
+                                  8c009068  8c00910f        a8   4
 S
-                                  8c00822c  8c0092a7      107c   4
+                                  8c009110  8c00a48b      137c   4
 B
-                                  8c0092a8  8c031957     286b0   4
+                                  8c00a48c  8c032bdf     28754   4
 STACK
                                   8dff0000  8dff0001         2   4
 
@@ -235,127 +235,133 @@ FILE=SH7730_Main
 
 SECTION=P
 FILE=DebugL/main.o
-                                  80000988  8000106f       6e8
+                                  80000988  800011cb       844
 FILE=DebugL/battleShip.o
-                                  80001070  80001835       7c6
+                                  800011cc  80001991       7c6
 FILE=DebugL/field.o
-                                  80001838  80001d43       50c
+                                  80001994  80001e9f       50c
 FILE=DebugL/player.o
-                                  80001d44  80001f13       1d0
+                                  80001ea0  8000206f       1d0
 FILE=DebugL/game.o
-                                  80001f14  80003f77      2064
+                                  80002070  800040d3      2064
 FILE=DebugL/agtouch.o
-                                  80003f78  80004313       39c
+                                  800040d4  8000446f       39c
 FILE=DebugL/touch.o
-                                  80004314  80004447       134
+                                  80004470  800045a3       134
 FILE=DebugL/effect.o
-                                  80004448  8000449b        54
+                                  800045a4  800045f7        54
 FILE=amlib
-                                  8000449c  80004923       488
+                                  800045f8  80004a7f       488
 FILE=agdraw
-                                  80004924  80004c73       350
+                                  80004a80  80004dcf       350
 FILE=agtransfer
-                                  80004c74  80004e47       1d4
+                                  80004dd0  80004fa3       1d4
 FILE=dprintf
-                                  80004e48  800057c7       980
+                                  80004fa4  80005923       980
 FILE=agetool
-                                  800057c8  80005bef       428
+                                  80005924  80005d4b       428
+FILE=agesndmgr
+                                  80005d4c  80006a7b       d30
 FILE=SH7730_agp
-                                  80005bf0  80006087       498
+                                  80006a7c  80006f17       49c
 FILE=SH7730_Sci2
-                                  80006088  800060cf        48
+                                  80006f18  80006f5f        48
 FILE=agPDevSync
-                                  800060d0  80006813       744
+                                  80006f60  800076a3       744
 FILE=__divls
-                                  80006814  80006907        f4
+                                  800076a4  80007797        f4
 FILE=__modls
-                                  80006908  800069fb        f4
+                                  80007798  8000788b        f4
 FILE=strlen
-                                  800069fc  80006a21        26
+                                  8000788c  800078b1        26
 FILE=SH7730_Int
-                                  80006a24  800072b7       894
+                                  800078b4  80008147       894
 FILE=SH7730_Sci
-                                  800072b8  8000732b        74
+                                  80008148  800081c7        80
 FILE=SH7730_Scif4
-                                  8000732c  80007633       308
+                                  800081c8  800084cf       308
 FILE=initialize
-                                  80007634  80007f0b       8d8
+                                  800084d0  80008deb       91c
 FILE=SH7730_GamePad
-                                  80007f0c  80007f23        18
+                                  80008dec  80008e03        18
 FILE=SH7730_Sci1
-                                  80007f24  80007f5f        3c
+                                  80008e04  80008e3f        3c
 FILE=cosf
-                                  80007f60  80007f97        38
+                                  80008e40  80008e77        38
 FILE=sinf
-                                  80007f98  80007fdf        48
+                                  80008e78  80008ebf        48
 FILE=SH7730_Scif0
-                                  80007fe0  80008353       374
+                                  80008ec0  80009233       374
 FILE=SH7730_Scif1
-                                  80008354  80008677       324
+                                  80009234  80009557       324
 FILE=sincosfsub_fpu
-                                  80008678  80008843       1cc
+                                  80009558  80009723       1cc
 FILE=fmodf
-                                  80008844  8000894f       10c
+                                  80009724  8000982f       10c
 FILE=nanf
-                                  80008950  80008963        14
+                                  80009830  80009843        14
 FILE=_i_fmds
-                                  80008964  80008b0f       1ac
+                                  80009844  800099ef       1ac
 
 SECTION=C
 FILE=DebugL/main.o
-                                  80008b10  80008b5e        4f
+                                  800099f0  80009a3e        4f
 FILE=DebugL/export.o
-                                  80008b60  800091d7       678
+                                  80009a40  8000a0c7       688
 FILE=DebugL/battleShip.o
-                                  800091d8  800091ef        18
+                                  8000a0c8  8000a0df        18
 FILE=DebugL/game.o
-                                  800091f0  8000921d        2e
+                                  8000a0e0  8000a10d        2e
 FILE=DebugL/agtouch.o
-                                  80009220  80009242        23
+                                  8000a110  8000a132        23
 FILE=dprintf
-                                  80009244  800092ba        77
+                                  8000a134  8000a1aa        77
 FILE=agetool
-                                  800092bc  8000973e       483
+                                  8000a1ac  8000a62e       483
+FILE=agesndmgr
+                                  8000a630  8000a91e       2ef
 FILE=agPDevSync
-                                  80009740  8000978b        4c
+                                  8000a920  8000a96b        4c
 FILE=agpicture
-                                  8000978c  800097a7        1c
+                                  8000a96c  8000a987        1c
 FILE=SH7730_Int
-                                  800097a8  800099e8       241
+                                  8000a988  8000abc8       241
 FILE=SH7730_Scif4
-                                  800099ec  80009a44        59
+                                  8000abcc  8000ac24        59
 FILE=SH7730_Scif0
-                                  80009a48  80009aa0        59
+                                  8000ac28  8000ac80        59
 FILE=SH7730_Scif1
-                                  80009aa4  80009afc        59
+                                  8000ac84  8000acdc        59
 FILE=floatval
-                                  80009b00  80009b27        28
+                                  8000ace0  8000ad07        28
 FILE=consts
-                                  80009b28  80009b8b        64
+                                  8000ad08  8000ad6b        64
 
 SECTION=D
 FILE=DebugL/main.o
-                                  80009b8c  80009b93         8
+                                  8000ad6c  8000ad73         8
 FILE=DebugL/agtouch.o
-                                  80009b94  80009bcb        38
+                                  8000ad74  8000adab        38
 FILE=dprintf
-                                  80009bcc  80009bcf         4
+                                  8000adac  8000adaf         4
+FILE=agesndmgr
+                                  8000adb0  8000adb3         4
 FILE=agPDevSync
-                                  80009bd0  80009be3        14
+                                  8000adb4  8000adc7        14
 FILE=SH7730_Sci
-                                  80009be4  80009be7         4
+                                  8000adc8  8000adcb         4
 FILE=SH7730_Scif4
-                                  80009be8  80009beb         4
+                                  8000adcc  8000adcf         4
 FILE=SH7730_Scif0
-                                  80009bec  80009bef         4
+                                  8000add0  8000add3         4
 FILE=SH7730_Scif1
-                                  80009bf0  80009bf3         4
+                                  8000add4  8000add7         4
 FILE=sincosfsub_fpu
-                                  80009bf4  80009c2f        3c
+                                  8000add8  8000ae13        3c
 
 SECTION=Q
 FILE=DebugL/main.o
-                                  8c000000  8c0006e7       6e8
+                                  8c000000  8c000843       844
   _drawNumberGraph
                                   8c000000       154   func ,g         * 
   _ifnc_vsync
@@ -363,647 +369,697 @@ FILE=DebugL/main.o
   _ifnc_draw
                                   8c000166        10   func ,l         * 
   _main
-                                  8c000176       572   func ,g         *   ch
+                                  8c000176       6ce   func ,g         *   ch
 FILE=DebugL/battleShip.o
-                                  8c0006e8  8c000ead       7c6
+                                  8c000844  8c001009       7c6
   _drawSkeltonBattleShip
-                                  8c0006e8       27e   func ,g         * 
+                                  8c000844       27e   func ,g         * 
   _drawBattleShip
-                                  8c000966       242   func ,g         * 
+                                  8c000ac2       242   func ,g         * 
   _drawBattleShip2
-                                  8c000ba8       208   func ,g         * 
+                                  8c000d04       208   func ,g         * 
   _getBattleShipPosition
-                                  8c000db0        a4   func ,g         * 
+                                  8c000f0c        a4   func ,g         * 
   _isThereBattleShip
-                                  8c000e54        5a   func ,g         * 
+                                  8c000fb0        5a   func ,g         * 
 FILE=DebugL/field.o
-                                  8c000eb0  8c0013bb       50c
+                                  8c00100c  8c001517       50c
   _initField
-                                  8c000eb0        c2   func ,g         * 
+                                  8c00100c        c2   func ,g         * 
   _drawField
-                                  8c000f72        c0   func ,g         * 
+                                  8c0010ce        c0   func ,g         * 
   _drawFieldColor
-                                  8c001032       38a   func ,g         * 
+                                  8c00118e       38a   func ,g         * 
 FILE=DebugL/player.o
-                                  8c0013bc  8c00158b       1d0
+                                  8c001518  8c0016e7       1d0
   _initPlayer
-                                  8c0013bc       176   func ,g         * 
+                                  8c001518       176   func ,g         * 
   _getBattleShip
-                                  8c001532        5a   func ,g         *   ch
+                                  8c00168e        5a   func ,g         *   ch
 FILE=DebugL/game.o
-                                  8c00158c  8c0035ef      2064
+                                  8c0016e8  8c00374b      2064
   _runStart
-                                  8c00158c        44   func ,g         * 
+                                  8c0016e8        44   func ,g         * 
   _drawStart
-                                  8c0015d0        ec   func ,g         * 
+                                  8c00172c        ec   func ,g         * 
   _runSelect
-                                  8c0016bc       134   func ,g         *   ch
+                                  8c001818       134   func ,g         *   ch
   _drawSelect
-                                  8c0017f0       170   func ,g         * 
+                                  8c00194c       170   func ,g         * 
   _runSet
-                                  8c001960       464   func ,g         * 
+                                  8c001abc       464   func ,g         * 
   _drawSet
-                                  8c001dc4       462   func ,g         *   ch
+                                  8c001f20       462   func ,g         *   ch
   _runBattle
-                                  8c002226       57a   func ,g         *   ch
+                                  8c002382       57a   func ,g         *   ch
   _runTurnBattle
-                                  8c0027a0       52c   func ,g         * 
+                                  8c0028fc       52c   func ,g         * 
   _drawBattle
-                                  8c002ccc       2e4   func ,g         *   ch
+                                  8c002e28       2e4   func ,g         *   ch
   _runEnd
-                                  8c002fb0        58   func ,g         * 
+                                  8c00310c        58   func ,g         * 
   _drawEnd
-                                  8c003008       148   func ,g         *   ch
+                                  8c003164       148   func ,g         *   ch
   _getTouchObject
-                                  8c003150       142   func ,g         *   ch
+                                  8c0032ac       142   func ,g         *   ch
   _getReleaseObject
-                                  8c003292        74   func ,g         * 
+                                  8c0033ee        74   func ,g         * 
   _placeable
-                                  8c003306        c2   func ,g         * 
+                                  8c003462        c2   func ,g         * 
   _isPushedButton
-                                  8c0033c8        30   func ,g         * 
+                                  8c003524        30   func ,g         * 
   _rotationBattleShip
-                                  8c0033f8        9c   func ,g         * 
+                                  8c003554        9c   func ,g         * 
   _isOverlap
-                                  8c003494       15c   func ,g         * 
+                                  8c0035f0       15c   func ,g         * 
 FILE=DebugL/agtouch.o
-                                  8c0035f0  8c00398b       39c
+                                  8c00374c  8c003ae7       39c
   _agTouchInit
-                                  8c0035f0        50   func ,g         * 
+                                  8c00374c        50   func ,g         * 
   __agTouchData
-                                  8c003640       240   func ,l         * 
+                                  8c00379c       240   func ,l         * 
   _agTouchGetData
-                                  8c003880       10c   func ,g         * 
+                                  8c0039dc       10c   func ,g         * 
 FILE=DebugL/touch.o
-                                  8c00398c  8c003abf       134
+                                  8c003ae8  8c003c1b       134
   _initTouch
-                                  8c00398c        42   func ,g         * 
+                                  8c003ae8        42   func ,g         * 
   _getTouch
-                                  8c0039ce        f2   func ,g         * 
+                                  8c003b2a        f2   func ,g         * 
 FILE=DebugL/effect.o
-                                  8c003ac0  8c003b13        54
+                                  8c003c1c  8c003c6f        54
   _initEffect
-                                  8c003ac0         e   func ,g         * 
+                                  8c003c1c         e   func ,g         * 
   _countEffect
-                                  8c003ace        46   func ,g         * 
+                                  8c003c2a        46   func ,g         * 
 FILE=amlib
-                                  8c003b14  8c003f9b       488
+                                  8c003c70  8c0040f7       488
   _aglInitialize
-                                  8c003b14        7e   func ,g         * 
+                                  8c003c70        7e   func ,g         * 
   _aglGetReg
-                                  8c003b92         e   func ,g         * 
+                                  8c003cee         e   func ,g         * 
   _aglSetReg
-                                  8c003ba0         c   func ,g         * 
+                                  8c003cfc         c   func ,g         * 
   _aglSetFBIndex
-                                  8c003bac        44   func ,g         * 
+                                  8c003d08        44   func ,g         * 
   _aglGetDspAIndex
-                                  8c003bf0        34   func ,g         * 
+                                  8c003d4c        34   func ,g         * 
   _aglGetDspBIndex
-                                  8c003c24        34   func ,g         * 
+                                  8c003d80        34   func ,g         * 
   _aglGetDrawFrameA
-                                  8c003c58        1e   func ,g         * 
+                                  8c003db4        1e   func ,g         * 
   _aglGetDrawFrameB
-                                  8c003c76        24   func ,g         *   ch
+                                  8c003dd2        24   func ,g         *   ch
   _aglGetDrawFrame
-                                  8c003c9a        56   func ,g         * 
+                                  8c003df6        56   func ,g         * 
   _aglSwap
-                                  8c003cf0        20   func ,g         * 
+                                  8c003e4c        20   func ,g         * 
   _aglSwapA
-                                  8c003d10        34   func ,g         * 
+                                  8c003e6c        34   func ,g         * 
   _aglSwapB
-                                  8c003d44        34   func ,g         * 
+                                  8c003ea0        34   func ,g         * 
   _aglWaitVSync
-                                  8c003d78        24   func ,g         * 
+                                  8c003ed4        24   func ,g         * 
   _aglWaitVSyncA
-                                  8c003d9c        28   func ,g         * 
+                                  8c003ef8        28   func ,g         * 
   _aglWaitVSyncB
-                                  8c003dc4        3c   func ,g         *   ch
+                                  8c003f20        3c   func ,g         *   ch
   _aglIntHandler
-                                  8c003e00        a8   func ,g         * 
+                                  8c003f5c        a8   func ,g         * 
   _aglSearchNewCallbackSpace
-                                  8c003ea8        4c   func ,l         *   ch
+                                  8c004004        4c   func ,l         *   ch
   _aglAddInterruptCallback
-                                  8c003ef4        98   func ,g         *   ch
+                                  8c004050        98   func ,g         *   ch
   _aglSetMainDisplay
-                                  8c003f8c        10   func ,g         *   ch
+                                  8c0040e8        10   func ,g         *   ch
 FILE=agdraw
-                                  8c003f9c  8c0042eb       350
+                                  8c0040f8  8c004447       350
   _agDrawBufferInit
-                                  8c003f9c        1c   func ,g         * 
+                                  8c0040f8        1c   func ,g         * 
   _agDrawEODL
-                                  8c003fb8        44   func ,g         *   ch
+                                  8c004114        44   func ,g         *   ch
   _agDrawSETDAVR
-                                  8c003ffc        50   func ,g         * 
+                                  8c004158        50   func ,g         * 
   _agDrawSETDAVF
-                                  8c00404c        48   func ,g         * 
+                                  8c0041a8        48   func ,g         * 
   _agDrawSETFCOLOR
-                                  8c004094        22   func ,g         * 
+                                  8c0041f0        22   func ,g         * 
   _agDrawSETTXATR
-                                  8c0040b6        e6   func ,g         * 
+                                  8c004212        e6   func ,g         * 
   _agDrawSETDBMODE
-                                  8c00419c        4a   func ,g         * 
+                                  8c0042f8        4a   func ,g         * 
   _agDrawSPRITE
-                                  8c0041e6        68   func ,g         * 
+                                  8c004342        68   func ,g         * 
   _agDrawTXLOAD2AAC
-                                  8c00424e        9e   func ,g         * 
+                                  8c0043aa        9e   func ,g         * 
 FILE=agtransfer
-                                  8c0042ec  8c0044bf       1d4
+                                  8c004448  8c00461b       1d4
   _agTransferDrawDMAAsync
-                                  8c0042ec        e6   func ,g         *   ch
+                                  8c004448        e6   func ,g         *   ch
   _agTransferDrawWait
-                                  8c0043d2        ba   func ,g         *   ch
+                                  8c00452e        ba   func ,g         *   ch
   _agTransferDrawDMA
-                                  8c00448c        34   func ,g         *   ch
+                                  8c0045e8        34   func ,g         *   ch
 FILE=dprintf
-                                  8c0044c0  8c004e3f       980
+                                  8c00461c  8c004f9b       980
   __prf_check
-                                  8c0044c0        a0   func ,l         * 
+                                  8c00461c        a0   func ,l         * 
   __prline
-                                  8c004560        30   func ,l         * 
+                                  8c0046bc        30   func ,l         * 
   __prdata
-                                  8c004590       200   func ,l         * 
+                                  8c0046ec       200   func ,l         * 
   __dprintfunc_init
-                                  8c004790         a   func ,g         * 
+                                  8c0048ec         a   func ,g         * 
   __put_db
-                                  8c00479a        1e   func ,l         * 
+                                  8c0048f6        1e   func ,l         * 
   __dprintf
-                                  8c0047b8       688   func ,g         * 
+                                  8c004914       688   func ,g         * 
 FILE=agetool
-                                  8c004e40  8c005267       428
+                                  8c004f9c  8c0053c3       428
   _ageTransferAAC
-                                  8c004e40       1e8   func ,g         *   ch
+                                  8c004f9c       1e8   func ,g         *   ch
   _ageTransferAAC_RM3
-                                  8c005028       240   func ,g         *   ch
+                                  8c005184       240   func ,g         *   ch
+FILE=agesndmgr
+                                  8c0053c4  8c0060f3       d30
+  _ageSndMgrSetLoopFlag
+                                  8c0053c4        7e   func ,l         *   ch
+  _ageSndMgrSetStereo
+                                  8c005442        7e   func ,l         *   ch
+  _ageSndMgrSetOneSeekPoint
+                                  8c0054c0        7e   func ,l         *   ch
+  _ageSndMgrSendCommand
+                                  8c00553e        92   func ,g         *   ch
+  _ageSndMgrInit
+                                  8c0055d0       15e   func ,g         * 
+  _ageSndMgrSetMasterVolume
+                                  8c00572e        42   func ,g         *   ch
+  _ageSndMgrSetChannelVolume
+                                  8c005770        32   func ,g         *   ch
+  _ageSndMgrAllocMono
+                                  8c0057a2       14e   func ,l         *   ch
+  _ageSndMgrAllocStereo
+                                  8c0058f0       174   func ,l         * 
+  _ageSndMgrAlloc
+                                  8c005a64        c4   func ,g         * 
+  _ageSndMgrRelease
+                                  8c005b28        dc   func ,g         * 
+  _ageSndMgrPlay
+                                  8c005c04        a0   func ,g         *   ch
+  _ageSndMgrRun
+                                  8c005ca4        94   func ,g         *   ch
+  _ageSndMgrSetPanMode
+                                  8c005d38        68   func ,g         * 
+  _ageSndMgrSetPan
+                                  8c005da0       1ce   func ,g         * 
+  _ageSndMgrSetVolume
+                                  8c005f6e       108   func ,g         * 
+  _ageSndMgrStop
+                                  8c006076        7e   func ,g         *   ch
 FILE=SH7730_agp
-                                  8c005268  8c0056ff       498
+                                  8c0060f4  8c00658f       49c
   _agpPreInitialize
-                                  8c005268        c8   func ,g         *   ch
+                                  8c0060f4        ca   func ,g         * 
   _agpPostInitialize
-                                  8c005330        dc   func ,g         *   ch
+                                  8c0061be        dc   func ,g         *   ch
   __Cache_Purge
-                                  8c00540c        36   func ,l         * 
+                                  8c00629a        36   func ,l         * 
   _agpDMAWriteStart
-                                  8c005442       23a   func ,g         *   ch
+                                  8c0062d0       23c   func ,g         *   ch
   _agpDMAIsFinish
-                                  8c00567c        26   func ,g         * 
+                                  8c00650c        26   func ,g         * 
   _agpDMAStop
-                                  8c0056a2         e   func ,g         * 
+                                  8c006532         e   func ,g         * 
   _agpDisableCpuInterrupts
-                                  8c0056b0        10   func ,g         * 
+                                  8c006540        10   func ,g         * 
   _agpEnableCpuInterrupts
-                                  8c0056c0        40   func ,g         * 
+                                  8c006550        40   func ,g         * 
 FILE=SH7730_Sci2
-                                  8c005700  8c005747        48
+                                  8c006590  8c0065d7        48
   _IoSci2_Init
-                                  8c005700        1a   func ,g         * 
+                                  8c006590        1a   func ,g         * 
   _IoSci2_SetRTS
-                                  8c00571a         e   func ,g         * 
+                                  8c0065aa         e   func ,g         * 
   _IoSci2_RecvData
-                                  8c005728        20   func ,g         *   ch
+                                  8c0065b8        20   func ,g         *   ch
 FILE=agPDevSync
-                                  8c005748  8c005e8b       744
+                                  8c0065d8  8c006d1b       744
   _SendBuff_SetBits
-                                  8c005748        96   func ,l         * 
+                                  8c0065d8        96   func ,l         * 
   _RecvBuff_GetBits
-                                  8c0057de        92   func ,l         * 
+                                  8c00666e        92   func ,l         * 
   _SendBuff_MakeData
-                                  8c005870        6e   func ,l         * 
+                                  8c006700        6e   func ,l         * 
   _Send
-                                  8c0058de        2a   func ,l         * 
+                                  8c00676e        2a   func ,l         * 
   __agPDevSyncSend
-                                  8c005908        50   func ,l         * 
+                                  8c006798        50   func ,l         * 
   __agPDevSyncFunc
-                                  8c005958       118   func ,l         * 
+                                  8c0067e8       118   func ,l         * 
   _agPDevSyncInit
-                                  8c005a70       1e6   func ,g         * 
+                                  8c006900       1e6   func ,g         * 
   _agPDevSyncIdle
-                                  8c005c56        d8   func ,g         * 
+                                  8c006ae6        d8   func ,g         * 
   _agPDevSyncWait
-                                  8c005d2e        a0   func ,g         * 
+                                  8c006bbe        a0   func ,g         * 
   _agPDevSyncGetData
-                                  8c005dce        90   func ,g         * 
+                                  8c006c5e        90   func ,g         * 
   _agPDevSyncGetMyID
-                                  8c005e5e        2e   func ,g         *   ch
+                                  8c006cee        2e   func ,g         *   ch
 FILE=__divls
-                                  8c005e8c  8c005f7f        f4
+                                  8c006d1c  8c006e0f        f4
   
-                                  8c005e8c         0   none ,l         * 
+                                  8c006d1c         0   none ,l         * 
   
-                                  8c005e94         0   none ,l         * 
+                                  8c006d24         0   none ,l         * 
   
-                                  8c005e9e         0   none ,l         * 
+                                  8c006d2e         0   none ,l         * 
   __divls
-                                  8c005ea4         0   none ,g         * 
+                                  8c006d34         0   none ,g         * 
   __divlu
-                                  8c005eac         0   none ,g         * 
+                                  8c006d3c         0   none ,g         * 
   
-                                  8c005ed4         0   none ,l         * 
+                                  8c006d64         0   none ,l         * 
   
-                                  8c005f2c         0   none ,l         * 
+                                  8c006dbc         0   none ,l         * 
   
-                                  8c005f32         0   none ,l         * 
+                                  8c006dc2         0   none ,l         * 
 FILE=__modls
-                                  8c005f80  8c006073        f4
+                                  8c006e10  8c006f03        f4
   __modls
-                                  8c005f80         0   none ,g         * 
+                                  8c006e10         0   none ,g         * 
   
-                                  8c005f86         0   none ,l         * 
+                                  8c006e16         0   none ,l         * 
   __modlu
-                                  8c005f98         0   none ,g         * 
+                                  8c006e28         0   none ,g         * 
   
-                                  8c005fbe         0   none ,l         * 
+                                  8c006e4e         0   none ,l         * 
   
-                                  8c005fc4         0   none ,l         * 
+                                  8c006e54         0   none ,l         * 
   
-                                  8c006016         0   none ,l         * 
+                                  8c006ea6         0   none ,l         * 
   
-                                  8c00601e         0   none ,l         * 
+                                  8c006eae         0   none ,l         * 
   
-                                  8c006024         0   none ,l         * 
+                                  8c006eb4         0   none ,l         * 
   
-                                  8c00606e         0   none ,l         * 
+                                  8c006efe         0   none ,l         * 
 FILE=strlen
-                                  8c006074  8c006099        26
+                                  8c006f04  8c006f29        26
   _strlen
-                                  8c006074        26   func ,g         * 
+                                  8c006f04        26   func ,g         * 
 FILE=SH7730_Int
-                                  8c00609c  8c00692f       894
+                                  8c006f2c  8c0077bf       894
   _Intevt_Init
-                                  8c00609c        2e   func ,l         * 
+                                  8c006f2c        2e   func ,l         * 
   _Intevt2_SetFunc
-                                  8c0060ca        16   func ,g         * 
+                                  8c006f5a        16   func ,g         * 
   _Intevt2_Entry
-                                  8c0060e0        78   func ,g         * 
+                                  8c006f70        78   func ,g         * 
   _INTC_Init
-                                  8c006158       13a   func ,g         * 
+                                  8c006fe8       13a   func ,g         * 
   _INTC_ClearIPR
-                                  8c006292        44   func ,g         * 
+                                  8c007122        44   func ,g         * 
   _INTC_GetIPR
-                                  8c0062d6       122   func ,g         * 
+                                  8c007166       122   func ,g         * 
   _INTC_SetIPR
-                                  8c0063f8        da   func ,g         * 
+                                  8c007288        da   func ,g         * 
   __Exception_Entry
-                                  8c0064d2       3fc   func ,l         *   ch
+                                  8c007362       3fc   func ,l         *   ch
   _Exception_Entry1
-                                  8c0068ce        12   func ,g         * 
+                                  8c00775e        12   func ,g         * 
   _Exception_Entry4
-                                  8c0068e0        50   func ,g         * 
+                                  8c007770        50   func ,g         * 
 FILE=SH7730_Sci
-                                  8c006930  8c0069a3        74
+                                  8c0077c0  8c00783f        80
   _IoSci_Init
-                                  8c006930        1c   func ,g         *   ch
+                                  8c0077c0        1c   func ,g         *   ch
   _IoSci_PutEnable
-                                  8c00694c         a   func ,g         * 
+                                  8c0077dc         a   func ,g         * 
   __putch
-                                  8c006956        18   func ,g         *   ch
+                                  8c0077e6        1a   func ,g         * 
   __putch_wait
-                                  8c00696e        14   func ,g         *   ch
+                                  8c007800        16   func ,g         * 
   __puts
-                                  8c006982        22   func ,g         *   ch
+                                  8c007816        2a   func ,g         *   ch
 FILE=SH7730_Scif4
-                                  8c0069a4  8c006cab       308
+                                  8c007840  8c007b47       308
   _IoScifx_SET_BRR
-                                  8c0069a4        fc   func ,l         *   ch
+                                  8c007840        fc   func ,l         *   ch
   _IoScif4_Init
-                                  8c006aa0       14e   func ,g         * 
+                                  8c00793c       14e   func ,g         * 
   _IoScif4_SetRTS
-                                  8c006bee        4a   func ,g         *   ch
+                                  8c007a8a        4a   func ,g         *   ch
   _IoScif4_RecvData
-                                  8c006c38        74   func ,g         *   ch
+                                  8c007ad4        74   func ,g         *   ch
 FILE=initialize
-                                  8c006cac  8c007583       8d8
+                                  8c007b48  8c008463       91c
   _agpVDPInitialize
-                                  8c006cac       8d8   func ,g         *   ch
+                                  8c007b48       8c4   func ,g         * 
+  _agpSoundInitialize
+                                  8c00840c        58   func ,g         * 
 FILE=SH7730_GamePad
-                                  8c007584  8c00759b        18
+                                  8c008464  8c00847b        18
   _agpGamePadGetDipSw
-                                  8c007584        18   func ,g         *   ch
+                                  8c008464        18   func ,g         *   ch
 FILE=SH7730_Sci1
-                                  8c00759c  8c0075d7        3c
+                                  8c00847c  8c0084b7        3c
   _IoSci1_Init
-                                  8c00759c        18   func ,g         *   ch
+                                  8c00847c        18   func ,g         *   ch
   _IoSci1_RecvData
-                                  8c0075b4        10   func ,g         *   ch
+                                  8c008494        10   func ,g         *   ch
   _IoSci1_SendData
-                                  8c0075c4        14   func ,g         *   ch
+                                  8c0084a4        14   func ,g         *   ch
 FILE=cosf
-                                  8c0075d8  8c00760f        38
+                                  8c0084b8  8c0084ef        38
   _cosf
-                                  8c0075d8        38   func ,g         * 
+                                  8c0084b8        38   func ,g         * 
 FILE=sinf
-                                  8c007610  8c007657        48
+                                  8c0084f0  8c008537        48
   _sinf
-                                  8c007610        48   func ,g         * 
+                                  8c0084f0        48   func ,g         * 
 FILE=SH7730_Scif0
-                                  8c007658  8c0079cb       374
+                                  8c008538  8c0088ab       374
   _IoScifx_SET_BRR
-                                  8c007658       100   func ,l         * 
+                                  8c008538       100   func ,l         * 
   _IoScif0_Init
-                                  8c007758       14c   func ,g         *   ch
+                                  8c008638       14c   func ,g         *   ch
   _IoScif0_SendReady
-                                  8c0078a4        68   func ,g         *   ch
+                                  8c008784        68   func ,g         *   ch
   _IoScif0_SendData
-                                  8c00790c        2e   func ,g         * 
+                                  8c0087ec        2e   func ,g         * 
   __ioscif0_putch
-                                  8c00793a        32   func ,g         * 
+                                  8c00881a        32   func ,g         * 
   __ioscif0_putch_wait
-                                  8c00796c        24   func ,g         * 
+                                  8c00884c        24   func ,g         * 
   __ioscif0_puts
-                                  8c007990        3c   func ,g         *   ch
+                                  8c008870        3c   func ,g         *   ch
 FILE=SH7730_Scif1
-                                  8c0079cc  8c007cef       324
+                                  8c0088ac  8c008bcf       324
   _IoScifx_SET_BRR
-                                  8c0079cc       100   func ,l         * 
+                                  8c0088ac       100   func ,l         * 
   _IoScif1_Init
-                                  8c007acc       14c   func ,g         *   ch
+                                  8c0089ac       14c   func ,g         *   ch
   _IoScif1_RecvData
-                                  8c007c18        a6   func ,g         * 
+                                  8c008af8        a6   func ,g         * 
   _IoScif1_SendData
-                                  8c007cbe        32   func ,g         *   ch
+                                  8c008b9e        32   func ,g         *   ch
 FILE=sincosfsub_fpu
-                                  8c007cf0  8c007ebb       1cc
+                                  8c008bd0  8c008d9b       1cc
   ___poly_sinf
-                                  8c007cf0        4c   func ,g         * 
+                                  8c008bd0        4c   func ,g         * 
   ___poly_cosf
-                                  8c007d3c        42   func ,g         * 
+                                  8c008c1c        42   func ,g         * 
   _poly_cosfn
-                                  8c007d7e         e   func ,l         * 
+                                  8c008c5e         e   func ,l         * 
   _poly_sinfn
-                                  8c007d8c         e   func ,l         * 
+                                  8c008c6c         e   func ,l         * 
   _sincosf_special
-                                  8c007d9a        52   func ,l         * 
+                                  8c008c7a        52   func ,l         * 
   ___internal_sincosf
-                                  8c007dec        d0   func ,g         * 
+                                  8c008ccc        d0   func ,g         * 
 FILE=fmodf
-                                  8c007ebc  8c007fc7       10c
+                                  8c008d9c  8c008ea7       10c
   __istypes
-                                  8c007ebc        4a   func ,l         * 
+                                  8c008d9c        4a   func ,l         * 
   __in_truncs
-                                  8c007f06        38   func ,l         * 
+                                  8c008de6        38   func ,l         * 
   __polinos
-                                  8c007f3e        22   func ,l         * 
+                                  8c008e1e        22   func ,l         * 
   _fmodf
-                                  8c007f60        68   func ,g         * 
+                                  8c008e40        68   func ,g         * 
 FILE=nanf
-                                  8c007fc8  8c007fdb        14
+                                  8c008ea8  8c008ebb        14
   ___nanf_value
-                                  8c007fc8        14   func ,g         * 
+                                  8c008ea8        14   func ,g         * 
 FILE=_i_fmds
-                                  8c007fdc  8c008187       1ac
+                                  8c008ebc  8c009067       1ac
   __istypes
-                                  8c007fdc        4a   func ,l         * 
+                                  8c008ebc        4a   func ,l         * 
   __in_truncs
-                                  8c008026        38   func ,l         * 
+                                  8c008f06        38   func ,l         * 
   __polinos
-                                  8c00805e        22   func ,l         * 
+                                  8c008f3e        22   func ,l         * 
   __in_fmods
-                                  8c008080       108   func ,g         * 
+                                  8c008f60       108   func ,g         * 
 
 SECTION=R
 FILE=DebugL/main.o
-                                  8c008188  8c00818f         8
+                                  8c009068  8c00906f         8
   __SystemVSyncCount
-                                  8c008188         4   data ,l         * 
+                                  8c009068         4   data ,l         * 
   _DrawExecFlag
-                                  8c00818c         4   data ,l         * 
+                                  8c00906c         4   data ,l         * 
 FILE=DebugL/agtouch.o
-                                  8c008190  8c0081c7        38
+                                  8c009070  8c0090a7        38
   _L_SCALE_X
-                                  8c008190         4   data ,l         * 
+                                  8c009070         4   data ,l         * 
   _L_SCALE_Y
-                                  8c008194         4   data ,l         * 
+                                  8c009074         4   data ,l         * 
   _agTouchInit_Flag
-                                  8c008198         4   data ,l         * 
+                                  8c009078         4   data ,l         * 
   _touch_data_exist
-                                  8c00819c         4   data ,l         * 
+                                  8c00907c         4   data ,l         * 
   _sync_loop$11
-                                  8c0081a0         4   data ,l         * 
+                                  8c009080         4   data ,l         * 
   _sync_chck$12
-                                  8c0081a4         4   data ,l         * 
+                                  8c009084         4   data ,l         * 
   __sync_loop$13
-                                  8c0081a8         4   data ,l         * 
+                                  8c009088         4   data ,l         * 
   _data_nums$14
-                                  8c0081ac         4   data ,l         * 
+                                  8c00908c         4   data ,l         * 
   _init_flag$15
-                                  8c0081b0         4   data ,l         * 
+                                  8c009090         4   data ,l         * 
   _data_rpos$17
-                                  8c0081b4         4   data ,l         * 
+                                  8c009094         4   data ,l         * 
   _px$18
-                                  8c0081b8         4   data ,l         * 
+                                  8c009098         4   data ,l         * 
   _py$19
-                                  8c0081bc         4   data ,l         * 
+                                  8c00909c         4   data ,l         * 
   _pd$20
-                                  8c0081c0         4   data ,l         * 
+                                  8c0090a0         4   data ,l         * 
   _init_skip$34
-                                  8c0081c4         4   data ,l         * 
+                                  8c0090a4         4   data ,l         * 
 FILE=dprintf
-                                  8c0081c8  8c0081cb         4
+                                  8c0090a8  8c0090ab         4
   __putch_func
-                                  8c0081c8         4   data ,l         * 
+                                  8c0090a8         4   data ,l         * 
+FILE=agesndmgr
+                                  8c0090ac  8c0090af         4
+  _pSMgr
+                                  8c0090ac         4   data ,l         * 
 FILE=agPDevSync
-                                  8c0081cc  8c0081df        14
+                                  8c0090b0  8c0090c3        14
   _SyncMode
-                                  8c0081cc         4   data ,l         * 
+                                  8c0090b0         4   data ,l         * 
   _SyncID
-                                  8c0081d0         4   data ,l         * 
+                                  8c0090b4         4   data ,l         * 
   _SyncStat
-                                  8c0081d4         4   data ,l         * 
+                                  8c0090b8         4   data ,l         * 
   _SendBuff_BitPos
-                                  8c0081d8         4   data ,l         * 
+                                  8c0090bc         4   data ,l         * 
   _RecvBuff_BitPos
-                                  8c0081dc         4   data ,l         * 
+                                  8c0090c0         4   data ,l         * 
 FILE=SH7730_Sci
-                                  8c0081e0  8c0081e3         4
+                                  8c0090c4  8c0090c7         4
   _sci_skip
-                                  8c0081e0         4   data ,l         * 
+                                  8c0090c4         4   data ,l         * 
 FILE=SH7730_Scif4
-                                  8c0081e4  8c0081e7         4
+                                  8c0090c8  8c0090cb         4
   _IoScifx_Init_Flag
-                                  8c0081e4         4   data ,l         * 
+                                  8c0090c8         4   data ,l         * 
 FILE=SH7730_Scif0
-                                  8c0081e8  8c0081eb         4
+                                  8c0090cc  8c0090cf         4
   _IoScifx_Init_Flag
-                                  8c0081e8         4   data ,l         * 
+                                  8c0090cc         4   data ,l         * 
 FILE=SH7730_Scif1
-                                  8c0081ec  8c0081ef         4
+                                  8c0090d0  8c0090d3         4
   _IoScifx_Init_Flag
-                                  8c0081ec         4   data ,l         * 
+                                  8c0090d0         4   data ,l         * 
 FILE=sincosfsub_fpu
-                                  8c0081f0  8c00822b        3c
+                                  8c0090d4  8c00910f        3c
   _sinf_coeff
-                                  8c0081f0        10   data ,l         * 
+                                  8c0090d4        10   data ,l         * 
   _cosf_coeff
-                                  8c008200        10   data ,l         * 
+                                  8c0090e4        10   data ,l         * 
   _pi4ptr_table
-                                  8c008210         c   data ,l         * 
+                                  8c0090f4         c   data ,l         * 
   _sub_table
-                                  8c00821c        10   data ,l         * 
+                                  8c009100        10   data ,l         * 
 
 SECTION=S
 FILE=DebugL/main.o
-                                  8c00822c  8c00827a        4f
+                                  8c009110  8c00915e        4f
 FILE=DebugL/export.o
-                                  8c00827c  8c0088f3       678
+                                  8c009160  8c0097e7       688
   _ageRM
-                                  8c00827c       2e8   data ,g         * 
+                                  8c009160       2e8   data ,g         * 
   _ageRM3Offsets0000
-                                  8c008564       190   data ,g         * 
+                                  8c009448       190   data ,g         * 
   _ageRM3Offsets0001
-                                  8c0086f4       190   data ,g         * 
+                                  8c0095d8       190   data ,g         * 
   _ageRM3Offsets0002
-                                  8c008884        28   data ,g         * 
+                                  8c009768        28   data ,g         * 
   _ageRM3
-                                  8c0088ac        48   data ,g         * 
+                                  8c009790        48   data ,g         * 
+  _ageSRM
+                                  8c0097d8        10   data ,g         * 
 FILE=DebugL/battleShip.o
-                                  8c0088f4  8c00890b        18
+                                  8c0097e8  8c0097ff        18
 FILE=DebugL/game.o
-                                  8c00890c  8c008939        2e
+                                  8c009800  8c00982d        2e
 FILE=DebugL/agtouch.o
-                                  8c00893c  8c00895e        23
+                                  8c009830  8c009852        23
 FILE=dprintf
-                                  8c008960  8c0089d6        77
+                                  8c009854  8c0098ca        77
   _la_str$14
-                                  8c008960        13   data ,l         * 
+                                  8c009854        13   data ,l         * 
   _ua_str$15
-                                  8c008973        13   data ,l         * 
+                                  8c009867        13   data ,l         * 
   _lk_str$16
-                                  8c008986        25   data ,l         * 
+                                  8c00987a        25   data ,l         * 
   _uk_str$17
-                                  8c0089ab        25   data ,l         * 
+                                  8c00989f        25   data ,l         * 
 FILE=agetool
-                                  8c0089d8  8c008e5a       483
+                                  8c0098cc  8c009d4e       483
   _CMMap
-                                  8c0089d8        24   data ,l         * 
+                                  8c0098cc        24   data ,l         * 
   _CompressMap
-                                  8c0089fc        24   data ,l         * 
+                                  8c0098f0        24   data ,l         * 
+FILE=agesndmgr
+                                  8c009d50  8c00a03e       2ef
 FILE=agPDevSync
-                                  8c008e5c  8c008ea7        4c
+                                  8c00a040  8c00a08b        4c
 FILE=agpicture
-                                  8c008ea8  8c008ec3        1c
+                                  8c00a08c  8c00a0a7        1c
 FILE=SH7730_Int
-                                  8c008ec4  8c009104       241
+                                  8c00a0a8  8c00a2e8       241
 FILE=SH7730_Scif4
-                                  8c009108  8c009160        59
+                                  8c00a2ec  8c00a344        59
 FILE=SH7730_Scif0
-                                  8c009164  8c0091bc        59
+                                  8c00a348  8c00a3a0        59
 FILE=SH7730_Scif1
-                                  8c0091c0  8c009218        59
+                                  8c00a3a4  8c00a3fc        59
 FILE=floatval
-                                  8c00921c  8c009243        28
+                                  8c00a400  8c00a427        28
   __FLT_MAX_VAL
-                                  8c00921c         0   none ,g         * 
+                                  8c00a400         0   none ,g         * 
   __FLT_MIN_VAL
-                                  8c009220         0   none ,g         * 
+                                  8c00a404         0   none ,g         * 
   __DBL_MAX_VAL
-                                  8c009224         0   none ,g         * 
+                                  8c00a408         0   none ,g         * 
   __DBL_MIN_VAL
-                                  8c00922c         0   none ,g         * 
+                                  8c00a410         0   none ,g         * 
   __LDBL_MAX_VAL
-                                  8c009234         0   none ,g         * 
+                                  8c00a418         0   none ,g         * 
   __LDBL_MIN_VAL
-                                  8c00923c         0   none ,g         * 
+                                  8c00a420         0   none ,g         * 
 FILE=consts
-                                  8c009244  8c0092a7        64
+                                  8c00a428  8c00a48b        64
   __IFNANS
-                                  8c009244         4   data ,g         * 
+                                  8c00a428         4   data ,g         * 
   __IFZEROS
-                                  8c009248         4   data ,g         * 
+                                  8c00a42c         4   data ,g         * 
   __IFINFS
-                                  8c00924c         4   data ,g         * 
+                                  8c00a430         4   data ,g         * 
   __IFONES
-                                  8c009250         4   data ,g         * 
+                                  8c00a434         4   data ,g         * 
   __HALFS
-                                  8c009254         4   data ,g         * 
+                                  8c00a438         4   data ,g         * 
   __QUOTS
-                                  8c009258         4   data ,g         * 
+                                  8c00a43c         4   data ,g         * 
   __TWOS
-                                  8c00925c         4   data ,g         * 
+                                  8c00a440         4   data ,g         * 
   __FOURS
-                                  8c009260         4   data ,g         * 
+                                  8c00a444         4   data ,g         * 
   __PAIS
-                                  8c009264         4   data ,g         * 
+                                  8c00a448         4   data ,g         * 
   __2PAIS
-                                  8c009268         4   data ,g         * 
+                                  8c00a44c         4   data ,g         * 
   __HLFPAIS
-                                  8c00926c         4   data ,g         * 
+                                  8c00a450         4   data ,g         * 
   __QUOPAIS
-                                  8c009270         4   data ,g         * 
+                                  8c00a454         4   data ,g         * 
   __LOGE2S
-                                  8c009274         4   data ,g         * 
+                                  8c00a458         4   data ,g         * 
   __NIFZEROS
-                                  8c009278         4   data ,g         * 
+                                  8c00a45c         4   data ,g         * 
   __NIFINFS
-                                  8c00927c         4   data ,g         * 
+                                  8c00a460         4   data ,g         * 
   __NIFONES
-                                  8c009280         4   data ,g         * 
+                                  8c00a464         4   data ,g         * 
   __NHALFS
-                                  8c009284         4   data ,g         * 
+                                  8c00a468         4   data ,g         * 
   __NQUOTS
-                                  8c009288         4   data ,g         * 
+                                  8c00a46c         4   data ,g         * 
   __NTWOS
-                                  8c00928c         4   data ,g         * 
+                                  8c00a470         4   data ,g         * 
   __NFOURS
-                                  8c009290         4   data ,g         * 
+                                  8c00a474         4   data ,g         * 
   __NPAIS
-                                  8c009294         4   data ,g         * 
+                                  8c00a478         4   data ,g         * 
   __N2PAIS
-                                  8c009298         4   data ,g         * 
+                                  8c00a47c         4   data ,g         * 
   __NHLFPAIS
-                                  8c00929c         4   data ,g         * 
+                                  8c00a480         4   data ,g         * 
   __NQUOPAIS
-                                  8c0092a0         4   data ,g         * 
+                                  8c00a484         4   data ,g         * 
   __NLOGE2S
-                                  8c0092a4         4   data ,g         * 
+                                  8c00a488         4   data ,g         * 
 
 SECTION=B
+FILE=DebugL/main.o
+                                  8c00a48c  8c00a52f        a4
+  _SndMgrData
+                                  8c00a48c        a4   data ,g         * 
 FILE=DebugL/game.o
-                                  8c0092a8  8c0312d7     28030
+                                  8c00a530  8c03255f     28030
   _DrawBuffer
-                                  8c0092a8     28000   data ,g         * 
+                                  8c00a530     28000   data ,g         * 
   _hold
-                                  8c0312a8        30   data ,g         * 
+                                  8c032530        30   data ,g         * 
 FILE=DebugL/agtouch.o
-                                  8c0312d8  8c0312dc         5
+                                  8c032560  8c032564         5
   _data_buff$16
-                                  8c0312d8         5   data ,l         * 
+                                  8c032560         5   data ,l         * 
 FILE=amlib
-                                  8c0312e0  8c031507       228
+                                  8c032568  8c03278f       228
   _int_flags
-                                  8c0312e0        1c   data ,l         * 
+                                  8c032568        1c   data ,l         * 
   _VCntA
-                                  8c0312fc         4   data ,l         * 
+                                  8c032584         4   data ,l         * 
   _VCntB
-                                  8c031300         4   data ,l         * 
+                                  8c032588         4   data ,l         * 
   _g_DispFrameA
-                                  8c031304         1   data ,l         * 
+                                  8c03258c         1   data ,l         * 
   _g_DispFrameB
-                                  8c031305         1   data ,l         * 
+                                  8c03258d         1   data ,l         * 
   _g_MainDisplay
-                                  8c031306         1   data ,l         * 
+                                  8c03258e         1   data ,l         * 
   _g_CallbackChain
-                                  8c031308       200   data ,l         * 
+                                  8c032590       200   data ,l         * 
 FILE=agPDevSync
-                                  8c031508  8c031553        4c
+                                  8c032790  8c0327db        4c
   _pdev_data
-                                  8c031508        18   data ,l         * 
+                                  8c032790        18   data ,l         * 
   _pdev_back
-                                  8c031520        18   data ,l         * 
+                                  8c0327a8        18   data ,l         * 
   _SendBuff
-                                  8c031538         7   data ,l         * 
+                                  8c0327c0         7   data ,l         * 
   _RecvBuff
-                                  8c03153f         7   data ,l         * 
+                                  8c0327c7         7   data ,l         * 
   _SyncBuff
-                                  8c031546         e   data ,l         * 
+                                  8c0327ce         e   data ,l         * 
 FILE=SH7730_Int
-                                  8c031554  8c031953       400
+                                  8c0327dc  8c032bdb       400
   _intevt_table
-                                  8c031554       200   data ,l         * 
+                                  8c0327dc       200   data ,l         * 
   _intevt_error
-                                  8c031754       200   data ,l         * 
+                                  8c0329dc       200   data ,l         * 
 FILE=_errno
-                                  8c031954  8c031957         4
+                                  8c032bdc  8c032bdf         4
   __errno
-                                  8c031954         4   data ,g         * 
+                                  8c032bdc         4   data ,g         * 
 
 SECTION=STACK
 FILE=SH7730_vect
@@ -1030,8 +1086,6 @@ _ageVGCnt
                                          2    data ,g
 _ageMot
                                         18    data ,g
-_ageSRM
-                                         8    data ,g
 _ageSS
                                         10    data ,g
 _ageMotCommon
@@ -1380,6 +1434,30 @@ _ageTexMgrGetRM3NextIndex
                                         ae    func ,w
 _ageTexMgrGetRM3NowFrame
                                         3e    func ,w
+_ageSndMgrAdd
+                                        8a    func ,w
+_ageSndMgrPlayOneshot
+                                        b0    func ,w
+_ageSndMgrSetVolume2
+                                        94    func ,w
+_ageSndMgrSetAttenuator
+                                        88    func ,w
+_ageSndMgrIsPlay
+                                        5c    func ,w
+_ageSndMgrSetEqualizer
+                                        64    func ,w
+_ageSndMgrSetLimiter
+                                        a4    func ,w
+_ageSndMgrSetChannelRouter
+                                        1c    func ,w
+_ageSndMgrSetDuckerSource
+                                        1c    func ,w
+_ageSndMgrSetDucker
+                                        80    func ,w
+_ageSndMgrSetBusAssign
+                                        e4    func ,w
+_ageSndMgrSetBufferMode
+                                       124    func ,w
 _agpDMAWait
                                         20    func ,w
 _IoSci2_RecvReady
@@ -1444,8 +1522,6 @@ __ioscif4_putch_wait
                                         26    func ,w
 __ioscif4_puts
                                         46    func ,w
-_agpSoundInitialize
-                                        58    func ,w
 _agpGamePadGetData
                                         40    func ,w
 _IoSci1_SetRTS

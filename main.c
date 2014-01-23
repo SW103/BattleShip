@@ -62,8 +62,11 @@ static s32 ifnc_draw(int type)
     return(0);
 }
 
+AGESoundManagerData SndMgrData;
+
 void  main( void )  {
 	AGDrawBuffer DBuf;
+	s32 handle;
 
 	int i, ship_num;
 	int MyID,ID,turnID,battlemode;
@@ -108,6 +111,19 @@ void  main( void )  {
 	aglInitialize();
 	agpEnableCpuInterrupts();
 
+	ageSndMgrInit( &SndMgrData , AGE_SOUND_ROM_OFFSET );
+
+	//	ƒ}ƒXƒ^[ƒ{ƒŠƒ…[ƒ€Ý’è
+	for( i=0 ; i<AG_SND_MAX_MASTERVOLUME ; i++ ) {
+		ageSndMgrSetMasterVolume( i , 0x94 );
+	};
+
+	//	ƒ`ƒƒƒ“ƒlƒ‹ƒ{ƒŠƒ…[ƒ€Ý’è
+	for( i=0 ; i<AG_SND_MAX_CHANNEL ; i++ ) {
+		ageSndMgrSetChannelVolume( i , 0xc0 );
+	};
+
+
 	aglAddInterruptCallback(AG_INT_TYPE_VBLA,ifnc_vsync);
 
     aglAddInterruptCallback(AG_INT_TYPE_DRW,ifnc_draw);
@@ -139,7 +155,8 @@ void  main( void )  {
     MyID=(int)agPDevSyncGetMyID();
 
 	while( 1 ) {
-	agPDevSyncWait();
+		agPDevSyncWait();
+		ageSndMgrRun();
 
 		//タッチの取得
 		getTouch(touch);
@@ -156,6 +173,12 @@ void  main( void )  {
                 		player[0].Sync = 0;
                 		player[1].Sync = 0;
                         gameMode=MODE_SELECT;
+						
+						handle = ageSndMgrAlloc( AS_SND_SAKUSENKAIGI , 0 , 1 , AGE_SNDMGR_PANMODE_LR12 , 0 );
+						ageSndMgrPlay( handle );
+						ageSndMgrSetVolume( handle , 0xa0 );
+						ageSndMgrSetPanMode( handle , 0 );
+						ageSndMgrSetPan( handle , 0x8080 );
                 }
                 break;
             case MODE_SELECT:
@@ -178,6 +201,14 @@ void  main( void )  {
                 		player[0].Sync = 0;
                 		player[1].Sync = 0;
                         gameMode=battlemode;
+
+                        ageSndMgrRelease( handle );
+						handle = ageSndMgrAlloc( AS_SND_HISHOU , 0 , 1 , AGE_SNDMGR_PANMODE_LR12 , 0 );
+						ageSndMgrPlay( handle );
+						ageSndMgrSetVolume( handle , 0xa0 );
+						ageSndMgrSetPanMode( handle , 0 );
+						ageSndMgrSetPan( handle , 0x8080 );                        
+
                 }
 				/*
 				if(result==1){
@@ -229,6 +260,7 @@ void  main( void )  {
 					initEffect(&title);
 					initEffect(&ocean);
 					initEffect(&noise);
+					ageSndMgrRelease( handle );
 				}
 				break;
 			default:
