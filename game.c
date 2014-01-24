@@ -1,7 +1,5 @@
 #include "game.h"
 
-u32 DrawBuffer[ 4096*10 ];
-
 struct HoldingObject hold[2];
 
 void initGame(struct Player* player)
@@ -25,16 +23,6 @@ void runStart(struct Touch* touch, struct Player* player)
 void drawStart(AGDrawBuffer* DBuf,struct Effect* effect)
 {
     int w,h;
-
-    //Init
-    agDrawBufferInit( DBuf , DrawBuffer );
-    agDrawSETDAVR( DBuf , 0 , 0 , aglGetDrawFrame() , 0 , 0 );
-    agDrawSETDAVF( DBuf, 0, 0, s(FB_WIDTH), s(FB_HEIGHT) );
-
-    //白背景
-    agDrawSETFCOLOR( DBuf, ARGB( 255, 255, 255, 255 ) );
-    agDrawSETDBMODE( DBuf, 0xff, 0, 0, 1 );
-    agDrawSPRITE( DBuf, 0, 0, 0, s(FB_WIDTH), s(FB_HEIGHT) );
     
     ageTransferAAC_RM3( DBuf , AG_RP_BATTLESHIP_TITLE , 0 , &w , &h , effect->Frame );
     agDrawSETDBMODE( DBuf, 0xff, 0, 2, 1 );
@@ -67,16 +55,6 @@ void drawSelect(AGDrawBuffer* DBuf, struct Player* player)
 {
     int w,h;
 
-    //Init
-    agDrawBufferInit( DBuf , DrawBuffer );
-    agDrawSETDAVR( DBuf , 0 , 0 , aglGetDrawFrame() , 0 , 0 );
-    agDrawSETDAVF( DBuf, 0, 0, s(FB_WIDTH), s(FB_HEIGHT) );
-
-    //白背景
-    agDrawSETFCOLOR( DBuf, ARGB( 255, 255, 255, 255 ) );
-    agDrawSETDBMODE( DBuf, 0xff, 0, 0, 1 );
-    agDrawSPRITE( DBuf, 0, 0, 0, s(FB_WIDTH), s(FB_HEIGHT) );
-
     //リアルタイム制
     agDrawSETFCOLOR( DBuf, ARGB( 255, 255, 0, 0 ) );
     ageTransferAAC( DBuf, AG_CG_REALTIME_BATTLE, 0, NULL, NULL );
@@ -88,8 +66,6 @@ void drawSelect(AGDrawBuffer* DBuf, struct Player* player)
     ageTransferAAC( DBuf, AG_CG_TURN_BATTLE, 0, NULL, NULL );
     agDrawSETDBMODE( DBuf, 0xff, 0, 2, 1 );
     agDrawSPRITE( DBuf, 1, s(512 - 200), s(400), s(512 + 200), s(400+100));
-
-
 }
 
 
@@ -97,7 +73,9 @@ int runSet(struct Touch* touch, struct Field* field, struct Player* player)
 {
 	int index = -1;
 	int i, j;
-	int ID/*,_ID*/;
+	int ID,MyID/*,_ID*/;
+
+    MyID=(int)agPDevSyncGetMyID();
 
 	//_dprintf("runSet1 Sync=%d\n",);
 	for(ID=0;ID<PLAYER_NUM;ID++){
@@ -182,6 +160,10 @@ int runSet(struct Touch* touch, struct Field* field, struct Player* player)
 				//_dprintf("START Pushed!\n");
 				//重なっているとき
 				if(isOverlap(&player[ID])==1){
+                    if(MyID==0 && ID==0 )
+                        ageSndMgrPlayOneshot( AS_SND_A06 , 0 , 0x80 , AGE_SNDMGR_PANMODE_LR12 , 0x80 , 0 );
+                    if(MyID==1 && ID==1 )
+                        ageSndMgrPlayOneshot( AS_SND_B06 , 0 , 0x80 , AGE_SNDMGR_PANMODE_LR12 , 0x80 , 0 );
 					_dprintf("runSet3!\n");
 					player[ID].Sync = 1;
 				}else{
@@ -199,16 +181,6 @@ void drawSet(AGDrawBuffer* DBuf, struct Field* field, struct Player* player, str
 	int i, MyID, w, h;
 
 	MyID=(int)agPDevSyncGetMyID();
-
-	//Init
-	agDrawBufferInit( DBuf , DrawBuffer );
-	agDrawSETDAVR( DBuf , 0 , 0 , aglGetDrawFrame() , 0 , 0 );
-	agDrawSETDAVF( DBuf, 0, 0, s(FB_WIDTH), s(FB_HEIGHT) );
-
-	//白背景
-	agDrawSETFCOLOR( DBuf, ARGB( 255, 255, 255, 255 ) );
-	agDrawSETDBMODE( DBuf, 0xff, 0, 0, 1 );
-	agDrawSPRITE( DBuf, 0, 0, 0, s(FB_WIDTH), s(FB_HEIGHT) );
 
     ageTransferAAC_RM3( DBuf , AG_RP_OCEAN , 0 , &w , &h , effect->Frame );
     agDrawSETDBMODE( DBuf, 0xff, 0, 2, 1 );
@@ -362,7 +334,8 @@ void runTurnBattle(struct Touch* touch, struct Field* field, struct Player* play
 {
         int i,x,y;
         int w,h;
-        int index,EnID,ID;
+        int index,EnID,ID,MyID;
+            MyID=(int)agPDevSyncGetMyID();
 
         ID = *turnID;
 
@@ -378,13 +351,17 @@ void runTurnBattle(struct Touch* touch, struct Field* field, struct Player* play
                         && (touch[ID].y >= ATTACK_BUTTON_Y) 
                         && (touch[ID].y < ATTACK_BUTTON_Y+ATTACK_BUTTON_H) ){
                         if(field[EnID].selected_x!=-1 && field[EnID].selected_y!=-1){
-                        		*turnID=EnID;
                         		index = getBattleShip(&player[EnID], field[EnID].selected_x, field[EnID].selected_y);
                                 if(index != -1){
                                         field[EnID].field[field[EnID].selected_y][field[EnID].selected_x]=HIT;
                                         player[EnID].battleShip[index].life += -1;
+                                        if(MyID==0 && ID==0)
+                                            ageSndMgrPlayOneshot( AS_SND_A09 , 0 , 0x80 , AGE_SNDMGR_PANMODE_LR12 , 0x80 , 0 );
+                                        if(MyID==1 && ID==1)
+                                            ageSndMgrPlayOneshot( AS_SND_B09 , 0 , 0x80 , AGE_SNDMGR_PANMODE_LR12 , 0x80 , 0 );
                                 }else{
-                                        field[EnID].field[field[EnID].selected_y][field[EnID].selected_x]=MISS;                        
+                                        field[EnID].field[field[EnID].selected_y][field[EnID].selected_x]=MISS;
+                                        *turnID=EnID;                      
                                 }
                         }
                         field[EnID].selected_x=-1;
@@ -440,16 +417,6 @@ void drawBattle(AGDrawBuffer* DBuf, struct Field* field, struct Player* player, 
                 EnID=0;
         }
 
-        //Init
-        agDrawBufferInit( DBuf , DrawBuffer );
-        agDrawSETDAVR( DBuf , 0 , 0 , aglGetDrawFrame() , 0 , 0 );
-        agDrawSETDAVF( DBuf, 0, 0, s(FB_WIDTH), s(FB_HEIGHT) );
-
-        //白背景
-        agDrawSETFCOLOR( DBuf, ARGB( 255, 255, 255, 255 ) );
-        agDrawSETDBMODE( DBuf, 0xff, 0, 0, 1 );
-        agDrawSPRITE( DBuf, 0, 0, 0, s(FB_WIDTH), s(FB_HEIGHT) );
-
         //敵のフィールド
         ageTransferAAC_RM3( DBuf , AG_RP_OCEAN , 0 , &w , &h , effect->Frame );
         agDrawSETDBMODE( DBuf, 0xff, 0, 2, 1 );
@@ -493,10 +460,7 @@ void drawEnd(AGDrawBuffer* DBuf, struct Player* player){
         int w,h,MyID;
 
         MyID=(int)agPDevSyncGetMyID();
-        //Init
-        agDrawBufferInit( DBuf , DrawBuffer );
-        agDrawSETDAVR( DBuf , 0 , 0 , aglGetDrawFrame() , 0 , 0 );
-        agDrawSETDAVF( DBuf, 0, 0, s(FB_WIDTH), s(FB_HEIGHT) );
+
         if(player[MyID].Result==-1){
         	agDrawSETFCOLOR( DBuf, ARGB( 255, 255, 0, 0 ) );
        		ageTransferAAC( DBuf, AG_CG_YOULOSE, 0, &w, &h );

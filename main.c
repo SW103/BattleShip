@@ -16,6 +16,12 @@
 #include "touch.h"
 #include "effect.h"
 
+
+#define DSPB_IDX0  10
+#define DSPB_IDX1  11
+
+u32 DrawBuffer[ 4096*10 ];
+
 //extern int holdingIndex;
 /*
 struct Rect{
@@ -66,6 +72,8 @@ AGESoundManagerData SndMgrData;
 
 void  main( void )  {
 	AGDrawBuffer DBuf;
+	//AGDrawBuffer *buf = &DBuf;
+
 	s32 handle;
 
 	int i, ship_num;
@@ -90,6 +98,7 @@ void  main( void )  {
 	struct Touch touch[PLAYER_NUM];
 
 	struct Effect title;
+	struct Effect titleB;	
 	struct Effect noise;
 	struct Effect ocean;
 
@@ -142,11 +151,14 @@ void  main( void )  {
 
     initTouch(touch);
     initEffect(&title);
+    initEffect(&titleB);
     initEffect(&ocean);
     initEffect(&noise);
     _dprintf("Start\n");
     title.Name=AG_RP_BATTLESHIP_TITLE;
     title.LastFrame=99;
+    titleB.Name=AG_RP_BATTLESHIP_TITLE;
+    titleB.LastFrame=99;
     ocean.Name=AG_RP_OCEAN;
     ocean.LastFrame=99;
     noise.Name=AG_RP_NOISE;
@@ -154,12 +166,72 @@ void  main( void )  {
 
     MyID=(int)agPDevSyncGetMyID();
 
+	// 表示回路Bのフレームバッファを確保.
+	aglSetFBIndex(DSPB_IDX0, AG_VRAM_SIZE / 4 - FB_SIZE * 5, FB_WIDTH, 1);
+	aglSetFBIndex(DSPB_IDX1, AG_VRAM_SIZE / 4 - FB_SIZE * 4, FB_WIDTH, 1);
+
+	// 表示回路Bのフレームバッファのインデックス値.
+	AG4REG.DSPBINDEX.INDEX0 = DSPB_IDX0;
+	AG4REG.DSPBINDEX.INDEX1 = DSPB_IDX1;
+
+	// 表示回路Bのタイミング設定をAと同様にする.
+	AG4REGL.DSPBMODE   = AG_PARAM_DSPMODE;
+	AG4REGL.DSPBDTH    = AG_PARAM_DSPDTH;
+	AG4REGL.DSPBRDP    = AG_PARAM_DSPRDP;
+	AG4REGL.DSPBHPRM0  = AG_PARAM_DSPHPRM0;
+	AG4REGL.DSPBVPRM0  = AG_PARAM_DSPVPRM0;
+	AG4REGL.DSPBHPRM1  = AG_PARAM_DSPHPRM1;
+	AG4REGL.DSPBVPRM1  = AG_PARAM_DSPVPRM1;
+	AG4REGL.DSPBSCALE1 = AG_PARAM_DSPSCALE1;
+	AG4REGL.DSPBSCALE2 = AG_PARAM_DSPSCALE2;
+	AG4REGL.DSPBSIZE0  = AG_PARAM_DSPSIZE;
+	AG4REGL.DSPBSCLR   = AG_PARAM_DSPSCLR;
+	AG4REGL.DSPBSPOS   = AG_PARAM_DSPSPOS;
+	AG4REGL.DSPBSIZE2  = AG_PARAM_DSPSIZE2;
+
+	// DotCLKBのPLL設定をDotCLKAと同様にする.
+	AG4REGL.PLLDOTB = AG_PARAM_PLLDOTA;
+	AG4REG.MACROCFG.PLLDB = 1;
+
+	// 出力設定.
+	AG4REG.DSPLVDS.LNKSRC =
+		(0 << 1) |                  // lvds link1 source 0:A 1:B
+    	(1 << 0) ;                  // lvds link2 source 0:A 1:B
+	AG4REG.DSPLVDS.FMT =
+    	(1 << 1) |                  // lvds link1 format
+    	(1 << 0) ;                  // lvds link2 format
+	AG4REG.CMOSRGBCFG.SELC = 1;   // rgb source 0:A 1:B
+	AG4REG.DSPPINOUT.LVDS1 = 1;   // lvds1 output 0:off 1:on
+	AG4REG.DSPPINOUT.LVDS2 = 1;   // lvds2 output 0:off 1:on
+	AG4REG.DSPPINOUT.RGB = 1;     // rgb   output 0:off 1:on
+
+	// 表示回路Bを有効にする.
+	aglDispOnB(1);
+
+
 	while( 1 ) {
+
 		agPDevSyncWait();
 		ageSndMgrRun();
 
 		//タッチの取得
 		getTouch(touch);
+
+    	//Init
+   		agDrawBufferInit( &DBuf , DrawBuffer );
+
+
+		//表示回路A
+    	agDrawSETDAVR( &DBuf , 0 , 0 , aglGetDrawFrameA() , 0 , 0 );
+    	agDrawSETDAVF( &DBuf, 0, 0, s(FB_WIDTH), s(FB_HEIGHT) );
+
+        drawStart(&DBuf,&titleB);
+        countEffect( &titleB );    	
+
+
+		//表示回路B
+    	agDrawSETDAVR( &DBuf , 0 , 0 , aglGetDrawFrameB() , 0 , 0 );
+    	agDrawSETDAVF( &DBuf, 0, 0, s(FB_WIDTH), s(FB_HEIGHT) );
 
 		switch(gameMode){
 			case MODE_START:                        
@@ -173,12 +245,13 @@ void  main( void )  {
                 		player[0].Sync = 0;
                 		player[1].Sync = 0;
                         gameMode=MODE_SELECT;
-						
+						/*
 						handle = ageSndMgrAlloc( AS_SND_SAKUSENKAIGI , 0 , 1 , AGE_SNDMGR_PANMODE_LR12 , 0 );
 						ageSndMgrPlay( handle );
 						ageSndMgrSetVolume( handle , 0xa0 );
 						ageSndMgrSetPanMode( handle , 0 );
 						ageSndMgrSetPan( handle , 0x8080 );
+						*/
                 }
                 break;
             case MODE_SELECT:
@@ -191,6 +264,11 @@ void  main( void )  {
                 		player[0].Sync = 0;
                 		player[1].Sync = 0;
                         gameMode=MODE_SET;
+                        //ボイス：戦艦を配置してね
+                        if(MyID==0)
+       						ageSndMgrPlayOneshot( AS_SND_A03 , 0 , 0x80 , AGE_SNDMGR_PANMODE_LR12 , 0x80 , 0 );
+                        if(MyID==1)
+       						ageSndMgrPlayOneshot( AS_SND_B03 , 0 , 0x80 , AGE_SNDMGR_PANMODE_LR12 , 0x80 , 0 );
                 }
                 break;
 			case MODE_SET:
@@ -202,13 +280,14 @@ void  main( void )  {
                 		player[1].Sync = 0;
                         gameMode=battlemode;
 
+						/*
                         ageSndMgrRelease( handle );
 						handle = ageSndMgrAlloc( AS_SND_HISHOU , 0 , 1 , AGE_SNDMGR_PANMODE_LR12 , 0 );
 						ageSndMgrPlay( handle );
 						ageSndMgrSetVolume( handle , 0xa0 );
 						ageSndMgrSetPanMode( handle , 0 );
-						ageSndMgrSetPan( handle , 0x8080 );                        
-
+						ageSndMgrSetPan( handle , 0x8080 );     
+						*/
                 }
 				/*
 				if(result==1){
@@ -236,8 +315,8 @@ void  main( void )  {
 				break;
 			case MODE_TURNBATTLE:
 				runTurnBattle(touch, field, player, &turnID);
-				drawBattle(&DBuf, field, player, &noise);
-				countEffect(&noise);
+				drawBattle(&DBuf, field, player, &ocean);
+				countEffect(&ocean);
 				for(ID=0;ID<PLAYER_NUM;ID++){
 					ship_num=BATTLESHIP_NUM;
 					for(i=0;i<BATTLESHIP_NUM;i++){
@@ -275,11 +354,13 @@ void  main( void )  {
 		//drawNumberGraph(holdingIndex, 100,100,50,90,10,&DBuf);
 
 		//drawNumberGraph(i, 100,200,50,90,10,&DBuf);
+
 			
 		agDrawEODL( &DBuf );
 		agTransferDrawDMA( &DBuf );
 	
 		aglWaitVSync();
-		aglSwap();
+		aglSwapA();
+		aglSwapB();
 	};
 }

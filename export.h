@@ -38,7 +38,7 @@ extern "C" {
 #define AG_CG_NUM_7_0	(8)
 #define AG_CG_NUM_8_0	(9)
 #define AG_CG_NUM_9_0	(10)
-#define AG_CG_FIELD__2_	(11)
+#define AG_CG_FIELD	(11)
 #define AG_CG_SENKAN_DOWN	(12)
 #define AG_CG_SENKAN_LEFT	(13)
 #define AG_CG_SENKAN_RIGHT	(14)
