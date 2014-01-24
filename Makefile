@@ -13,7 +13,7 @@ ROOTDIR = ../../..
 CGROMDIR = .
 
 # モジュール群
-C_SRC  = main.c export.c battleShip.c field.c player.c game.c agtouch.c touch.c
+C_SRC  = main.c export.c battleShip.c field.c player.c game.c agtouch.c touch.c effect.c
 
 # 追加のライブラリ
 EXTRA_LIBS = $(ROOTDIR)/library/agPDevSync$(LIBPOSTFIX).lib

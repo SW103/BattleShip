@@ -14,6 +14,7 @@
 #include "player.h"
 #include "game.h"
 #include "touch.h"
+#include "effect.h"
 
 //extern int holdingIndex;
 /*
@@ -61,11 +62,14 @@ static s32 ifnc_draw(int type)
     return(0);
 }
 
+AGESoundManagerData SndMgrData;
+
 void  main( void )  {
 	AGDrawBuffer DBuf;
+	s32 handle;
 
-	int i, result;
-	int MyID;
+	int i, ship_num;
+	int MyID,ID,turnID,battlemode;
 
 	//ゲームのモード変数
 	enum GameMode gameMode = MODE_START;
@@ -85,6 +89,10 @@ void  main( void )  {
 	//タッチ
 	struct Touch touch[PLAYER_NUM];
 
+	struct Effect title;
+	struct Effect noise;
+	struct Effect ocean;
+
 #ifdef __DSP_3_BUFF__
     static u8 uFBINDEX[3]={
         AG_FB_INDEX0,
@@ -103,6 +111,19 @@ void  main( void )  {
 	aglInitialize();
 	agpEnableCpuInterrupts();
 
+	ageSndMgrInit( &SndMgrData , AGE_SOUND_ROM_OFFSET );
+
+	//	ƒ}ƒXƒ^[ƒ{ƒŠƒ…[ƒ€Ý’è
+	for( i=0 ; i<AG_SND_MAX_MASTERVOLUME ; i++ ) {
+		ageSndMgrSetMasterVolume( i , 0x94 );
+	};
+
+	//	ƒ`ƒƒƒ“ƒlƒ‹ƒ{ƒŠƒ…[ƒ€Ý’è
+	for( i=0 ; i<AG_SND_MAX_CHANNEL ; i++ ) {
+		ageSndMgrSetChannelVolume( i , 0xc0 );
+	};
+
+
 	aglAddInterruptCallback(AG_INT_TYPE_VBLA,ifnc_vsync);
 
     aglAddInterruptCallback(AG_INT_TYPE_DRW,ifnc_draw);
@@ -120,13 +141,22 @@ void  main( void )  {
     agPDevSyncInit( FB_WIDTH, FB_HEIGHT, &_SystemVSyncCount, 60);
 
     initTouch(touch);
-    initField(field);
-    initPlayer(player);
+    initEffect(&title);
+    initEffect(&ocean);
+    initEffect(&noise);
     _dprintf("Start\n");
+    title.Name=AG_RP_BATTLESHIP_TITLE;
+    title.LastFrame=99;
+    ocean.Name=AG_RP_OCEAN;
+    ocean.LastFrame=99;
+    noise.Name=AG_RP_NOISE;
+    noise.LastFrame=9;
+
     MyID=(int)agPDevSyncGetMyID();
 
 	while( 1 ) {
-	agPDevSyncWait();
+		agPDevSyncWait();
+		ageSndMgrRun();
 
 		//タッチの取得
 		getTouch(touch);
@@ -134,23 +164,51 @@ void  main( void )  {
 		switch(gameMode){
 			case MODE_START:                        
                 runStart(touch, player);
-                drawStart(&DBuf);
-                if(player[0].Sync==1 && player[1].Sync==1){
+                drawStart(&DBuf,&title);
+                countEffect( &title );
+                if(player[0].Sync==1 || player[1].Sync==1){
+                	    initField(field);
+    					initPlayer(player);
+    					turnID=0;
                 		player[0].Sync = 0;
                 		player[1].Sync = 0;
-                        gameMode=MODE_BATTLE;
+                        gameMode=MODE_SELECT;
+						
+						handle = ageSndMgrAlloc( AS_SND_SAKUSENKAIGI , 0 , 1 , AGE_SNDMGR_PANMODE_LR12 , 0 );
+						ageSndMgrPlay( handle );
+						ageSndMgrSetVolume( handle , 0xa0 );
+						ageSndMgrSetPanMode( handle , 0 );
+						ageSndMgrSetPan( handle , 0x8080 );
+                }
+                break;
+            case MODE_SELECT:
+            	runSelect(touch, player, &battlemode);
+            	drawSelect(&DBuf, player);
+                if(player[0].Sync==1 || player[1].Sync==1){
+                	    initField(field);
+    					initPlayer(player);
+    					turnID=0;
+                		player[0].Sync = 0;
+                		player[1].Sync = 0;
+                        gameMode=MODE_SET;
                 }
                 break;
 			case MODE_SET:
 				runSet(touch, field, player);
-				drawSet(&DBuf, field, player, touch);
+				drawSet(&DBuf, field, player, touch, &ocean);
+				countEffect(&ocean);
 				if(player[0].Sync==2 && player[1].Sync==2){
                 		player[0].Sync = 0;
                 		player[1].Sync = 0;
-                		initTouch(touch);
-    					initField(field);
-    					initPlayer(player);
-                        gameMode=MODE_BATTLE;
+                        gameMode=battlemode;
+
+                        ageSndMgrRelease( handle );
+						handle = ageSndMgrAlloc( AS_SND_HISHOU , 0 , 1 , AGE_SNDMGR_PANMODE_LR12 , 0 );
+						ageSndMgrPlay( handle );
+						ageSndMgrSetVolume( handle , 0xa0 );
+						ageSndMgrSetPanMode( handle , 0 );
+						ageSndMgrSetPan( handle , 0x8080 );                        
+
                 }
 				/*
 				if(result==1){
@@ -161,18 +219,62 @@ void  main( void )  {
 				break;
 			case MODE_BATTLE:
 				runBattle(touch, field, player);
-                drawBattle(&DBuf, field, player);
+				drawBattle(&DBuf, field, player, &ocean);
+				countEffect(&ocean);
+				for(ID=0;ID<PLAYER_NUM;ID++){
+					ship_num=BATTLESHIP_NUM;
+					for(i=0;i<BATTLESHIP_NUM;i++){
+						if(player[ID].battleShip[i].life==0){
+							ship_num += -1;
+						}
+					}
+					if(ship_num==0){
+						player[ID].Result=-1;
+						gameMode=MODE_END;
+					}
+				}
+				break;
+			case MODE_TURNBATTLE:
+				runTurnBattle(touch, field, player, &turnID);
+				drawBattle(&DBuf, field, player, &noise);
+				countEffect(&noise);
+				for(ID=0;ID<PLAYER_NUM;ID++){
+					ship_num=BATTLESHIP_NUM;
+					for(i=0;i<BATTLESHIP_NUM;i++){
+						if(player[ID].battleShip[i].life==0){
+							ship_num += -1;
+						}
+					}
+					if(ship_num==0){
+						player[ID].Result=-1;
+						gameMode=MODE_END;
+					}
+				}
+				break;		
+			case MODE_END:
+				runEnd(touch, player);
+				drawEnd(&DBuf, player);
+				if(player[0].Sync==1 && player[1].Sync==1){
+					gameMode=MODE_START;
+					initPlayer(player);
+					initEffect(&title);
+					initEffect(&ocean);
+					initEffect(&noise);
+					ageSndMgrRelease( handle );
+				}
 				break;
 			default:
 				break;
 		}
-
+	
+		//数字を描画する場所の白い四角
+		//agDrawSETFCOLOR( &DBuf, ARGB( 255, 255, 255, 255 ) );
+		//agDrawSETDBMODE( &DBuf, 0xff, 0, 0, 1 );
+		//agDrawSPRITE( &DBuf, 0, 100-20, 100-20, 100+50*10+20, 100+90+20);
 		//数字の描画
 		//drawNumberGraph(holdingIndex, 100,100,50,90,10,&DBuf);
-		
-		drawNumberGraph(touch[MyID].count + 1, 100,200,50,90,10,&DBuf);
-	
-		//_dprintf("%d ", holdingIndex);
+
+		//drawNumberGraph(i, 100,200,50,90,10,&DBuf);
 			
 		agDrawEODL( &DBuf );
 		agTransferDrawDMA( &DBuf );

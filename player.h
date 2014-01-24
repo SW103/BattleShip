@@ -12,6 +12,7 @@ struct Player
 {
 	struct BattleShip battleShip[5];
 	int Sync;
+	int Result;
 };
 
 

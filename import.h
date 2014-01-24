@@ -30,7 +30,7 @@ extern "C" {
 #define FIELD_X 150
 #define FIELD_Y 100
 #define PLAYER_NUM 2
-
+#define BATTLESHIP_NUM 5
 #define ATTACK_BUTTON_X 650
 #define ATTACK_BUTTON_Y 500
 #define ATTACK_BUTTON_W 300
